@@ -1,0 +1,36 @@
+{
+  "name": "PhotoBud",
+  "version": "1.0.0",
+  "description": "PhotoBud aims to address the need for professional photographers to efficiently share and collaborate on their work with clients, enhancing client engagement and project management.",
+  "main": "index.js",
+  "repository": "https://github.com/ayequill/PhotoBud.git",
+  "author": "Siaw A. Nicholas <siawnic.dev@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js"
+  },
+  "type": "module",
+  "keywords": [
+    "react",
+    "node",
+    "express",
+    "mongodb",
+    "mern"
+  ],
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-jwt": "^8.4.1",
+    "helmet": "^7.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
+    "mongodb": "^6.2.0",
+    "mongoose": "^8.0.0",
+    "nodemon": "^3.0.1",
+    "cookie-parser": "^1.4.6",
+    "compression": "1.7.4"
+  }
+}
