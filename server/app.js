@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import cors from 'cors';
 import helmet from "helmet";
+import userRoutes from "./routes/user.routes.js";
 
 // create express app
 const app = express()
@@ -18,4 +19,5 @@ app.use(helmet());
 // use cors
 app.use(cors());
 
+app.use('/', userRoutes)
 export default app;
