@@ -25,6 +25,7 @@ jobs:
           name: Frontend Testing
           command: |
             cd client
+            yarn install
             yarn test-ci
 
   linting-backend:
