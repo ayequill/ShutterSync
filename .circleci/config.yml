@@ -9,14 +9,10 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          app-dir: client
-          cache-only-lockfile: true
-          override-ci-command: yarn
-          pkg-manager: yarn
-          with-cache: true
       - run:
           name: Frontend Code Linting
           command: |
+            cd client
             yarn pretest
 
   testing-frontend:
@@ -28,7 +24,6 @@ jobs:
           name: Frontend Testing
           command: |
             cd client
-            yarn install
             yarn test-ci
 
   linting-backend:
