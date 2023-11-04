@@ -46,7 +46,7 @@
     "@commitlint/cli": "^17.4.2",
     "@commitlint/config-conventional": "^17.4.2",
     "cz-conventional-changelog": "3.3.0",
-    "eslint": "^8.9.0",
+    "eslint": "^8.53.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-import": "^2.25.4",
@@ -57,7 +57,7 @@
     "eslint-plugin-simple-import-sort": "^9.0.0",
     "husky": "^8.0.3",
     "identity-obj-proxy": "^3.0.0",
-    "prettier": "^2.5.1",
+    "prettier": "^3.0.3",
     "rollup": "^3.10.1"
   }
 }
