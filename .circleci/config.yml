@@ -8,12 +8,12 @@ jobs:
     executor: node/default
     steps:
       - checkout
-      - node/install-packages
-        app-dir: client
-        cache-only-lockfile: true 
-        override-ci-command: yarn 
-        pkg-manager: yarn 
-        with-cache: true 
+      - node/install-packages:
+          app-dir: client
+          cache-only-lockfile: true
+          override-ci-command: yarn
+          pkg-manager: yarn
+          with-cache: true
       - run:
           name: Frontend Code Linting
           command: |
