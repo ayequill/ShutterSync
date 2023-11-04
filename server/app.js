@@ -3,8 +3,8 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import helmet from 'helmet';
-import userRoutes from './routes/user.routes';
-import authRoutes from './routes/auth.routes';
+import userRoutes from './routes/user.routes.js';
+import authRoutes from './routes/auth.routes.js';
 
 // create express app
 const app = express();
