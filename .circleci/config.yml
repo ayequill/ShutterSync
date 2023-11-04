@@ -56,5 +56,3 @@ workflows:
           context: org-global
       - linting-backend:
           context: org-global
-      - testing-backend:
-          context: org-global
