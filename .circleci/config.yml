@@ -24,6 +24,7 @@ jobs:
       - run:
           name: Frontend Testing
           command: |
+            cd client
             yarn test-ci
 
   linting-backend:
