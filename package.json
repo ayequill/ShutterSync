@@ -4,11 +4,18 @@
   "description": "PhotoBud aims to address the need for professional photographers to efficiently share and collaborate on their work with clients, enhancing client engagement and project management.",
   "main": "index.js",
   "repository": "https://github.com/ayequill/PhotoBud.git",
-  "author": "Siaw A. Nicholas <siawnic.dev@gmail.com>",
+  "author": {
+    "name": "Siaw A. Nicholas",
+    "email": "siawnic.dev@gmail.com",
+    "url": "https://siaw.dev"
+  },
   "license": "MIT",
   "scripts": {
     "start": "node server/server.js",
-    "dev": "nodemon server/server.js"
+    "dev": "nodemon server/server.js",
+    "format": "prettier --config ./.prettierrc -w 'server/**/*.js' && git update-index --again",
+    "prepare": "husky install",
+    "cz": "cz"
   },
   "type": "module",
   "keywords": [
@@ -24,6 +31,7 @@
     "compression": "1.7.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-jwt": "^8.4.1",
@@ -32,7 +40,24 @@
     "lodash": "^4.17.21",
     "mongodb": "^6.2.0",
     "mongoose": "^8.0.0",
-    "nodemon": "^3.0.1",
-    "crypto-js": "^4.1.1"
+    "nodemon": "^3.0.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.4.2",
+    "@commitlint/config-conventional": "^17.4.2",
+    "cz-conventional-changelog": "3.3.0",
+    "eslint": "^8.9.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.4.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-simple-import-sort": "^9.0.0",
+    "husky": "^8.0.3",
+    "identity-obj-proxy": "^3.0.0",
+    "prettier": "^2.5.1",
+    "rollup": "^3.10.1"
   }
 }
