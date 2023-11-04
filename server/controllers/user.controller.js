@@ -70,12 +70,10 @@ const update = async (req, res) => {
     try {
         let user = req.profile
         user = extend(user, req.body)
-        console.log(req.body)
         user.updated_at = Date.now()
         await user.save()
         user.hashed_password = undefined
         user.salt = undefined
-        // console.log(user)
         res.status(201).json(user)
     } catch (e) {
         return res.status(400).json({
@@ -87,10 +85,10 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
     try {
         let user = req.profile
-        let deletedUser = await user.remove()
-        deletedUser.hashed_password = undefined
-        deletedUser.salt = undefined
-        res.status(201).json(deletedUser)
+        await User.deleteOne(user)
+        user.hashed_password = undefined
+        user.salt = undefined
+        res.status(201).json(user)
     } catch (e) {
         return res.status(400).json({
             error: dbErrorHandler.getErrorMessage(e)
