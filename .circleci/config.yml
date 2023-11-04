@@ -19,7 +19,7 @@ jobs:
     executor: node/default
     steps:
       - checkout
-      - node/install-packages
+      - node/install-packages:
       - run:
           name: Frontend Testing
           command: |
@@ -30,7 +30,7 @@ jobs:
     executor: node/default
     steps:
       - checkout
-      - node/install-packages
+      - node/install-packages:
       - run:
           name: Backend Code Linting
           command: yarn format
