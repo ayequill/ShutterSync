@@ -1,0 +1,58 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.1.0
+
+jobs:
+  linting-frontend:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages
+      - run:
+          name: Frontend Code Linting
+          command: |
+            cd client
+            yarn install
+            yarn pretest
+
+  testing-frontend:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages
+      - run:
+          name: Frontend Testing
+          command: |
+            cd client
+            yarn install
+            yarn test-ci
+
+  linting-backend:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages
+      - run:
+          name: Backend Code Linting
+          command: yarn format
+
+#  testing-backend:
+#    executor: node/default
+#    steps:
+#      - checkout
+#      - node/install-packages
+#      - run:
+#          name: Backend Testing
+#          command: yarn test
+
+workflows:
+  version: 2
+  lint_test:
+    jobs:
+      - linting-frontend:
+          context: org-global
+      - testing-frontend:
+          context: org-global
+      - linting-backend:
+          context: org-global
