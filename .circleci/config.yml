@@ -13,6 +13,7 @@ jobs:
           name: Frontend Code Linting
           command: |
             cd client
+            yarn install
             yarn pretest
 
   testing-frontend:
@@ -23,7 +24,6 @@ jobs:
       - run:
           name: Frontend Testing
           command: |
-            cd client
             yarn test-ci
 
   linting-backend:
