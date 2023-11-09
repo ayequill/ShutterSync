@@ -32,7 +32,7 @@ function Navbar() {
         bg="white"
         _dark={{ bg: 'gray.900', borderColor: 'gray.600' }}
         boxShadow="md"
-        position="fixed"
+        // position="fixed"
         w="100%"
         zIndex={20}
         top={0}
@@ -44,7 +44,7 @@ function Navbar() {
         <Flex
           maxW="screen-xl"
           mx="auto"
-          p={2}
+          p={1}
           align="center"
           justify="space-between"
         >
@@ -80,8 +80,7 @@ function Navbar() {
             id="navbar-sticky"
           >
             <HStack
-              p={4}
-              mt={4}
+              p={2}
               // rounded="lg"
               fontSize="md"
               // border="1px"
@@ -171,7 +170,8 @@ function Navbar() {
               >
                 Contact
               </Link>
-              <Button
+              <Link
+                // as={ReactRouterLink}
                 color="white"
                 bg="blue.700"
                 _hover={{ bg: 'blue.800' }}
@@ -182,6 +182,7 @@ function Navbar() {
                 px={4}
                 py={2}
                 textTransform="capitalize"
+                href="/signin"
                 _dark={{
                   bg: 'blue.600',
                   _hover: { bg: 'blue.700' },
@@ -189,7 +190,7 @@ function Navbar() {
                 }}
               >
                 Get started
-              </Button>
+              </Link>
             </HStack>
           </Box>
         </Flex>

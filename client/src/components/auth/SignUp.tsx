@@ -17,7 +17,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
-function Login(): JSX.Element {
+function SignUp(): JSX.Element {
   const [input, setInput] = React.useState('');
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value);
@@ -37,7 +37,7 @@ function Login(): JSX.Element {
         gap={6}
         mx="auto"
         maxW="screen-xl"
-        align="center"
+        align="center" // eslint-disable-line
         justify="center"
         height="100vh"
         width="100%"
@@ -59,38 +59,42 @@ function Login(): JSX.Element {
         <VStack align="center" justify="center" width="100%">
           <Box width="100%">
             <Heading as="h2" size="lg">
-              Hello Again!
+              Welcome!
             </Heading>
             <Text fontSize="0.8rem">
-              Welcome Back to Photo Buddy. Please login to your account.
+              Join Photo Buddy and create your account.
             </Text>
           </Box>
           <VStack mt={4}>
             <InputGroup flexDirection="column" gap="0.5rem">
               <FormControl isInvalid={isError} isRequired>
+                <FormLabel>Name</FormLabel>
+                <Input type="text" value={input} onChange={handleInputChange} />
                 <FormLabel>Email address</FormLabel>
                 <Input
                   type="email"
                   value={input}
                   onChange={handleInputChange}
                 />
-                {/* eslint-disable-next-line react/no-unescaped-entities */}
                 <FormHelperText>
                   We&apos;ll never share your email.
                 </FormHelperText>
                 <FormLabel>Password</FormLabel>
                 <Input type="password" />
+                <FormHelperText>
+                  We&apos;ll never share your password.
+                </FormHelperText>
               </FormControl>
-              <Button colorScheme="blue">Sign in</Button>
+              <Button colorScheme="blue">Sign Up</Button>
               <Text>
-                Don&apos;t have an account?{' '}
+                Already have an account?{' '}
                 <Link
                   as={ReactRouterLink}
                   color="blue.500"
                   fontWeight="bold"
-                  to="/signup"
+                  to="/signin"
                 >
-                  Register
+                  Log in
                 </Link>
               </Text>
             </InputGroup>
@@ -101,4 +105,4 @@ function Login(): JSX.Element {
   );
 }
 
-export default Login;
+export default SignUp;

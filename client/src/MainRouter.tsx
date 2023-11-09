@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 
 import Login from './components/auth/Login';
+import SignUp from './components/auth/SignUp';
 import Home from './components/core/Home';
 
 interface Router {
@@ -12,8 +13,12 @@ interface Router {
 }
 
 const router: Router = createBrowserRouter([
+  {
+    path: '/',
+    Component: Home,
+  },
   { path: '/signin', Component: Login },
-  { path: '/', Component: Home },
+  { path: '/signup', Component: SignUp },
 ]);
 
 function MainRouter() {
