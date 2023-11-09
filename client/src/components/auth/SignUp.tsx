@@ -37,8 +37,6 @@ function SignUp(): JSX.Element {
         gap={6}
         mx="auto"
         maxW="screen-xl"
-        align="center" // eslint-disable-line
-        justify="center"
         height="100vh"
         width="100%"
       >
@@ -57,7 +55,7 @@ function SignUp(): JSX.Element {
           <Text>Your digital photos companion</Text>
         </VStack>
         <VStack align="center" justify="center" width="100%">
-          <Box width="100%">
+          <Box width="100%" textAlign="center">
             <Heading as="h2" size="lg">
               Welcome!
             </Heading>

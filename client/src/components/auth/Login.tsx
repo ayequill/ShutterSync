@@ -37,8 +37,6 @@ function Login(): JSX.Element {
         gap={6}
         mx="auto"
         maxW="screen-xl"
-        align="center"
-        justify="center"
         height="100vh"
         width="100%"
       >
@@ -58,10 +56,10 @@ function Login(): JSX.Element {
         </VStack>
         <VStack align="center" justify="center" width="100%">
           <Box width="100%">
-            <Heading as="h2" size="lg">
+            <Heading as="h2" size="lg" textAlign="center">
               Hello Again!
             </Heading>
-            <Text fontSize="0.8rem">
+            <Text fontSize="0.8rem" textAlign="center">
               Welcome Back to Photo Buddy. Please login to your account.
             </Text>
           </Box>
