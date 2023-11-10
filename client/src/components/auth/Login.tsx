@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as ReactRouterLink } from 'react-router-dom';
+import { Link as ReactRouterLink, Navigate } from 'react-router-dom';
 
 import {
   Box,
@@ -17,14 +17,60 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
+import { signin } from './api-auth';
+import { authenticate } from './auth-helper';
+
 function Login(): JSX.Element {
-  const [input, setInput] = React.useState('');
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(event.target.value);
+  const [values, setValues] = React.useState({
+    email: '',
+    password: '',
+    error: '',
+    redirect: false,
+  });
+  const [isError, setIsError] = React.useState(false);
+  const handleInputChange =
+    (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setValues({
+        ...values,
+        [name]: event.target.value,
+      });
+    };
+
+  const handleSubmit = () => {
+    const { email, password } = values;
+    const doThrowError = (email && password) === '';
+    if (doThrowError) {
+      setIsError(true);
+    } else {
+      setIsError(false);
+    }
+    if (!doThrowError) {
+      signin({
+        email,
+        password,
+      }).then((data) => {
+        if (data.error) {
+          setValues({
+            ...values,
+            error: data.error,
+          });
+          // eslint-disable-next-line no-console
+          console.log(data.error);
+        } else {
+          authenticate(data, () => {
+            setValues({
+              ...values,
+              error: '',
+              redirect: true,
+            });
+          });
+        }
+      });
+    }
   };
-
-  const isError = input === '';
-
+  if (values.redirect) {
+    return <Navigate to="/dashboard" />;
+  }
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   return (
@@ -69,17 +115,25 @@ function Login(): JSX.Element {
                 <FormLabel>Email address</FormLabel>
                 <Input
                   type="email"
-                  value={input}
-                  onChange={handleInputChange}
+                  value={values.email}
+                  id="email"
+                  onChange={handleInputChange('email')}
                 />
                 {/* eslint-disable-next-line react/no-unescaped-entities */}
                 <FormHelperText>
                   We&apos;ll never share your email.
                 </FormHelperText>
                 <FormLabel>Password</FormLabel>
-                <Input type="password" />
+                <Input
+                  id="password"
+                  type="password"
+                  value={values.password}
+                  onChange={handleInputChange('password')}
+                />
               </FormControl>
-              <Button colorScheme="blue">Sign in</Button>
+              <Button colorScheme="blue" onClick={handleSubmit}>
+                Sign in
+              </Button>
               <Text>
                 Don&apos;t have an account?{' '}
                 <Link

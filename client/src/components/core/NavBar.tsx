@@ -17,6 +17,8 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
+import { isAuthenticated } from '../auth/auth-helper';
+
 import Logo from '../../assets/logo.png';
 
 function Navbar() {
@@ -182,14 +184,14 @@ function Navbar() {
                 px={4}
                 py={2}
                 textTransform="capitalize"
-                href="/signin"
+                href={!isAuthenticated() ? '/signin' : '/dashboard'}
                 _dark={{
                   bg: 'blue.600',
                   _hover: { bg: 'blue.700' },
                   _focus: { ringColor: 'blue.800' },
                 }}
               >
-                Get started
+                {!isAuthenticated() ? 'Get started' : 'Dashboard'}
               </Link>
             </HStack>
           </Box>
@@ -201,7 +203,8 @@ function Navbar() {
           <DrawerCloseButton />
           <DrawerBody>
             <VStack spacing={4}>
-              <Button
+              <Link
+                // as={ReactRouterLink}
                 color="white"
                 bg="blue.700"
                 _hover={{ bg: 'blue.800' }}
@@ -209,18 +212,18 @@ function Navbar() {
                 fontWeight="medium"
                 rounded="lg"
                 fontSize="sm"
-                mt={4}
                 px={4}
                 py={2}
                 textTransform="capitalize"
+                href={!isAuthenticated() ? '/signin' : '/dashboard'}
                 _dark={{
                   bg: 'blue.600',
                   _hover: { bg: 'blue.700' },
                   _focus: { ringColor: 'blue.800' },
                 }}
               >
-                Get started
-              </Button>
+                {!isAuthenticated() ? 'Get started' : 'Dashboard'}
+              </Link>
               <Link href="/" fontSize="lg">
                 Home
               </Link>

@@ -17,7 +17,13 @@ app.use(cookieParser());
 // use helmet
 app.use(helmet());
 // use cors
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    methods: 'GET,POST',
+    credentials: true,
+  })
+);
 
 app.use('/', userRoutes);
 app.use('/', authRoutes);
