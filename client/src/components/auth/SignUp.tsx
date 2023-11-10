@@ -119,6 +119,7 @@ function SignUp(): JSX.Element {
                 <FormLabel>Email address</FormLabel>
                 <Input
                   type="email"
+                  id="email"
                   value={values.email}
                   onChange={handleInputChange('email')}
                 />
@@ -128,6 +129,7 @@ function SignUp(): JSX.Element {
                 <FormLabel>Password</FormLabel>
                 <Input
                   type="password"
+                  id="password"
                   value={values.password}
                   onChange={handleInputChange('password')}
                 />

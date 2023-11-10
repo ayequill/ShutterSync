@@ -69,9 +69,8 @@ function Login(): JSX.Element {
     }
   };
   if (values.redirect) {
-    return <Navigate to="/" />;
+    return <Navigate to="/dashboard" />;
   }
-
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   return (
@@ -117,6 +116,7 @@ function Login(): JSX.Element {
                 <Input
                   type="email"
                   value={values.email}
+                  id="email"
                   onChange={handleInputChange('email')}
                 />
                 {/* eslint-disable-next-line react/no-unescaped-entities */}
@@ -125,6 +125,7 @@ function Login(): JSX.Element {
                 </FormHelperText>
                 <FormLabel>Password</FormLabel>
                 <Input
+                  id="password"
                   type="password"
                   value={values.password}
                   onChange={handleInputChange('password')}
