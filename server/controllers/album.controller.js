@@ -10,11 +10,6 @@ const createAlbum = async (req, res) => {
     const newAlbum = new Album({
       name: req.body.name,
     });
-    // user.albums.forEach(x => {
-    //   if (x.name === newAlbum.name) return res.status(400).json({
-    //     error: 'Album name exists'
-    //   })
-    // })
     user.albums.push(newAlbum);
     await newAlbum.save();
     await user.save();
@@ -89,10 +84,24 @@ const deleteAlbum = async (req, res) => {
   }
 };
 
+const updateAlbum = async (req, res) => {
+  try {
+    const { album } = req;
+    album.name = req.body.name;
+    await album.save();
+    res.json(album);
+  } catch (e) {
+    return res.status(400).json({
+      error: 'error',
+    });
+  }
+};
+
 export default {
   createAlbum,
   getAlbums,
   albumByID,
   getAlbum,
   deleteAlbum,
+  updateAlbum,
 };
