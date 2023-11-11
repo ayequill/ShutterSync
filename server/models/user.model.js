@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import sha1 from 'crypto-js/sha1.js';
-import Album from './album.models.js';
+import Album from './album.model.js';
 // Create a schema for user
 const USER_SCHEMA = new mongoose.Schema({
   name: {
