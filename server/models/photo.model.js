@@ -11,6 +11,12 @@ const PHOTOS_SCHEMA = new mongoose.Schema({
     required: true,
   },
   caption: String,
+  size: String,
+  public_id: String,
+  name: String,
+  created_at: {
+    type: Date,
+  },
 });
 
 export default mongoose.model('Photo', PHOTOS_SCHEMA);

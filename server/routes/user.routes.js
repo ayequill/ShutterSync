@@ -31,6 +31,10 @@ router
   .post(photoCtrl.addPhoto);
 
 router
+  .route('/api/users/:userId/albums/:albumId/photo/:photoId')
+  .delete(photoCtrl.deletePhoto);
+
+router
   .route('/api/photos/:photoId')
   .get(photoCtrl.getPhoto)
   .put(photoCtrl.updatePhoto)

@@ -1,4 +1,4 @@
-import Album from '../models/album.models.js';
+import Album from '../models/album.model.js';
 import dbErrorHandler from '../helpers/dbErrorHandler.js';
 import User from '../models/user.model.js';
 import Photo from '../models/photo.model.js';
