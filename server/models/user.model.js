@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import sha1 from 'crypto-js/sha1.js';
+import Album from './album.models.js';
 // Create a schema for user
 const USER_SCHEMA = new mongoose.Schema({
   name: {
@@ -24,8 +25,13 @@ const USER_SCHEMA = new mongoose.Schema({
     required: 'Password is required',
   },
   salt: String,
-  age: Number,
   avatar: String,
+  albums: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Album',
+    },
+  ],
 });
 
 USER_SCHEMA.virtual('password')
