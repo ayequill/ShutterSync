@@ -23,13 +23,19 @@ router
 router
   .route('/api/users/:userId/albums/:albumId')
   .get(albumCtrl.getAlbum)
-  .delete(albumCtrl.deleteAlbum);
+  .delete(albumCtrl.deleteAlbum)
+  .put(albumCtrl.updateAlbum);
 
 router
   .route('/api/users/:userId/albums/:albumId/photo')
   .post(photoCtrl.addPhoto);
 
-router.route('/api/photos/:photoId').get(photoCtrl.getPhoto);
+router
+  .route('/api/photos/:photoId')
+  .get(photoCtrl.getPhoto)
+  .put(photoCtrl.updatePhoto)
+  .delete(photoCtrl.deletePhoto);
+
 router.param('userId', userCtrl.userByID);
 router.param('albumId', albumCtrl.albumByID);
 router.param('photoId', photoCtrl.photoById);
