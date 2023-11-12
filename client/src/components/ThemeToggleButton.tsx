@@ -11,7 +11,6 @@ type ThemeToggleButtonProps = Omit<IconButtonProps, 'aria-label'>;
 const iconSize = 20;
 
 const RoundButton = styled(IconButton, transientOptions)`
-  box-shadow: 0 0 100px 20px
     ${({ $colorMode }) => ($colorMode === 'light' ? 'black' : 'white')};
   & svg {
     width: ${iconSize}px;

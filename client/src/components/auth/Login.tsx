@@ -94,6 +94,7 @@ function Login(): JSX.Element {
           color="white"
           placeContent="center"
           gap={0}
+          display={{ base: 'none', md: 'flex' }}
         >
           <Heading as="h1" size="xl">
             Photo Buddy
