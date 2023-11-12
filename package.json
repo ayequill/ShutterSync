@@ -12,7 +12,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node server/server.js",
-    "dev": "nodemon server/server.js",
+    "dev": "nodemon -e js,json -w server -i node_modules --exec node --inspect server/server.js",
     "format": "prettier --config ./.prettierrc -w 'server/**/*.js' && git update-index --again",
     "prepare": "husky install",
     "cz": "cz"
