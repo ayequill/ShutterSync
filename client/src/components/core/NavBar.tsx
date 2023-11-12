@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import {
   Box,
-  Button,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -12,7 +11,6 @@ import {
   Flex,
   HStack,
   IconButton,
-  Image,
   Link,
   Text,
   VStack,
