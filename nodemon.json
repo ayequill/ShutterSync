@@ -1,0 +1,16 @@
+{
+  "watch": ["./server"],
+  "ext": "js,json", 
+  "ignore": ["node_modules"],
+  "execMap": {
+    "js": "node --inspect"
+  },
+  "delay": "1000",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "events": {
+    "restart": "osascript -e 'display notification \"App restarted due to changes\" with title \"nodemon\"'"
+  },
+  "legacyWatch": true
+}

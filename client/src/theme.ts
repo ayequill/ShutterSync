@@ -6,7 +6,7 @@ const config: ThemeConfig = {
 };
 
 const fonts = {
-  body: 'Montserrat, sans-serif',
+  body: 'Capriola, sans-serif',
 };
 
 const theme = extendTheme({ config, fonts });
