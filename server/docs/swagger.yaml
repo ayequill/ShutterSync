@@ -1,26 +1,37 @@
 openapi: 3.0.0
 info:
   title: ShutterSync
-  description: A photo sharing app
-  version: 1.0.0
+  description: ShutterSync aims to address the need for professional photographers to efficiently share and collaborate on their work with clients, enhancing client engagement and project management.
+  version: '1'
 
 servers:
+  - description: ShutterSync
+    url: https://virtserver.swaggerhub.com/ShutterSync/ShutterSync/1
   - url: http://localhost:3000
     description: Development server
   - url: http://api.shuttersync.live
     description: Production server
 
 tags:
+  - name: Auth
+    description: Authentication operations and parameters
   - name: User
     description: Operations related to user management
   - name: Album
     description: Operations related to album management
   - name: Photo
     description: Operations related to photo management
-  - name: General
-    description: General operations and parameters
 
 components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      name: x-api-key
+      in: header
+    jwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT  
   schemas:
     User:
       type: object
@@ -115,34 +126,8 @@ components:
       schema:
         type: string
 
-  parameters:
-    userId:
-      in: path
-      name: userId
-      required: true
-      description: ID of the user
-      schema:
-        type: string
-    albumId:
-      in: path
-      name: albumId
-      required: true
-      description: ID of the album
-      schema:
-        type: string
-    photoId:
-      in: path
-      name: photoId
-      required: true
-      description: ID of the photo
-      schema:
-        type: string
 
-  securitySchemes:
-    apiKey:
-      type: apiKey
-      name: x-api-key
-      in: header
+
 
 security:
   - apiKey: []
@@ -210,6 +195,7 @@ paths:
         - User
       security:
         - apiKey: []
+        - jwt: []
       parameters:
         - $ref: '#/components/parameters/userId'
       responses:
@@ -234,6 +220,7 @@ paths:
         - User
       security:
         - apiKey: []
+        - jwt: []
       parameters:
         - $ref: '#/components/parameters/userId'
       requestBody:
@@ -266,6 +253,7 @@ paths:
         - User
       security:
         - apiKey: []
+        - jwt: []
       parameters:
         - $ref: '#/components/parameters/userId'
       responses:
@@ -329,4 +317,224 @@ paths:
           description: Internal server error.
 
   /api/users/{userId}/albums/{albumId}:
-    # Add other paths as needed
+    get:
+      summary: Get an album
+      description: Endpoint to retrieve an album by its ID.
+      tags:
+        - Album
+      security:
+        - apiKey: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/albumId'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                _id: 5f4e5e012739b21425b61e0a
+                name: Vacation 2022
+        '404':
+          description: Album not found.
+        '500':
+          description: Internal server error.
+
+    put:
+      summary: Update an album
+      description: Endpoint to update an album
+      tags:
+        - Album
+      security:
+        - apiKey: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/albumId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Album'
+      responses:
+        '200':
+          description: User updated successfully.
+          content:
+            application/json:
+              example:
+                _id: 5f4e5e012739b21425b61e0a
+                name: Updated Name
+        '400':
+          description: Error check request payload!
+        '500':
+          description: Internal Server Error
+    delete:
+      summary: Delete an album
+      description: Endpoint to delete an album
+      tags:
+        - Album
+      security:
+        - apiKey: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/albumId'
+      responses:
+        '204':
+          description: Album deleted successfully.
+        '500':
+          description: Internal Server Error
+    
+  /api/users/{userId}/albums/{albumId}/photo:
+    post:
+      summary: Add a photo to an album
+      description: Add a new photo to a particular album
+      tags:
+        - Album
+        - Photo
+      security:
+        - apiKey: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/albumId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                photo:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK
+
+  /api/users/{userId}/albums/{albumId}/photo/{photoId}:
+    delete:
+      summary: Delete a photo from an album
+      description: Delete a photo from a particular album
+      tags:
+        - Photo
+      security:
+        - apiKey: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/albumId'
+        - $ref: '#/components/parameters/photoId'
+      responses:
+        '204':
+          description: No Content
+  /api/photos/:photoId:
+    put:
+      summary: Update a photo in an album
+      description: Update details of a photo in a particular album
+      tags:
+        - Photo
+      security:
+        - apiKey: []
+      parameters:
+        - $ref: '#/components/parameters/photoId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                photo:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK
+
+    get:
+      summary: Get a photo from an album
+      description: Get details of a photo in a particular album
+      tags:
+        - Photo
+      security:
+        - apiKey: []
+      parameters:
+        - $ref: '#/components/parameters/photoId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Photo'
+    delete:
+      summary: Delete a photo from an album
+      description: Delete a photo from a particular album
+      tags:
+        - Photo
+      security:
+        - apiKey: []
+      parameters:
+        - $ref: '#/components/parameters/photoId'
+      responses:
+        '204':
+          description: No Content
+      
+
+  /auth/signin:
+    post:
+      summary: Sign in
+      description: Endpoint to sign in a user.
+      tags:
+        - Auth
+      security:
+        - apiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: The email address of the user
+                password:
+                  type: string
+                  format: password
+                  description: The password of the user (must be at least 6 characters)
+            example:
+              email: testmail@testmail.com
+              password: password123
+      responses:
+        '200':
+          description: User signed in successfully.
+          content:
+            application/json:
+              example:
+                token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRlNWUwMTI3MzliMjE0MjViNjFlMGEiLCJpYXQiOjE2MDA5N
+                name: John Doe
+                email: testmail@testmail.com
+                avatar: https://example.com/avatar.jpg
+        '400':
+          description: Bad request. Check the request payload.
+        '401':
+          description: Unauthorized. Invalid credentials.
+        '500':
+          description: Internal server error.
+    
+  /auth/signout:
+    get:
+      summary: Sign out
+      description: Endpoint to sign out a user.
+      tags:
+        - Auth
+      security:
+        - apiKey: []
+      responses:
+        '200':
+          description: User signed out successfully.
+        '500':
+          description: Internal server error.
