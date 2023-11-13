@@ -7,6 +7,7 @@ import swaggerUi from 'swagger-ui-express';
 import morgan from 'morgan';
 import userRoutes from './routes/user.routes.js';
 import authRoutes from './routes/auth.routes.js';
+import API_CHECK from './middlewares/api.key.controller.js';
 import multer from 'multer';
 import yaml from 'yamljs';
 
@@ -48,7 +49,7 @@ app.use(
     credentials: true,
   })
 );
-
+app.use(API_CHECK);
 app.use('/', userRoutes);
 app.use('/', authRoutes);
 
