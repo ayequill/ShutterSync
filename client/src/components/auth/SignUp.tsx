@@ -134,9 +134,7 @@ function SignUp(): JSX.Element {
                   value={values.password}
                   onChange={handleInputChange('password')}
                 />
-                <FormHelperText>
-                  We&apos;ll never share your password.
-                </FormHelperText>
+                <FormHelperText>{values.error && values.error}</FormHelperText>
               </FormControl>
               <Button colorScheme="blue" onClick={handleSubmit}>
                 Sign Up
