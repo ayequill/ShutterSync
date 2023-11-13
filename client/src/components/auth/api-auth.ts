@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const KEY = import.meta.env.VITE_KEY as string;
 const axiosInstance = axios.create({
-  baseURL: 'http://api.shuttersync.live/auth',
+  baseURL: 'https://api.shuttersync.live/auth',
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
