@@ -54,8 +54,6 @@ function Login(): JSX.Element {
             ...values,
             error: data.error,
           });
-          // eslint-disable-next-line no-console
-          console.log(data.error);
         } else {
           authenticate(data, () => {
             setValues({
@@ -120,9 +118,10 @@ function Login(): JSX.Element {
                   id="email"
                   onChange={handleInputChange('email')}
                 />
-                {/* eslint-disable-next-line react/no-unescaped-entities */}
                 <FormHelperText>
-                  We&apos;ll never share your email.
+                  {!values.error
+                    ? "We'll never share your email."
+                    : values.error}
                 </FormHelperText>
                 <FormLabel>Password</FormLabel>
                 <Input
