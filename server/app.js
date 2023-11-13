@@ -44,7 +44,12 @@ app.use(helmet());
 // use cors
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: [
+      'http://localhost:5173',
+      'https://www.shuttersync.live',
+      'https://shuttersync.live',
+      'https://shuttersync.vercel.app/',
+    ],
     methods: 'GET,POST',
     credentials: true,
   })
