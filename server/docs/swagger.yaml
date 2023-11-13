@@ -1,0 +1,287 @@
+openapi: 3.0.0
+info:
+  title: ShutterSync
+  description: A photo sharing app
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Development server
+  - url: https://api.shuttersync.live
+    description: Production server
+
+tags:
+  - name: User
+    description: Operations related to user management
+  - name: Album
+    description: Operations related to album management
+  - name: Photo
+    description: Operations related to photo management
+  - name: General
+    description: General operations and parameters
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          description: The name of the user
+        email:
+          type: string
+          format: email
+          description: The email address of the user
+        password:
+          type: string
+          format: password
+          description: The password of the user (must be at least 6 characters)
+        avatar:
+          type: string
+          description: URL of the user's avatar
+      example:
+        name: John Doe
+        email: john@example.com
+        password: password123
+        avatar: https://example.com/avatar.jpg
+
+    Album:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: The name of the album
+      example:
+        name: Vacation 2022
+
+    Photo:
+      type: object
+      required:
+        - album
+        - imageUrl
+      properties:
+        album:
+          type: string
+          description: The ID of the album to which the photo belongs
+        imageUrl:
+          type: string
+          description: URL of the photo
+        caption:
+          type: string
+          description: Caption for the photo
+        size:
+          type: string
+          description: Size of the photo
+        public_id:
+          type: string
+          description: Public ID of the photo (if applicable)
+        name:
+          type: string
+          description: Name of the photo
+      example:
+        album: 5f4e5e012739b21425b61e0a
+        imageUrl: https://example.com/photo.jpg
+        caption: Sunset at the beach
+        size: 1024x768
+        public_id: abc123def456
+        name: SunsetPhoto
+
+  parameters:
+    userId:
+      in: path
+      name: userId
+      required: true
+      description: ID of the user
+      schema:
+        type: string
+    albumId:
+      in: path
+      name: albumId
+      required: true
+      description: ID of the album
+      schema:
+        type: string
+    photoId:
+      in: path
+      name: photoId
+      required: true
+      description: ID of the photo
+      schema:
+        type: string
+
+paths:
+  /api/users:
+    post:
+      summary: Create a new user
+      description: Endpoint to create a new user.
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User created successfully.
+          content:
+            application/json:
+              example:
+                _id: 5f4e5e012739b21425b61e0a
+                name: John Doe
+                email: john@example.com
+                avatar: https://example.com/avatar.jpg
+        '400':
+          description: Bad request. Check the request payload.
+        '500':
+          description: Internal server error.
+
+    get:
+      summary: Get a list of users
+      description: Endpoint to retrieve a list of all users.
+      tags:
+        - User
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                users:
+                  - _id: 5f4e5e012739b21425b61e0a
+                    name: John Doe
+                    email: john@example.com
+                    avatar: https://example.com/avatar.jpg
+                  - _id: 5f4e5e012739b21425b61e0b
+                    name: Jane Doe
+                    email: jane@example.com
+                    avatar: https://example.com/avatar.jpg
+        '500':
+          description: Internal server error.
+
+  /api/users/{userId}:
+    get:
+      summary: Get a user by ID
+      description: Endpoint to retrieve a user by their ID.
+      tags:
+        - User
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                _id: 5f4e5e012739b21425b61e0a
+                name: John Doe
+                email: john@example.com
+                avatar: https://example.com/avatar.jpg
+        '404':
+          description: User not found.
+        '500':
+          description: Internal server error.
+
+    put:
+      summary: Update a user by ID
+      description: Endpoint to update a user by their ID.
+      tags:
+        - User
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User updated successfully.
+          content:
+            application/json:
+              example:
+                _id: 5f4e5e012739b21425b61e0a
+                name: Updated Name
+                email: john@example.com
+                avatar: https://example.com/avatar.jpg
+        '400':
+          description: Bad request. Check the request payload.
+        '404':
+          description: User not found.
+        '500':
+          description: Internal server error.
+
+    delete:
+      summary: Delete a user by ID
+      description: Endpoint to delete a user by their ID.
+      tags:
+        - User
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        '204':
+          description: User deleted successfully.
+        '404':
+          description: User not found.
+        '500':
+          description: Internal server error.
+
+  /api/users/{userId}/albums:
+    post:
+      summary: Create a new album
+      description: Endpoint to create a new album.
+      tags:
+        - Album
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Album'
+      responses:
+        '201':
+          description: Album created successfully.
+          content:
+            application/json:
+              example:
+                _id: 5f4e5e012739b21425b61e0a
+                name: Vacation 2022
+        '400':
+          description: Bad request. Check the request payload.
+        '500':
+          description: Internal server error.
+
+    get:
+      summary: Get a list of albums
+      description: Endpoint to retrieve a list of all albums.
+      tags:
+        - Album
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                albums:
+                  - _id: 5f4e5e012739b21425b61e0a
+                    name: Vacation 2022
+                  - _id: 5f4e5e012739b21425b61e0b
+                    name: Wedding 2021
+        '500':
+          description: Internal server error.
+
+  /api/users/{userId}/albums/{albumId}:
+
+# Add other paths as needed

@@ -3,10 +3,13 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import helmet from 'helmet';
+import swaggerUi from 'swagger-ui-express';
+import morgan from 'morgan';
 import userRoutes from './routes/user.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import multer from 'multer';
-import { v4 as uuidv4 } from 'uuid';
+import yaml from 'yamljs';
+
 // create express app
 const app = express();
 
@@ -26,6 +29,8 @@ const fileFilter = (req, file, cb) => {
     cb({ error: 'File type not supported' }, false);
   }
 };
+const yamlSpec = yaml.load('./server/docs/swagger.yaml');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(yamlSpec));
 export const upload = multer({ storage, fileFilter });
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
@@ -47,6 +52,7 @@ app.use(
 app.use('/', userRoutes);
 app.use('/', authRoutes);
 
+app.use(morgan('dev'));
 app.use((err, req, res, next) => {
   if (err.name === 'unauthorizedError') {
     res.status(401).json({
@@ -58,4 +64,5 @@ app.use((err, req, res, next) => {
     });
   }
 });
+
 export default app;
