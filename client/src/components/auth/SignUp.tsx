@@ -114,7 +114,12 @@ function SignUp(): JSX.Element {
           </Heading>
           <Text>Your digital photos companion</Text>
         </VStack>
-        <VStack align="center" justify="center" width="100%">
+        <VStack
+          align="center"
+          justify="center"
+          width="100%"
+          className="animate__animated animate__fadeInUp"
+        >
           <Box width="100%" textAlign="center">
             <Heading as="h2" size="lg">
               Welcome!

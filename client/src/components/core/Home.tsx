@@ -36,11 +36,11 @@ function Home(): JSX.Element {
       <Flex
         justifyContent="space-between"
         gap="10px"
-        py="50px"
-        // px="20px"
+        py={{ base: '50px', lg: '100px' }}
+        px="10px"
         alignItems="center"
         bgColor="#0078D4"
-        borderRadius="50px"
+        borderRadius={{ base: '50px 10px', md: '50px' }}
         mt="20px"
         width="100%"
         flexDir={{ base: 'column', md: 'row' }}
