@@ -1,57 +1,56 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { HamburgerIcon } from '@chakra-ui/icons';
 import {
   Box,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerOverlay,
+  Button,
   Flex,
   HStack,
-  IconButton,
   Link,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuGroup,
+  MenuItem,
+  MenuList,
   Text,
-  VStack,
 } from '@chakra-ui/react';
 
-import { isAuthenticated } from '../auth/auth-helper';
+import { clearJWT, isAuthenticated } from '../auth/auth-helper';
 import ThemeToggleButton from '../ThemeToggleButton';
 
 function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const onToggle = () => {
-    setIsOpen(!isOpen);
+  const handleLogout = async () => {
+    clearJWT(() => navigate('/signin', { replace: true }));
   };
 
   return (
-    <>
-      <Box
-        bg="white"
-        _dark={{ bg: 'gray.900', borderColor: 'gray.600' }}
-        boxShadow="sm"
-        // position="fixed"
-        w="100%"
-        zIndex={20}
-        top={0}
-        left={0}
-        as="header"
+    <Box
+      bg="white"
+      _dark={{ bg: 'gray.900', borderColor: 'gray.600' }}
+      boxShadow="sm"
+      // position="fixed"
+      w="100%"
+      zIndex={20}
+      top={0}
+      left={0}
+      as="header"
+    >
+      <Flex
+        maxW="screen-xl"
+        mx="auto"
+        py={2}
+        px={{ base: 4, md: 8 }}
+        align="center"
+        justify="space-between"
       >
-        <Flex
-          maxW="screen-xl"
-          mx="auto"
-          py={2}
-          px={{ base: 4, md: 8 }}
-          align="center"
-          justify="space-between"
-        >
-          <Link href="/" display="flex" fontWeight="bold">
-            Shutter<Text color="#0078D4">Sync</Text>
-          </Link>
-          <Box display={{ base: 'inline-flex', md: 'none' }}>
-            <IconButton
+        <Link href="/" display="flex" fontWeight="bold">
+          Shutter<Text color="#0078D4">Sync</Text>
+        </Link>
+        <Box display={{ base: 'inline-flex', md: 'none' }} gap={3}>
+          {/* <IconButton
               type="button"
               aria-label="Open main menu"
               p={2}
@@ -70,24 +69,26 @@ function Navbar() {
               onClick={onToggle}
             >
               <HamburgerIcon />
-            </IconButton>
-            <ThemeToggleButton />
-          </Box>
-          <Box
-            display={{ base: 'none', md: 'flex' }}
-            justifyContent="end"
-            w="full"
-            id="navbar-sticky"
+            </IconButton> */}
+          {/* <MobileDrawer /> */}
+          {/* <ThemeToggleButton /> */}
+        </Box>
+        <Box
+          display={{ base: 'flex', md: 'flex' }}
+          justifyContent="end"
+          w="full"
+          id="navbar-sticky"
+        >
+          <HStack
+            gap={4}
+            fontSize="md"
+            alignItems="center"
+            justifyContent="center"
           >
-            <HStack
-              gap={4}
-              fontSize="md"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Link href="/signin">
-                {!isAuthenticated() ? 'Login' : 'Home'}
-              </Link>
+            <Link href={!isAuthenticated() ? '/signin' : '/dashboard'}>
+              {!isAuthenticated() ? 'Login' : 'Home'}
+            </Link>
+            {!isAuthenticated() ? (
               <Box
                 bgColor="black"
                 color="white"
@@ -96,40 +97,65 @@ function Navbar() {
                 fontSize="sm"
                 borderRadius={20}
               >
-                <Link href="/signup">
-                  {!isAuthenticated() ? 'SignUp' : 'Profile'}
-                </Link>
-              </Box>
-              <ThemeToggleButton />
-            </HStack>
-          </Box>
-        </Flex>
-      </Box>
-      <Drawer placement="right" isOpen={isOpen} onClose={onToggle} size="xs">
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerBody>
-            <VStack spacing={4}>
-              <Link mt={15} href="/signin">
-                Login
-              </Link>
-              <Box
-                bgColor="blackAlpha.900"
-                color="white"
-                px="1rem"
-                py="0.3rem"
-                fontSize="sm"
-                borderRadius={20}
-              >
                 <Link href="/signup">SignUp</Link>
               </Box>
-            </VStack>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
-    </>
+            ) : (
+              <ProfileMenu logout={handleLogout} />
+            )}
+            <ThemeToggleButton />
+          </HStack>
+        </Box>
+      </Flex>
+    </Box>
   );
 }
+
+interface ProfileMenuProps {
+  logout: () => void;
+}
+
+function ProfileMenu({ logout }: ProfileMenuProps) {
+  return (
+    <Menu>
+      <MenuButton as={Button} colorScheme="blue">
+        Profile
+      </MenuButton>
+      <MenuList>
+        <MenuGroup title="Profile">
+          <MenuItem>My Account</MenuItem>
+          <MenuItem>Payments </MenuItem>
+          <MenuItem onClick={logout}>Logout</MenuItem>
+        </MenuGroup>
+        <MenuDivider />
+        <MenuGroup title="Help">
+          <MenuItem>Docs</MenuItem>
+          <MenuItem>FAQ</MenuItem>
+        </MenuGroup>
+      </MenuList>
+    </Menu>
+  );
+}
+
+// function MobileDrawer() {
+//   return (
+//     <Menu>
+//       <MenuButton as={Button} colorScheme="blue">
+//         <HamburgerIcon />
+//       </MenuButton>
+//       <MenuList>
+//         <MenuGroup title="Profile">
+//           <MenuItem>Sign in</MenuItem>
+//           <MenuItem>Payments </MenuItem>
+//           <MenuItem>Logout</MenuItem>
+//         </MenuGroup>
+//         <MenuDivider />
+//         <MenuGroup title="Help">
+//           <MenuItem>Docs</MenuItem>
+//           <MenuItem>FAQ</MenuItem>
+//         </MenuGroup>
+//       </MenuList>
+//     </Menu>
+//   );
+// }
 
 export default Navbar;
