@@ -12,12 +12,16 @@ import {
   Heading,
   Input,
   InputGroup,
+  InputRightElement,
   Link,
+  Spinner,
   Text,
   VStack,
 } from '@chakra-ui/react';
 
 import { create } from '../user/api-user';
+
+import { isAuthenticated } from './auth-helper';
 
 function SignUp(): JSX.Element {
   const [values, setValues] = React.useState({
@@ -28,6 +32,11 @@ function SignUp(): JSX.Element {
     open: false,
   });
   const [isError, setIsError] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+
   const handleInputChange =
     (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setValues({
@@ -45,12 +54,14 @@ function SignUp(): JSX.Element {
       setIsError(false);
     }
     if (!doThrowError) {
+      setIsLoading(true);
       create({
         name,
         email,
         password,
       }).then((data) => {
         if (data.error) {
+          setIsLoading(false);
           setValues({
             ...values,
             error: data.error,
@@ -68,6 +79,9 @@ function SignUp(): JSX.Element {
   if (values.open) {
     return <Navigate to="/signin" replace />;
   }
+  if (isAuthenticated()) {
+    return <Navigate to="/dashboard" />;
+  }
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -81,7 +95,8 @@ function SignUp(): JSX.Element {
         gap={6}
         mx="auto"
         maxW="screen-xl"
-        height="100vh"
+        mt={{ base: '50px', md: '0' }}
+        height={{ base: 'auto', md: '100vh' }}
         width="100%"
       >
         <VStack
@@ -104,11 +119,9 @@ function SignUp(): JSX.Element {
             <Heading as="h2" size="lg">
               Welcome!
             </Heading>
-            <Text fontSize="0.8rem">
-              Join Photo Buddy and create your account.
-            </Text>
+            <Text fontSize="0.8rem">Join ShutterSync.</Text>
           </Box>
-          <VStack mt={4}>
+          <VStack>
             <InputGroup flexDirection="column" gap="0.5rem">
               <FormControl isInvalid={isError} isRequired>
                 <FormLabel>Name</FormLabel>
@@ -116,28 +129,51 @@ function SignUp(): JSX.Element {
                   type="text"
                   value={values.name}
                   onChange={handleInputChange('name')}
+                  id="name"
+                  placeholder="Enter name"
                 />
                 <FormLabel>Email address</FormLabel>
                 <Input
                   type="email"
                   id="email"
                   value={values.email}
+                  placeholder="Enter email"
                   onChange={handleInputChange('email')}
                 />
                 <FormHelperText>
                   We&apos;ll never share your email.
                 </FormHelperText>
                 <FormLabel>Password</FormLabel>
-                <Input
-                  type="password"
-                  id="password"
-                  value={values.password}
-                  onChange={handleInputChange('password')}
-                />
-                <FormHelperText>{values.error && values.error}</FormHelperText>
+                <InputGroup>
+                  <Input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Enter password"
+                    value={values.password}
+                    onChange={handleInputChange('password')}
+                  />
+                  <InputRightElement width="4.5rem">
+                    <Button
+                      h="1.75rem"
+                      size="sm"
+                      onClick={handleClickShowPassword}
+                    >
+                      {showPassword ? 'Hide' : 'Show'}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+                {!values.error ? (
+                  <FormHelperText>
+                    We&apos;ll never share your email.
+                  </FormHelperText>
+                ) : (
+                  <Text color="red" fontSize="1rem" mt={4}>
+                    {values.error}
+                  </Text>
+                )}
               </FormControl>
               <Button colorScheme="blue" onClick={handleSubmit}>
-                Sign Up
+                {isLoading ? <Spinner /> : 'Sign Up'}
               </Button>
               <Text>
                 Already have an account?{' '}

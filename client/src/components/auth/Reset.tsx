@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as ReactRouterLink, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import {
   Box,
@@ -12,7 +12,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Link,
+  //   Link,
   Spinner,
   Text,
   VStack,
@@ -21,7 +21,7 @@ import {
 import { signin } from './api-auth';
 import { authenticate, isAuthenticated } from './auth-helper';
 
-function Login(): JSX.Element {
+function Reset(): JSX.Element {
   const [values, setValues] = React.useState({
     email: '',
     password: '',
@@ -73,7 +73,7 @@ function Login(): JSX.Element {
     }
   };
   if (values.redirect || isAuthenticated()) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/signin" replace />;
   }
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -109,12 +109,11 @@ function Login(): JSX.Element {
         </VStack>
         <VStack align="center" justify="center" width="100%">
           <Box width="100%">
-            <Heading as="h2" size="lg" textAlign="center">
+            {/* <Heading as="h2" size="lg" textAlign="center">
               Hello Again!
-            </Heading>
+            </Heading> */}
             <Text fontSize="0.8rem" textAlign="center">
-              Welcome Back to ShutterSync.
-              <br /> Please login to your account.
+              Please fill the form to reset password
             </Text>
           </Box>
           <VStack>
@@ -134,7 +133,25 @@ function Login(): JSX.Element {
                   <Input
                     id="password"
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="Password"
+                    placeholder="Old Password"
+                    value={values.password}
+                    onChange={handleInputChange('password')}
+                  />
+                  <InputRightElement width="4.5rem">
+                    <Button
+                      h="1.75rem"
+                      size="sm"
+                      onClick={handleClickShowPassword}
+                    >
+                      {showPassword ? 'Hide' : 'Show'}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+                <InputGroup mt={4}>
+                  <Input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="New Password"
                     value={values.password}
                     onChange={handleInputChange('password')}
                   />
@@ -150,7 +167,7 @@ function Login(): JSX.Element {
                 </InputGroup>
                 {!values.error ? (
                   <FormHelperText>
-                    We&apos;ll never share your email.
+                    {/* We&apos;ll never share your email. */}
                   </FormHelperText>
                 ) : (
                   <Text color="red" fontSize="1rem" mt={4}>
@@ -159,30 +176,8 @@ function Login(): JSX.Element {
                 )}
               </FormControl>
               <Button colorScheme="blue" onClick={handleSubmit}>
-                {isLoading ? <Spinner /> : 'Sign in'}
+                {isLoading ? <Spinner /> : 'Reset Password'}
               </Button>
-              <Text>
-                Don&apos;t have an account?{' '}
-                <Link
-                  as={ReactRouterLink}
-                  color="blue.500"
-                  fontWeight="bold"
-                  to="/signup"
-                >
-                  Register
-                </Link>
-              </Text>
-              <Text>
-                Forgot password?{' '}
-                <Link
-                  as={ReactRouterLink}
-                  color="blue.500"
-                  fontWeight="bold"
-                  to="/reset"
-                >
-                  Reset
-                </Link>
-              </Text>
             </InputGroup>
           </VStack>
         </VStack>
@@ -191,4 +186,4 @@ function Login(): JSX.Element {
   );
 }
 
-export default Login;
+export default Reset;

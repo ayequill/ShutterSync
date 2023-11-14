@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaAnglesRight } from 'react-icons/fa6';
+import { Navigate } from 'react-router-dom';
 
 import {
   Box,
@@ -16,11 +17,15 @@ import Customer from '../../assets/customer.svg';
 import Flow from '../../assets/flow.svg';
 import Gallery from '../../assets/gallery.svg';
 import HomeBG from '../../assets/home.jpg';
+import { isAuthenticated } from '../auth/auth-helper';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'animate.css';
 
 function Home(): JSX.Element {
+  if (isAuthenticated()) {
+    return <Navigate to="/dashboard" />;
+  }
   return (
     <Box
       as="section"
