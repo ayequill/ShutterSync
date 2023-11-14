@@ -107,7 +107,12 @@ function Login(): JSX.Element {
           </Heading>
           <Text>Your digital photos companion</Text>
         </VStack>
-        <VStack align="center" justify="center" width="100%">
+        <VStack
+          align="center"
+          justify={{ base: 'start', md: 'center' }}
+          width="100%"
+          py={{ base: 100, md: 0 }}
+        >
           <Box width="100%">
             <Heading as="h2" size="lg" textAlign="center">
               Hello Again!
@@ -117,7 +122,7 @@ function Login(): JSX.Element {
               <br /> Please login to your account.
             </Text>
           </Box>
-          <VStack>
+          <VStack mt={4} className="animate__animated animate__fadeInUp">
             <InputGroup flexDirection="column" gap="0.5rem">
               <FormControl isInvalid={isError} isRequired>
                 {/* <FormLabel>Email</FormLabel> */}

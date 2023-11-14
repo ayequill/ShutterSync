@@ -1,6 +1,7 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 
+import { HamburgerIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
@@ -31,12 +32,10 @@ function Navbar() {
       bg="white"
       _dark={{ bg: 'gray.900', borderColor: 'gray.600' }}
       boxShadow="sm"
-      // position="fixed"
       w="100%"
-      zIndex={20}
       top={0}
-      left={0}
       as="header"
+      className="animate__animated animate__fadeInDown"
     >
       <Flex
         maxW="screen-xl"
@@ -46,7 +45,7 @@ function Navbar() {
         align="center"
         justify="space-between"
       >
-        <Link href="/" display="flex" fontWeight="bold">
+        <Link as={ReactRouterLink} to="/" display="flex" fontWeight="bold">
           Shutter<Text color="#0078D4">Sync</Text>
         </Link>
         <Box display={{ base: 'inline-flex', md: 'none' }} gap={3}>
@@ -70,8 +69,6 @@ function Navbar() {
             >
               <HamburgerIcon />
             </IconButton> */}
-          {/* <MobileDrawer /> */}
-          {/* <ThemeToggleButton /> */}
         </Box>
         <Box
           display={{ base: 'flex', md: 'flex' }}
@@ -79,25 +76,33 @@ function Navbar() {
           w="full"
           id="navbar-sticky"
         >
+          <MobileDrawer logout={handleLogout} />
           <HStack
-            gap={4}
+            gap={2}
             fontSize="md"
             alignItems="center"
             justifyContent="center"
+            display={{ base: 'none', md: 'flex' }}
           >
-            <Link href={!isAuthenticated() ? '/signin' : '/dashboard'}>
+            <Link
+              as={ReactRouterLink}
+              to={!isAuthenticated() ? '/signin' : '/dashboard'}
+            >
               {!isAuthenticated() ? 'Login' : 'Home'}
             </Link>
             {!isAuthenticated() ? (
               <Box
                 bgColor="black"
+                _dark={{ bg: '#0078D4' }}
                 color="white"
                 px="1rem"
                 py="0.3rem"
                 fontSize="sm"
                 borderRadius={20}
               >
-                <Link href="/signup">SignUp</Link>
+                <Link as={ReactRouterLink} to="/signup">
+                  SignUp
+                </Link>
               </Box>
             ) : (
               <ProfileMenu logout={handleLogout} />
@@ -117,12 +122,12 @@ interface ProfileMenuProps {
 function ProfileMenu({ logout }: ProfileMenuProps) {
   return (
     <Menu>
-      <MenuButton as={Button} colorScheme="blue">
+      <MenuButton as={Button} colorScheme="blue" size="sm">
         Profile
       </MenuButton>
       <MenuList>
-        <MenuGroup title="Profile">
-          <MenuItem>My Account</MenuItem>
+        <MenuGroup>
+          <MenuItem>Account</MenuItem>
           <MenuItem>Payments </MenuItem>
           <MenuItem onClick={logout}>Logout</MenuItem>
         </MenuGroup>
@@ -136,26 +141,49 @@ function ProfileMenu({ logout }: ProfileMenuProps) {
   );
 }
 
-// function MobileDrawer() {
-//   return (
-//     <Menu>
-//       <MenuButton as={Button} colorScheme="blue">
-//         <HamburgerIcon />
-//       </MenuButton>
-//       <MenuList>
-//         <MenuGroup title="Profile">
-//           <MenuItem>Sign in</MenuItem>
-//           <MenuItem>Payments </MenuItem>
-//           <MenuItem>Logout</MenuItem>
-//         </MenuGroup>
-//         <MenuDivider />
-//         <MenuGroup title="Help">
-//           <MenuItem>Docs</MenuItem>
-//           <MenuItem>FAQ</MenuItem>
-//         </MenuGroup>
-//       </MenuList>
-//     </Menu>
-//   );
-// }
+function MobileDrawer({ logout }: ProfileMenuProps) {
+  return (
+    <Box display={{ base: 'flex', md: 'none' }} gap={3}>
+      <Menu>
+        <MenuButton as={Button} colorScheme="blue">
+          <HamburgerIcon />
+        </MenuButton>
+        <MenuList>
+          <MenuGroup>
+            <MenuItem>
+              <Link
+                as={ReactRouterLink}
+                to={!isAuthenticated() ? '/signin' : '/dashboard'}
+                w="100%"
+                onClick={isAuthenticated() ? logout : () => null}
+              >
+                {isAuthenticated() ? 'Logout' : 'SignIn'}
+              </Link>{' '}
+            </MenuItem>
+            <MenuItem>
+              <Link
+                as={ReactRouterLink}
+                to={isAuthenticated() ? '/profile' : '/signup'}
+              >
+                {isAuthenticated() ? 'Profile' : 'Sign Up'}
+              </Link>{' '}
+            </MenuItem>
+            <MenuItem>
+              <Link as={ReactRouterLink} to="/pricing">
+                {isAuthenticated() ? 'Payments' : 'Pricing'}
+              </Link>{' '}
+            </MenuItem>
+          </MenuGroup>
+          {/* <MenuDivider /> */}
+          {/* <MenuGroup title="Help">
+          <MenuItem>Docs</MenuItem>
+          <MenuItem>FAQ</MenuItem>
+        </MenuGroup> */}
+        </MenuList>
+      </Menu>
+      <ThemeToggleButton />
+    </Box>
+  );
+}
 
 export default Navbar;
