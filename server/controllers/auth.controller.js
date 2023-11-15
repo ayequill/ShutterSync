@@ -22,7 +22,6 @@ const signIn = async (req, res) => {
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
     res.cookie('t', token, { httpOnly: true, maxAge: 9999 });
 
-    console.log(res.cookie.t);
     return res.status(201).json({
       token,
       user: {
@@ -52,8 +51,7 @@ const requireSignIn = expressjwt({
 });
 
 const isAuthorized = (req, res, next) => {
-  const authorized =
-    req.profile && req.auth && req.profile._id === req.auth._id;
+  const authorized = req.profile && req.auth && req.profile._id == req.auth._id;
   if (!authorized) {
     return res.status(403).json({
       error: 'User is not authorized',

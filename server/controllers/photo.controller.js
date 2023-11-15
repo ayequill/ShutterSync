@@ -15,7 +15,7 @@ cloudinary.config({
 const addPhoto = async (req, res) => {
   try {
     const { album } = req;
-    let photoObjs = { album };
+    let photoObjs = { album: album._id };
 
     // Use multer middleware for handling file upload
     upload.single('photo')(req, res, async (err) => {
@@ -68,6 +68,7 @@ const addPhoto = async (req, res) => {
 
 const photoById = async (req, res, next, id) => {
   try {
+    console.log(req);
     const photo = await Photo.findById(id).populate('album').exec();
     if (!photo) {
       return res.status(404).json({
