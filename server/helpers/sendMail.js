@@ -4,8 +4,6 @@ dotenv.config();
 
 const { MAIL_HOST, MAIL_PORT, MAIL_USER, MAIL_PWD, MAIL_DOMAIN } = process.env;
 
-console.log(MAIL_DOMAIN, MAIL_HOST, MAIL_PORT, MAIL_USER, MAIL_PWD);
-
 const html = (name, link) => {
   return `<!DOCTYPE html>
     <html lang="en">
