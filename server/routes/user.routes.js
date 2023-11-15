@@ -17,22 +17,22 @@ router
 
 router
   .route('/api/users/:userId/albums')
-  .post(userAuth.requireSignIn, albumCtrl.createAlbum)
-  .get(userAuth.requireSignIn, albumCtrl.getAlbums);
+  .post(albumCtrl.createAlbum)
+  .get(albumCtrl.getAlbums);
 
 router
   .route('/api/users/:userId/albums/:albumId')
-  .get(userAuth.requireSignIn, albumCtrl.getAlbum)
-  .delete(userAuth.requireSignIn, albumCtrl.deleteAlbum)
-  .put(userAuth.requireSignIn, albumCtrl.updateAlbum);
+  .get(albumCtrl.getAlbum)
+  .delete(albumCtrl.deleteAlbum)
+  .put(albumCtrl.updateAlbum);
 
 router
   .route('/api/users/:userId/albums/:albumId/photo')
-  .post(userAuth.requireSignIn, photoCtrl.addPhoto);
+  .post(photoCtrl.addPhoto);
 
 router
   .route('/api/users/:userId/albums/:albumId/photo/:photoId')
-  .delete(userAuth.requireSignIn, photoCtrl.deletePhoto);
+  .delete(photoCtrl.deletePhoto);
 
 router
   .route('/api/photos/:photoId')
