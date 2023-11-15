@@ -9,7 +9,7 @@ servers:
     url: https://virtserver.swaggerhub.com/ShutterSync/ShutterSync/1
   - url: http://localhost:3000
     description: Development server
-  - url: http://api.shuttersync.live
+  - url: https://api.shuttersync.live
     description: Production server
 
 tags:
