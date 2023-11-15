@@ -2,6 +2,10 @@ import React from 'react';
 import { Link as ReactRouterLink, Navigate } from 'react-router-dom';
 
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
   Box,
   Button,
   Flex,
@@ -77,7 +81,8 @@ function SignUp(): JSX.Element {
     }
   };
   if (values.open) {
-    return <Navigate to="/signin" replace />;
+    // return <Navigate to="/signin" replace />;
+    return <AccountCreated />;
   }
   if (isAuthenticated()) {
     return <Navigate to="/dashboard" />;
@@ -199,4 +204,40 @@ function SignUp(): JSX.Element {
   );
 }
 
+function AccountCreated() {
+  return (
+    <Flex as="section" alignItems="center" height="100vh">
+      <Alert
+        status="success"
+        variant="subtle"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        textAlign="center"
+        height="200px"
+        colorScheme="blue"
+      >
+        <AlertIcon boxSize="40px" mr={0} />
+        <AlertTitle mt={4} mb={1} fontSize="lg">
+          Account created!
+        </AlertTitle>
+        <AlertDescription maxWidth="sm">
+          Thanks for signing up. Please check your email to confirm your account
+          or{' '}
+          <Link
+            as={ReactRouterLink}
+            to="/signin"
+            color="blue.400"
+            // p={1}
+            borderRadius={5}
+            fontWeight="bold"
+          >
+            log in
+          </Link>{' '}
+          to your account.
+        </AlertDescription>
+      </Alert>
+    </Flex>
+  );
+}
 export default SignUp;
