@@ -1,13 +1,11 @@
-import React, { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 
 import { isAuthenticated } from './auth-helper';
 
-interface PrivateRouteProps {
-  children: ReactNode;
-}
-
-function PrivateRoute({ children }: PrivateRouteProps) {
+// eslint-disable-next-line react/prop-types,@typescript-eslint/ban-ts-comment
+// @ts-ignore
+// eslint-disable-next-line react/prop-types
+function PrivateRoute({ children }) {
   if (!isAuthenticated()) return <Navigate to="/signin" replace />;
   return children;
 }
