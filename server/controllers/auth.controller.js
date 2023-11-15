@@ -20,7 +20,9 @@ const signIn = async (req, res) => {
       });
     }
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
-    res.cookie('t', token, { expire: new Date() + 9999 });
+    res.cookie('t', token, { httpOnly: true, maxAge: 9999 });
+
+    console.log(res.cookie.t);
     return res.status(201).json({
       token,
       user: {
