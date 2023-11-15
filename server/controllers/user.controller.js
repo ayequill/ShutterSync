@@ -1,6 +1,7 @@
 import extend from 'lodash/extend.js';
 import User from '../models/user.model.js';
 import dbErrorHandler from '../helpers/dbErrorHandler.js';
+import { sendMail, html } from '../helpers/sendMail.js';
 
 const create = async (req, res, next) => {
   // Get user details from req.body
@@ -22,6 +23,9 @@ const create = async (req, res, next) => {
   const user = new User({ name, email, password });
   try {
     await user.save();
+    const subject = 'Welcome to ShutterSync 😎';
+    const link = `https://shuttersync/signin`;
+    await sendMail(email, subject, html(name, link));
     return res.status(200).json({
       message: 'Successfully signed up',
     });

@@ -151,14 +151,20 @@ function MobileDrawer({ logout }: ProfileMenuProps) {
         <MenuList>
           <MenuGroup>
             <MenuItem>
-              <Link
-                as={ReactRouterLink}
-                to={!isAuthenticated() ? '/signin' : '/dashboard'}
-                w="100%"
-                onClick={isAuthenticated() ? logout : () => null}
-              >
-                {isAuthenticated() ? 'Logout' : 'SignIn'}
-              </Link>{' '}
+              {!isAuthenticated() ? (
+                <Link as={ReactRouterLink} to="/signin" w="100%">
+                  SignIn
+                </Link>
+              ) : (
+                <Link
+                  as={ReactRouterLink}
+                  to="/signin"
+                  w="100%"
+                  onClick={isAuthenticated() ? logout : () => null}
+                >
+                  Logout
+                </Link>
+              )}{' '}
             </MenuItem>
             <MenuItem>
               <Link
