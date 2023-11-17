@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { useState } from 'react';
 
@@ -14,15 +15,15 @@ import {
 
 function Upload() {
   const [albumName, setAlbumName] = useState('');
-  const [selectedPhotos, setSelectedPhotos] = useState([]);
+  const [selectedPhotos, setSelectedPhotos] = useState<File[]>([]);
 
-  const handleAlbumNameChange = (e) => {
+  const handleAlbumNameChange = (e: any) => {
     setAlbumName(e.target.value);
   };
 
-  const handlePhotoChange = (e) => {
+  const handlePhotoChange = (e: any) => {
     // Assuming you want to get an array of selected files
-    const files = Array.from(e.target.files);
+    const files = Array.from(e.target.files || []) as File[];
     setSelectedPhotos(files);
   };
 
