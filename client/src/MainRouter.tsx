@@ -14,6 +14,7 @@ import SignUp from './components/auth/SignUp';
 import Home from './components/core/Home';
 import MainLayout from './components/core/LayOut';
 import Dashboard from './components/user/Dashboard';
+import Upload from './components/user/Upload';
 
 function MainRouter() {
   return (
@@ -58,6 +59,16 @@ function MainRouter() {
           element={
             <MainLayout>
               <Reset />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="upload"
+          element={
+            <MainLayout>
+              <PrivateRoute>
+                <Upload />
+              </PrivateRoute>
             </MainLayout>
           }
         />

@@ -3,18 +3,22 @@ import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 
 import { HamburgerIcon } from '@chakra-ui/icons';
 import {
+  Avatar,
+  Badge,
   Box,
   Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
   Flex,
   HStack,
   Link,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuGroup,
-  MenuItem,
-  MenuList,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
 
 import { clearJWT, isAuthenticated } from '../auth/auth-helper';
@@ -48,68 +52,69 @@ function Navbar() {
         <Link as={ReactRouterLink} to="/" display="flex" fontWeight="bold">
           Shutter<Text color="#0078D4">Sync</Text>
         </Link>
-        <Box display={{ base: 'inline-flex', md: 'none' }} gap={3}>
-          {/* <IconButton
-              type="button"
-              aria-label="Open main menu"
-              p={2}
-              w={10}
-              h={10}
-              fontSize="sm"
-              rounded="lg"
-              mr={2}
-              _hover={{ bg: 'gray.100' }}
-              _focus={{ outline: 'none', ring: 2, ringColor: 'gray.200' }}
-              _dark={{
-                text: 'black.400',
-                _hover: { bg: 'gray.700' },
-                _focus: { ringColor: 'gray.600' },
-              }}
-              onClick={onToggle}
-            >
-              <HamburgerIcon />
-            </IconButton> */}
-        </Box>
-        <Box
-          display={{ base: 'flex', md: 'flex' }}
-          justifyContent="end"
-          w="full"
-          id="navbar-sticky"
-        >
-          <MobileDrawer logout={handleLogout} />
+        <Flex justifyContent="end" w="full" id="navbar-sticky">
           <HStack
             gap={2}
             fontSize="md"
             alignItems="center"
             justifyContent="center"
-            display={{ base: 'none', md: 'flex' }}
+            display={{ base: 'none', lg: 'flex' }}
           >
-            <Link
-              as={ReactRouterLink}
-              to={!isAuthenticated() ? '/signin' : '/dashboard'}
-            >
-              {!isAuthenticated() ? 'Login' : 'Home'}
-            </Link>
             {!isAuthenticated() ? (
-              <Box
-                bgColor="black"
-                _dark={{ bg: '#0078D4' }}
-                color="white"
-                px="1rem"
-                py="0.3rem"
-                fontSize="sm"
-                borderRadius={20}
-              >
-                <Link as={ReactRouterLink} to="/signup">
-                  SignUp
+              <Flex gap={4} align="center">
+                <Link as={ReactRouterLink} to="/signin">
+                  SignIn
                 </Link>
-              </Box>
+                <Box
+                  bgColor="black"
+                  _dark={{ bg: '#0078D4' }}
+                  color="white"
+                  px="1rem"
+                  py="0.3rem"
+                  fontSize="sm"
+                  borderRadius={20}
+                >
+                  <Link as={ReactRouterLink} to="/signup">
+                    SignUp
+                  </Link>
+                </Box>
+              </Flex>
             ) : (
-              <ProfileMenu logout={handleLogout} />
+              <HStack>
+                <Button
+                  variant="solid"
+                  size="sm"
+                  rounded="30px"
+                  colorScheme="blue"
+                >
+                  <Link as={ReactRouterLink} to="/profile">
+                    Profile
+                  </Link>
+                </Button>
+                <Button
+                  variant="solid"
+                  size="sm"
+                  rounded="30px"
+                  colorScheme="blue"
+                >
+                  <Link as={ReactRouterLink} to="/account">
+                    Account
+                  </Link>
+                </Button>
+                <Button
+                  variant="solid"
+                  size="sm"
+                  rounded="30px"
+                  colorScheme="red"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+              </HStack>
             )}
-            <ThemeToggleButton />
           </HStack>
-        </Box>
+          <MobileDrawer logout={handleLogout} />
+        </Flex>
       </Flex>
     </Box>
   );
@@ -119,74 +124,75 @@ interface ProfileMenuProps {
   logout: () => void;
 }
 
-function ProfileMenu({ logout }: ProfileMenuProps) {
-  return (
-    <Menu>
-      <MenuButton as={Button} colorScheme="blue" size="sm">
-        Profile
-      </MenuButton>
-      <MenuList>
-        <MenuGroup>
-          <MenuItem>Account</MenuItem>
-          <MenuItem>Payments </MenuItem>
-          <MenuItem onClick={logout}>Logout</MenuItem>
-        </MenuGroup>
-        <MenuDivider />
-        <MenuGroup title="Help">
-          <MenuItem>Docs</MenuItem>
-          <MenuItem>FAQ</MenuItem>
-        </MenuGroup>
-      </MenuList>
-    </Menu>
-  );
-}
-
 function MobileDrawer({ logout }: ProfileMenuProps) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleClick = (cb: () => void) => {
+    cb();
+    onClose();
+  };
+
   return (
-    <Box display={{ base: 'flex', md: 'none' }} gap={3}>
-      <Menu>
-        <MenuButton as={Button} colorScheme="blue">
-          <HamburgerIcon />
-        </MenuButton>
-        <MenuList>
-          <MenuGroup>
-            <MenuItem>
-              {!isAuthenticated() ? (
-                <Link as={ReactRouterLink} to="/signin" w="100%">
-                  SignIn
-                </Link>
-              ) : (
-                <Link
-                  as={ReactRouterLink}
-                  to="/signin"
-                  w="100%"
-                  onClick={isAuthenticated() ? logout : () => null}
-                >
-                  Logout
-                </Link>
-              )}{' '}
-            </MenuItem>
-            <MenuItem>
+    <Box display={{ base: 'flex', lg: 'none' }} gap={3}>
+      <Button colorScheme="blue" onClick={onOpen}>
+        <HamburgerIcon />
+      </Button>
+      <Drawer placement="top" onClose={onClose} isOpen={isOpen}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader borderBottomWidth="1px">
+            <Flex>
+              {isAuthenticated() && (
+                <Avatar
+                  src={isAuthenticated() ? isAuthenticated().user?.name : null}
+                />
+              )}
+              <Flex ml="3" align="center">
+                {isAuthenticated() && (
+                  <Text fontWeight="bold">
+                    {isAuthenticated() ? isAuthenticated().user?.name : null}
+                    <Badge ml="1" colorScheme="blue">
+                      Pro
+                    </Badge>
+                  </Text>
+                )}
+              </Flex>
+            </Flex>
+          </DrawerHeader>
+          <DrawerBody display="flex" flexDir="column" gap={3}>
+            <Button colorScheme="blue" rounded={30} onClick={onClose}>
               <Link
                 as={ReactRouterLink}
-                to={isAuthenticated() ? '/profile' : '/signup'}
+                w="100%"
+                to={!isAuthenticated() ? '/signin' : '/dashboard'}
               >
-                {isAuthenticated() ? 'Profile' : 'Sign Up'}
-              </Link>{' '}
-            </MenuItem>
-            <MenuItem>
-              <Link as={ReactRouterLink} to="/pricing">
-                {isAuthenticated() ? 'Payments' : 'Pricing'}
-              </Link>{' '}
-            </MenuItem>
-          </MenuGroup>
-          {/* <MenuDivider /> */}
-          {/* <MenuGroup title="Help">
-          <MenuItem>Docs</MenuItem>
-          <MenuItem>FAQ</MenuItem>
-        </MenuGroup> */}
-        </MenuList>
-      </Menu>
+                {isAuthenticated() ? 'Dashboard' : 'Login'}
+              </Link>
+            </Button>
+
+            <Button colorScheme="blue" rounded={30} onClick={onClose}>
+              <Link
+                w="100%"
+                as={ReactRouterLink}
+                to={!isAuthenticated() ? '/signup' : '/account'}
+              >
+                {isAuthenticated() ? 'Account' : 'Signup'}
+              </Link>
+            </Button>
+            {isAuthenticated() && (
+              <Button
+                colorScheme="red"
+                rounded={30}
+                onClick={() => handleClick(logout)}
+              >
+                Logout
+              </Button>
+            )}
+          </DrawerBody>
+          <DrawerFooter />
+        </DrawerContent>
+      </Drawer>
       <ThemeToggleButton />
     </Box>
   );
