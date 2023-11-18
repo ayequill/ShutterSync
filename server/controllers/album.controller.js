@@ -2,6 +2,13 @@ import Album from '../models/album.model.js';
 import dbErrorHandler from '../helpers/dbErrorHandler.js';
 import User from '../models/user.model.js';
 import Photo from '../models/photo.model.js';
+import { v2 as cloudinary } from 'cloudinary';
+
+cloudinary.config({
+  cloud_name: 'dzpjlfcrq',
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // Create an album
 const createAlbum = async (req, res) => {
@@ -74,8 +81,18 @@ const deleteAlbum = async (req, res) => {
       { $pull: { albums: album._id.toString() } },
       { new: true }
     );
+    const photos = await album.populate('photos');
+
+    const public_ids = photos.photos.map((photo) => photo.public_id);
+    if (public_ids.length > 0) {
+      await cloudinary.api
+        .delete_resources_by_tag(album._id.toString())
+        .then((result) => {
+          console.log(result);
+        });
+    }
     await Photo.deleteMany({ album: album._id });
-    const delAlbum = await Album.deleteOne(album);
+    const delAlbum = await Album.deleteOne(album._id);
     res.json(delAlbum);
   } catch (e) {
     return res.status(404).json({
