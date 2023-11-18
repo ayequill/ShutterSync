@@ -9,13 +9,20 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Spinner,
   Text,
   VStack,
 } from '@chakra-ui/react';
 
+import { createAlbum } from './api-albums';
+import { addPhotos } from './api-photos';
+
 function Upload() {
   const [albumName, setAlbumName] = useState('');
   const [selectedPhotos, setSelectedPhotos] = useState<File[]>([]);
+  const [addedPhotos, setAddedPhotos] = useState<any[]>([]);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleAlbumNameChange = (e: any) => {
     setAlbumName(e.target.value);
@@ -28,9 +35,28 @@ function Upload() {
   };
 
   const handleSubmit = () => {
-    console.log('Album Name:', albumName);
-    console.log('Selected Photos:', selectedPhotos);
+    if (albumName === '') {
+      setError('Please enter a valid album name');
+      return;
+    }
+    if (selectedPhotos.length === 0) {
+      setError('Please select at least one photo');
+      return;
+    }
+    setIsLoading(true);
+    createAlbum({ name: albumName }).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        // eslint-disable-next-line no-underscore-dangle
+        addPhotos(data._id, selectedPhotos).then((photos) => {
+          setAddedPhotos(photos);
+          setIsLoading(false);
+        });
+      }
+    });
   };
+  console.log(addedPhotos);
 
   return (
     <VStack py={10} align="center" px={30} spacing={5} justify="center">
@@ -74,12 +100,18 @@ function Upload() {
             <Text fontSize="sm" mt={2} color="gray.500">
               Select one or more photos (JPEG, JPG, PNG)
             </Text>
+            {error && <Text color="red">{error}</Text>}
           </FormControl>
         </Box>
       </Container>
 
-      <Button colorScheme="blue" mt={4} onClick={handleSubmit}>
-        Upload Photos
+      <Button
+        colorScheme="blue"
+        mt={4}
+        onClick={handleSubmit}
+        isDisabled={isLoading}
+      >
+        {isLoading ? <Spinner /> : 'Upload Photos'}
       </Button>
     </VStack>
   );
