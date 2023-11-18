@@ -115,7 +115,7 @@ function SignUp(): JSX.Element {
           display={{ base: 'none', md: 'flex' }}
         >
           <Heading as="h1" size="xl">
-            Photo Buddy
+            ShutterSync
           </Heading>
           <Text>Your digital photos companion</Text>
         </VStack>
