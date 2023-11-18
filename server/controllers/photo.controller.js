@@ -18,7 +18,7 @@ const addPhoto = async (req, res) => {
     let photoObjs = { album: album._id };
 
     // Use multer middleware for handling file upload
-    upload.single('photo')(req, res, async (err) => {
+    upload.array('photos')(req, res, async (err) => {
       try {
         if (err instanceof multer.MulterError) {
           return res.status(400).json({
@@ -31,35 +31,44 @@ const addPhoto = async (req, res) => {
         }
 
         // Upload image to cloudinary
-        cloudinary.uploader.upload(
-          req.file.path,
-          { public_id: req.originalname, quality: 'auto:best' },
-          async function (error, result) {
-            if (!error) {
-              photoObjs = {
-                ...photoObjs,
-                imageUrl: result.secure_url,
-                size: result.bytes,
-                public_id: result.public_id,
-                name: result.original_filename,
-                created_at: result.created_at,
-              };
-              const photo = new Photo(photoObjs);
+        const albumFolder = album._id.toString();
+        const uploadPromises = req.files.map(async (file) => {
+          return new Promise((resolve, reject) => {
+            cloudinary.uploader.upload(
+              file.path,
+              { quality: 'auto:best', tags: albumFolder },
+              (error, result) => {
+                if (error) {
+                  reject(error);
+                } else {
+                  resolve({
+                    ...photoObjs,
+                    imageUrl: result.secure_url,
+                    size: result.bytes,
+                    public_id: result.public_id,
+                    name: result.original_filename,
+                    created_at: result.created_at,
+                  });
+                }
+              }
+            );
+          });
+        });
 
-              await photo.save();
-              album.photos.push(photo);
-              await album.save();
-              res.json(photo);
-            }
-          }
-        );
+        const uploadedPhotos = await Promise.all(uploadPromises);
+        const photos = await Photo.insertMany(uploadedPhotos);
+        album.photos.push(...photos);
+        await album.save();
+        res.json(photos);
       } catch (e) {
+        console.log(e);
         return res.status(500).json({
           error: e.message,
         });
       }
     });
   } catch (e) {
+    console.log(e);
     return res.status(500).json({
       error: e.message,
     });

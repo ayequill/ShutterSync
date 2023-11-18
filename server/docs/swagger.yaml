@@ -403,9 +403,11 @@ paths:
             schema:
               type: object
               properties:
-                photo:
-                  type: string
-                  format: binary
+                photos:
+                  type: array
+                  items:
+                    type: file
+                    format: binary
       responses:
         '200':
           description: OK
