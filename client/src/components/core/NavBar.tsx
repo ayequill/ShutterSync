@@ -110,6 +110,7 @@ function Navbar() {
                 >
                   Logout
                 </Button>
+                <ThemeToggleButton />
               </HStack>
             )}
           </HStack>
