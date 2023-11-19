@@ -18,14 +18,26 @@ import Flow from '../../assets/flow.svg';
 import Gallery from '../../assets/gallery.svg';
 import HomeBG from '../../assets/home.jpg';
 import { isAuthenticated } from '../auth/auth-helper';
+import useTimeout from '../hooks/useTimeOut';
+
+import LoaderComponent from './Loader';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'animate.css';
 
 function Home(): JSX.Element {
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  const hide = () => setIsLoading(false);
+  useTimeout(hide, 2000);
+
   if (isAuthenticated()) {
     return <Navigate to="/dashboard" />;
   }
+  if (isLoading) {
+    return <LoaderComponent />;
+  }
+
   return (
     <Box
       as="section"

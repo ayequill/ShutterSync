@@ -18,6 +18,9 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
+import LoaderComponent from '../core/Loader';
+import useTimeout from '../hooks/useTimeOut';
+
 import { signin } from './api-auth';
 import { authenticate, isAuthenticated } from './auth-helper';
 
@@ -30,7 +33,15 @@ function Login(): JSX.Element {
   });
   const [isError, setIsError] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [loader, setLoader] = React.useState(true);
   const [showPassword, setShowPassword] = React.useState(false);
+
+  const hide = () => setLoader(false);
+  useTimeout(hide, 2000);
+
+  if (loader) {
+    return <LoaderComponent />;
+  }
   const handleInputChange =
     (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setValues({

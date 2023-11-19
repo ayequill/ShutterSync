@@ -14,6 +14,9 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
+import LoaderComponent from '../core/Loader';
+import useTimeout from '../hooks/useTimeOut';
+
 import { createAlbum } from './api-albums';
 import { addPhotos } from './api-photos';
 
@@ -22,7 +25,11 @@ function Upload() {
   const [selectedPhotos, setSelectedPhotos] = useState<File[]>([]);
   const [addedPhotos, setAddedPhotos] = useState<any[]>([]);
   const [error, setError] = useState('');
+  const [loader, setLoader] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+
+  const hide = () => setLoader(false);
+  useTimeout(hide, 2000);
 
   const handleAlbumNameChange = (e: any) => {
     setAlbumName(e.target.value);
@@ -57,6 +64,9 @@ function Upload() {
     });
   };
   console.log(addedPhotos);
+  if (loader) {
+    return <LoaderComponent />;
+  }
 
   return (
     <VStack py={10} align="center" px={30} spacing={5} justify="center">
