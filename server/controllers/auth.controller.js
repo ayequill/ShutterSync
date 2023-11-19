@@ -60,9 +60,32 @@ const isAuthorized = (req, res, next) => {
   next();
 };
 
+const confirmEmail = async (req, res) => {
+  try {
+    const token = req.query.token;
+    const user = await User.findOne({ token });
+    console.log(user);
+    if (!user) {
+      return res.status(401).json({
+        error: 'Invalid token',
+      });
+    }
+    user.verified = true;
+    await user.save();
+    return res.status(200).json({
+      message: 'Email confirmed',
+    });
+  } catch (e) {
+    return res.status(401).json({
+      error: 'Invalid token',
+    });
+  }
+};
+
 export default {
   signIn,
   signout,
   requireSignIn,
   isAuthorized,
+  confirmEmail,
 };
