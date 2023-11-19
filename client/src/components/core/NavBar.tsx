@@ -78,6 +78,7 @@ function Navbar() {
                     SignUp
                   </Link>
                 </Box>
+                <ThemeToggleButton />
               </Flex>
             ) : (
               <HStack>
