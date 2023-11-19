@@ -32,6 +32,11 @@ const USER_SCHEMA = new mongoose.Schema({
       ref: 'Album',
     },
   ],
+  verified: {
+    type: Boolean,
+    default: false,
+  },
+  token: String,
 });
 
 USER_SCHEMA.virtual('password')

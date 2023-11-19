@@ -7,6 +7,7 @@ import {
   Routes,
 } from 'react-router-dom';
 
+import EmailConfirm from './components/auth/EmailConfirm';
 import Login from './components/auth/Login';
 import PrivateRoute from './components/auth/PrivateRoute';
 import Reset from './components/auth/Reset';
@@ -69,6 +70,14 @@ function MainRouter() {
               <PrivateRoute>
                 <Upload />
               </PrivateRoute>
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/verify/:token"
+          element={
+            <MainLayout>
+              <EmailConfirm />
             </MainLayout>
           }
         />
