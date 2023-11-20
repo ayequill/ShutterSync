@@ -1,9 +1,9 @@
 {
-  "name": "PhotoBud",
+  "name": "ShutterSync",
   "version": "1.0.0",
-  "description": "PhotoBud aims to address the need for professional photographers to efficiently share and collaborate on their work with clients, enhancing client engagement and project management.",
+  "description": "ShutterSync aims to address the need for professional photographers to efficiently share and collaborate on their work with clients, enhancing client engagement and project management.",
   "main": "index.js",
-  "repository": "https://github.com/ayequill/PhotoBud.git",
+  "repository": "https://github.com/ayequill/ShutterSync.git",
   "author": {
     "name": "Siaw A. Nicholas",
     "email": "siawnic.dev@gmail.com",
@@ -48,6 +48,7 @@
     "nodemon": "^3.0.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
+    "usehooks-ts": "^2.9.1",
     "uuid": "^9.0.1",
     "yamljs": "^0.3.0"
   },

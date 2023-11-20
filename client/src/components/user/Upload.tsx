@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {
   Box,
@@ -14,6 +15,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
+import { isAuthenticated } from '../auth/auth-helper';
 import LoaderComponent from '../core/Loader';
 import useTimeout from '../hooks/useTimeOut';
 
@@ -27,6 +29,8 @@ function Upload() {
   const [error, setError] = useState('');
   const [loader, setLoader] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const { user } = isAuthenticated();
 
   const hide = () => setLoader(false);
   useTimeout(hide, 2000);
@@ -51,7 +55,8 @@ function Upload() {
       return;
     }
     setIsLoading(true);
-    createAlbum({ name: albumName }).then((data) => {
+    // eslint-disable-next-line no-underscore-dangle
+    createAlbum({ name: albumName }, user._id).then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -59,6 +64,7 @@ function Upload() {
         addPhotos(data._id, selectedPhotos).then((photos) => {
           setAddedPhotos(photos);
           setIsLoading(false);
+          navigate('/dashboard');
         });
       }
     });
