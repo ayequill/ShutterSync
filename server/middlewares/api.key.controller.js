@@ -7,7 +7,6 @@ const API_KEYS = getKeys ? getKeys.split(',') : ['1234567890'];
 
 const checkApiKey = (req, res, next) => {
   const apiKey = req.get('x-api-key');
-  console.log(apiKey);
   if (API_KEYS.includes(apiKey)) {
     next();
   } else {

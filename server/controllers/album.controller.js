@@ -33,7 +33,12 @@ const createAlbum = async (req, res) => {
 const getAlbums = async (req, res) => {
   try {
     const userAlbums = await User.findById(req.profile._id.toString())
-      .populate('albums')
+      .populate({
+        path: 'albums',
+        populate: {
+          path: 'photos',
+        },
+      })
       .exec();
     res.json(userAlbums.albums);
   } catch (e) {
@@ -46,7 +51,7 @@ const getAlbums = async (req, res) => {
 // Get particular album id
 const albumByID = async (req, res, next, id) => {
   try {
-    const album = await Album.findById(id);
+    const album = await Album.findById(id).populate('photos');
     if (!album) {
       return res.status(404).json({
         error: 'Album not found',
