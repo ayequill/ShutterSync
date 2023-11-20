@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as ReactRouterLink, Navigate } from 'react-router-dom';
+import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 
 import {
   Box,
@@ -22,7 +22,7 @@ import LoaderComponent from '../core/Loader';
 import useTimeout from '../hooks/useTimeOut';
 
 import { signin } from './api-auth';
-import { authenticate, isAuthenticated } from './auth-helper';
+import { authenticate } from './auth-helper';
 
 function Login(): JSX.Element {
   const [values, setValues] = React.useState({
@@ -35,7 +35,13 @@ function Login(): JSX.Element {
   const [isLoading, setIsLoading] = React.useState(false);
   const [loader, setLoader] = React.useState(true);
   const [showPassword, setShowPassword] = React.useState(false);
+  const navigate = useNavigate();
 
+  React.useEffect(() => {
+    if (values.redirect) {
+      navigate('/dashboard');
+    }
+  }, [values.redirect, navigate]);
   const hide = () => setLoader(false);
   useTimeout(hide, 2000);
 
@@ -83,9 +89,6 @@ function Login(): JSX.Element {
       });
     }
   };
-  if (values.redirect || isAuthenticated()) {
-    return <Navigate to="/dashboard" replace />;
-  }
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
