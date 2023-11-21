@@ -177,7 +177,11 @@ function Login(): JSX.Element {
                   </Text>
                 )}
               </FormControl>
-              <Button colorScheme="blue" onClick={handleSubmit}>
+              <Button
+                color="black"
+                _dark={{ color: 'white', bg: 'blue.500' }}
+                onClick={handleSubmit}
+              >
                 {isLoading ? <Spinner /> : 'Sign in'}
               </Button>
               <Text>
