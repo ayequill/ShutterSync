@@ -49,27 +49,18 @@ function MainRouter() {
           path="dashboard"
           element={
             <MainLayout>
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
+              <PrivateRoute />
             </MainLayout>
           }
-        />
+        >
+          <Route index element={<Dashboard />} />
+          <Route path="upload" element={<Upload />} />
+        </Route>
         <Route
           path="reset"
           element={
             <MainLayout>
               <Reset />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="upload"
-          element={
-            <MainLayout>
-              <PrivateRoute>
-                <Upload />
-              </PrivateRoute>
             </MainLayout>
           }
         />
