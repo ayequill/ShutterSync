@@ -5,6 +5,7 @@ export interface User {
 }
 
 export interface Photo {
+  _id?: string;
   album: string;
   imageUrl: string;
   name: string;

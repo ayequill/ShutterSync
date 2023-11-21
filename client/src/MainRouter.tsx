@@ -7,6 +7,7 @@ import {
   Routes,
 } from 'react-router-dom';
 
+import Upload from './components/albums/Upload';
 import EmailConfirm from './components/auth/EmailConfirm';
 import Login from './components/auth/Login';
 import PrivateRoute from './components/auth/PrivateRoute';
@@ -15,7 +16,6 @@ import SignUp from './components/auth/SignUp';
 import Home from './components/core/Home';
 import MainLayout from './components/core/LayOut';
 import Dashboard from './components/user/Dashboard';
-import Upload from './components/user/Upload';
 
 function MainRouter() {
   return (

@@ -16,7 +16,7 @@ import {
 import Customer from '../../assets/customer.svg';
 import Flow from '../../assets/flow.svg';
 import Gallery from '../../assets/gallery.svg';
-import HomeBG from '../../assets/home.jpg';
+import HomeBG from '../../assets/home.webp';
 import { isAuthenticated } from '../auth/auth-helper';
 import useTimeout from '../hooks/useTimeOut';
 
@@ -48,16 +48,18 @@ function Home(): JSX.Element {
       <Flex
         justifyContent="space-between"
         gap="10px"
-        py={{ base: '50px', lg: '100px' }}
+        py={{ base: '50px', lg: '80px' }}
         px="10px"
         alignItems="center"
-        bgColor="#0078D4"
+        // bgImage={bg}
+        bgSize="cover"
+        bgRepeat="no-repeat"
         borderRadius={{ base: '50px 10px', md: '50px' }}
         mt="20px"
         width="100%"
         flexDir={{ base: 'column', md: 'row' }}
       >
-        <VStack flexBasis="50%" alignItems="start" p="20px" color="white">
+        <VStack flexBasis="50%" alignItems="start" p="20px">
           <Text
             textAlign="left"
             fontSize={{ base: '2xl', lg: '4xl' }}
@@ -66,26 +68,34 @@ function Home(): JSX.Element {
           >
             Join ShutterSync
           </Text>
-          <Text fontSize="sm" className="animate__animated animate__fadeInUp">
+          <Text
+            fontSize="sm"
+            className="animate__animated animate__fadeInUp"
+            textShadow="lg"
+          >
             ShutterSync aims to address the need for professional photographers
             to efficiently share and collaborate on their work with clients,
             enhancing client engagement and project management.
           </Text>
-          <Box color="white" bgColor="black" rounded="xl" mt="40px">
-            <Button rightIcon={<FaAnglesRight />}>
+          <Box color="white" rounded="xl" mt="40px">
+            <Button rightIcon={<FaAnglesRight />} border="none" outline="none">
               <Link href="/signup">Get started for free</Link>
             </Button>
           </Box>
         </VStack>
         <Flex
           flexBasis="50%"
-          display={{ base: 'none', lg: 'flex' }}
+          display={{ base: 'none', md: 'flex' }}
           justifyContent="center"
+          // transform='rotate(-12deg)'
+          // pos='absolute'
+          // right='-15%'
+          // top='8%'
         >
           <Image
             src={HomeBG}
-            maxW="400px"
-            borderRadius="50px"
+            // maxW="400px"
+            borderRadius="20px"
             alt="ShutterSync Logo"
           />
         </Flex>
