@@ -29,7 +29,7 @@ function Navbar() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    clearJWT(() => navigate('/signin', { replace: true }));
+    clearJWT(() => navigate('/', { replace: true }));
   };
 
   return (
@@ -87,7 +87,7 @@ function Navbar() {
                   variant="outline"
                   size="sm"
                   rounded="30px"
-                  colorScheme="blue"
+                  // colorScheme="blue"
                 >
                   <Link as={ReactRouterLink} to="/profile">
                     Profile
@@ -97,7 +97,7 @@ function Navbar() {
                   variant="outline"
                   size="sm"
                   rounded="30px"
-                  colorScheme="blue"
+                  // colorScheme="blue"
                 >
                   <Link as={ReactRouterLink} to="/account">
                     Account

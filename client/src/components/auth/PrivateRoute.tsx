@@ -6,7 +6,14 @@ import { isAuthenticated } from './auth-helper';
 // @ts-ignore
 // eslint-disable-next-line react/prop-types
 function PrivateRoute({ children }) {
-  if (!isAuthenticated()) return <Navigate to="/signin" replace />;
+  if (!isAuthenticated())
+    return (
+      <Navigate
+        to="/signin"
+        replace
+        state={{ from: window.location.pathname }}
+      />
+    );
   return children;
 }
 

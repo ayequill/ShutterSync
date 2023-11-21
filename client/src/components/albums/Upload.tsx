@@ -40,7 +40,6 @@ function Upload() {
   };
 
   const handlePhotoChange = (e: any) => {
-    // Assuming you want to get an array of selected files
     const files = Array.from(e.target.files || []) as File[];
     setSelectedPhotos(files);
   };
