@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaAnglesRight } from 'react-icons/fa6';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 import {
   Box,
@@ -27,12 +27,13 @@ import 'animate.css';
 
 function Home(): JSX.Element {
   const [isLoading, setIsLoading] = React.useState(true);
+  const navigate = useNavigate();
 
   const hide = () => setIsLoading(false);
-  useTimeout(hide, 2000);
+  useTimeout(hide, 1500);
 
   if (isAuthenticated()) {
-    return <Navigate to="/dashboard" />;
+    navigate('/dashboard', { replace: true });
   }
   if (isLoading) {
     return <LoaderComponent />;
@@ -65,8 +66,9 @@ function Home(): JSX.Element {
             fontSize={{ base: '2xl', lg: '4xl' }}
             mb="10px"
             className="animate__animated animate__bounceInLeft"
+            display="inline-flex"
           >
-            Join ShutterSync
+            Join Shutter<Text color="blue.500">Sync</Text>
           </Text>
           <Text
             fontSize="sm"
@@ -78,8 +80,17 @@ function Home(): JSX.Element {
             enhancing client engagement and project management.
           </Text>
           <Box color="white" rounded="xl" mt="40px">
-            <Button rightIcon={<FaAnglesRight />} border="none" outline="none">
-              <Link href="/signup">Get started for free</Link>
+            <Button
+              rightIcon={<FaAnglesRight />}
+              // border="none"
+              // outline="none"
+              _hover={{ boxShadow: 'xl', transform: 'scale(1.03)' }}
+              _dark={{ bg: 'blue.500' }}
+              color="white"
+              bg="blackAlpha.900"
+              onClick={() => navigate('/signin')}
+            >
+              Get started for free
             </Button>
           </Box>
         </VStack>
@@ -92,12 +103,7 @@ function Home(): JSX.Element {
           // right='-15%'
           // top='8%'
         >
-          <Image
-            src={HomeBG}
-            // maxW="400px"
-            borderRadius="20px"
-            alt="ShutterSync Logo"
-          />
+          <Image src={HomeBG} alt="ShutterSync Logo" loading="lazy" p={2} />
         </Flex>
       </Flex>
       <Flex />

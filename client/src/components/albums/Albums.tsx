@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { FaEllipsis } from 'react-icons/fa6';
 
 import {
@@ -30,7 +30,7 @@ export default function Collections({ albums }: CollectionsProps) {
   ));
   return (
     <SimpleGrid
-      minChildWidth={{ base: '180px', md: '260px', lg: '260px' }}
+      minChildWidth={{ base: '170px', md: '250px', lg: '260px' }}
       spacing={{ base: 6, lg: 10 }}
       px={{ base: 0, lg: 16 }}
       py={4}
@@ -43,7 +43,7 @@ interface AlbumProps {
   album: Album;
 }
 
-function AlbumComponent({ album }: AlbumProps) {
+const AlbumComponent = memo(({ album }: AlbumProps) => {
   const [cover, setCover] = useState<Photo>();
 
   useEffect(() => {
@@ -70,6 +70,7 @@ function AlbumComponent({ album }: AlbumProps) {
         <SimpleGrid gridTemplateColumns="1fr .5fr" gap={1} h="100%">
           <Box>
             <Image
+              loading="lazy"
               objectFit="cover"
               w="100%"
               h="100%"
@@ -86,6 +87,7 @@ function AlbumComponent({ album }: AlbumProps) {
           {photos.length > 0 && (
             <Flex flexDir="column" gap={1}>
               <Image
+                loading="lazy"
                 w="100%"
                 h="100%"
                 src={photos[0].imageUrl}
@@ -100,6 +102,7 @@ function AlbumComponent({ album }: AlbumProps) {
                 transition="transform 0.3s ease-in-out"
               />
               <Image
+                loading="lazy"
                 w="100%"
                 h="100%"
                 src={photos[1]?.imageUrl}
@@ -152,7 +155,7 @@ function AlbumComponent({ album }: AlbumProps) {
       </VStack>
     </Flex>
   );
-}
+});
 
 function AlbumOptions() {
   return (

@@ -1,47 +1,47 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 
 import { Box, Button, Container, Flex, Text } from '@chakra-ui/react';
 
-import Collections from '../albums/Albums';
+import { Album } from '../../utils/interfaces';
 import { listAlbums } from '../albums/api-albums';
 import { isAuthenticated } from '../auth/auth-helper';
 import LoaderComponent from '../core/Loader';
-import useTimeout from '../hooks/useTimeOut';
 
+const Collections = lazy(() => import('../albums/Albums'));
 function Dashboard() {
-  const [timer, setTimer] = useState(3000);
-  const [albums, setAlbums] = useState([]);
-  const [loader, setLoader] = useState(true);
+  const [albums, setAlbums] = useState<Album[]>([]);
+  const [loader, setLoader] = useState<boolean>(true);
   const navigate = useNavigate();
   const { user } = isAuthenticated();
 
-  const hide = () => setLoader(false);
-  useTimeout(hide, timer);
-
-  useEffect(() => {
+  const fetchAlbums = async (id: string) => {
+    setLoader(true);
     if (isAuthenticated()) {
-      // eslint-disable-next-line no-underscore-dangle
-      listAlbums(user._id)
+      await listAlbums(user._id)
         .then((data) => {
           if (data.error) {
             // eslint-disable-next-line no-console
             console.log(data.error);
+            setLoader(false);
           } else {
             setAlbums(data);
           }
         })
-        .then((_) => setTimer(1000));
+        .then((_) => {
+          setLoader(false);
+        });
     }
-    // eslint-disable-next-line no-underscore-dangle
-  }, [user._id]);
+  };
+  useEffect(() => {
+    fetchAlbums(user._id);
+  }, []);
 
-  // eslint-disable-next-line no-console
-  if (loader) {
-    return <LoaderComponent />;
-  }
+  if (loader) return <LoaderComponent />;
+
   return (
     <Container maxW="1980px">
       <Flex
@@ -67,10 +67,12 @@ function Dashboard() {
           </Button>
         </Box>
       </Flex>
-      {albums.length === 0 ? (
+      {albums?.length === 0 ? (
         <EmptyCollections />
       ) : (
-        <Collections albums={albums} />
+        <Suspense fallback={<LoaderComponent />}>
+          <Collections albums={albums} />
+        </Suspense>
       )}
     </Container>
   );
