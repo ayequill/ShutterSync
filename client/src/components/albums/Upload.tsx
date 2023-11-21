@@ -18,9 +18,9 @@ import {
 import { isAuthenticated } from '../auth/auth-helper';
 import LoaderComponent from '../core/Loader';
 import useTimeout from '../hooks/useTimeOut';
+import { addPhotos } from '../user/api-photos';
 
 import { createAlbum } from './api-albums';
-import { addPhotos } from './api-photos';
 
 function Upload() {
   const [albumName, setAlbumName] = useState('');
@@ -109,7 +109,7 @@ function Upload() {
             <FormLabel>Select Photos</FormLabel>
             <Input
               type="file"
-              accept=".jpg, .jpeg, .png"
+              accept=".jpg, .jpeg, .png, .webp"
               multiple
               onChange={handlePhotoChange}
             />

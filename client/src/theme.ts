@@ -9,6 +9,15 @@ const fonts = {
   body: 'Capriola, sans-serif',
 };
 
-const theme = extendTheme({ config, fonts });
+const styles = {
+  global: {
+    'html, body': {
+      _dark: { bg: 'gray.900' },
+      scrollBehavior: 'smooth',
+    },
+  },
+};
+
+const theme = extendTheme({ config, fonts, styles });
 
 export default theme;

@@ -22,7 +22,8 @@ import {
 } from '@chakra-ui/react';
 
 import { clearJWT, isAuthenticated } from '../auth/auth-helper';
-import ThemeToggleButton from '../ThemeToggleButton';
+
+import ThemeToggleButton from './ThemeToggleButton';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -83,7 +84,7 @@ function Navbar() {
             ) : (
               <HStack>
                 <Button
-                  variant="solid"
+                  variant="outline"
                   size="sm"
                   rounded="30px"
                   colorScheme="blue"
@@ -93,7 +94,7 @@ function Navbar() {
                   </Link>
                 </Button>
                 <Button
-                  variant="solid"
+                  variant="outline"
                   size="sm"
                   rounded="30px"
                   colorScheme="blue"
@@ -103,7 +104,7 @@ function Navbar() {
                   </Link>
                 </Button>
                 <Button
-                  variant="solid"
+                  variant="outline"
                   size="sm"
                   rounded="30px"
                   colorScheme="red"
@@ -136,7 +137,12 @@ function MobileDrawer({ logout }: ProfileMenuProps) {
 
   return (
     <Box display={{ base: 'flex', lg: 'none' }} gap={3}>
-      <Button colorScheme="blue" onClick={onOpen}>
+      <Button
+        fontSize="1.5rem"
+        colorScheme="white"
+        onClick={onOpen}
+        variant="unstyled"
+      >
         <HamburgerIcon />
       </Button>
       <Drawer placement="top" onClose={onClose} isOpen={isOpen}>
