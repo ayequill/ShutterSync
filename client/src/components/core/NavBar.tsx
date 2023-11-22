@@ -1,4 +1,6 @@
+import { motion } from 'framer-motion';
 import React from 'react';
+import { FaTimes } from 'react-icons/fa';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 
 import { HamburgerIcon } from '@chakra-ui/icons';
@@ -41,6 +43,7 @@ function Navbar() {
       top={0}
       as="header"
       className="animate__animated animate__fadeInDown"
+      position="relative"
     >
       <Flex
         maxW="screen-xl"
@@ -116,7 +119,8 @@ function Navbar() {
               </HStack>
             )}
           </HStack>
-          <MobileDrawer logout={handleLogout} />
+          {/* <MobileDrawer logout={handleLogout} /> */}
+          <MobileDrawerL logout={handleLogout} />
         </Flex>
       </Flex>
     </Box>
@@ -127,6 +131,7 @@ interface ProfileMenuProps {
   logout: () => void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function MobileDrawer({ logout }: ProfileMenuProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -203,6 +208,100 @@ function MobileDrawer({ logout }: ProfileMenuProps) {
       </Drawer>
       <ThemeToggleButton />
     </Box>
+  );
+}
+
+function MobileDrawerL({ logout }: ProfileMenuProps) {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const variants = {
+    open: { opacity: 1, x: '-10px' },
+    closed: { opacity: 0, x: '10px' },
+  };
+
+  const handleClick = (cb: () => void) => {
+    cb();
+    setIsOpen(!isOpen);
+  };
+  return (
+    <Flex
+      // width="100%"
+      justifyContent="space-between"
+      alignItems="center"
+      display={{ lg: 'none' }}
+      // p={1}
+    >
+      <motion.div
+        animate={isOpen ? 'open' : 'closed'}
+        variants={variants}
+        style={{
+          position: 'absolute',
+          top: '50px',
+          right: 0,
+          zIndex: 99999999999000,
+        }}
+      >
+        <Flex
+          display={{ base: 'flex', lg: 'none' }}
+          gap={2}
+          flexDir="column"
+          mt={2}
+          zIndex="9000"
+        >
+          <Button
+            boxShadow="xl"
+            colorScheme="blue"
+            rounded={30}
+            variant="outline"
+            bg="white"
+            _dark={{ bg: 'gray.900', color: 'white' }}
+          >
+            <Link
+              as={ReactRouterLink}
+              w="100%"
+              to={!isAuthenticated() ? '/signin' : '/dashboard'}
+            >
+              {isAuthenticated() ? 'Dashboard' : 'Login'}
+            </Link>
+          </Button>
+
+          <Button
+            boxShadow="xl"
+            colorScheme="blue"
+            rounded={30}
+            variant="outline"
+            bg="white"
+            _dark={{ bg: 'gray.900', color: 'white' }}
+
+          >
+            <Link
+              w="100%"
+              as={ReactRouterLink}
+              to={!isAuthenticated() ? '/signup' : '/account'}
+            >
+              {isAuthenticated() ? 'Account' : 'Signup'}
+            </Link>
+          </Button>
+          {isAuthenticated() && (
+            <Button
+              boxShadow="xl"
+              colorScheme="red"
+              rounded={30}
+              variant="solid"
+              onClick={() => handleClick(logout)}
+              _dark={{ bg: 'red.500', color: 'white' }}
+            >
+              Logout
+            </Button>
+          )}
+        </Flex>
+      </motion.div>
+      {isOpen ? (
+        <FaTimes onClick={() => setIsOpen(!isOpen)} fontSize="30px" />
+      ) : (
+        <HamburgerIcon onClick={() => setIsOpen(!isOpen)} fontSize="30px" />
+      )}
+      <ThemeToggleButton ml={3} display={isOpen ? 'none' : 'inline-flex'} />
+    </Flex>
   );
 }
 
