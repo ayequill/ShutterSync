@@ -22,7 +22,7 @@ import useTimeout from '../hooks/useTimeOut';
 import LoaderComponent from './Loader';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-import 'animate.css';
+// import 'animate.css';
 
 function Home(): JSX.Element {
   const [isLoading, setIsLoading] = React.useState(true);
