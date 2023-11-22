@@ -30,7 +30,6 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
   const [cover, setCover] = useState<Photo>();
   const { setAlbum } = useAlbum();
   const navigate = useNavigate();
-
   const handleAlbumClick = () => {
     setAlbum(album);
     navigate(`/dashboard/album/${album._id}`);
@@ -62,8 +61,12 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
         border="1.5px solid #e2e8f0"
         _dark={{ border: '1.5px solid #1a202b' }}
       >
-        <VStack align="center" justify="space-around">
-          <SimpleGrid gridTemplateColumns="1fr .5fr" gap={1} h="100%">
+        <VStack align="center" justify="space-around" width="100%">
+          <SimpleGrid
+            gridTemplateColumns={photos.length > 1 ? '1fr .5fr' : '1fr'}
+            gap={1}
+            h="100%"
+          >
             <Box>
               <Image
                 loading="lazy"
@@ -71,24 +74,26 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
                 w="100%"
                 h="100%"
                 alt={cover?.name}
-                src={cover?.imageUrl}
+                src={
+                  cover?.imageUrl ||
+                  'https://placehold.co/400x400?text=No+Image'
+                }
                 borderRadius="10px 0 0 0px"
                 _hover={{ boxShadow: 'xl', transform: 'scale(1.03)' }}
                 cursor={photos.length > 0 ? 'pointer' : 'default'}
                 transition="transform 0.3s ease-in-out"
-                //   className="animate__animated animate__pulse"
+                fallbackSrc="https://placehold.co/600x400?text=No+Image"
               />
             </Box>
 
             {photos.length > 0 && (
-              <Flex flexDir="column" gap={1}>
+              <Flex flexDir="column" gap={1} key={album?._id}>
                 <Image
                   loading="lazy"
                   w="100%"
                   h="100%"
-                  src={photos[0].imageUrl}
+                  src={photos[0].imageUrl || cover?.imageUrl}
                   alt={photos[0].name}
-                  key={photos[0]._id}
                   objectFit="cover"
                   boxShadow="md"
                   flexBasis="50%"
@@ -96,21 +101,22 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
                   _hover={{ boxShadow: 'xl', transform: 'scale(1.03)' }}
                   cursor={photos.length > 0 ? 'pointer' : 'default'}
                   transition="transform 0.3s ease-in-out"
+                  fallbackSrc="https://placehold.co/600x400?text=No+Image"
                 />
                 <Image
                   loading="lazy"
                   w="100%"
                   h="100%"
-                  src={photos[1]?.imageUrl}
+                  src={photos[1]?.imageUrl || photos[0]?.imageUrl}
                   alt={photos[1]?.name}
                   // eslint-disable-next-line no-underscore-dangle
-                  key={photos[1]?._id}
                   objectFit="cover"
                   flexBasis="50%"
                   boxShadow="md"
                   _hover={{ boxShadow: 'xl', transform: 'scale(1.03)' }}
                   cursor={photos.length > 0 ? 'pointer' : 'default'}
                   transition="transform 0.3s ease-in-out"
+                  fallbackSrc="https://placehold.co/600x400?text=No+Image"
                 />
               </Flex>
             )}
@@ -142,7 +148,7 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
             px={1.5}
           >
             <Text>{datePublished}</Text>
-            <Text color="blue.500">Published</Text>
+            <Text>Published</Text>
           </Flex>
           <Flex width="100%" px={1.5}>
             <Text fontSize="sm">{album.photos?.length} photos</Text>
