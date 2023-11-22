@@ -1,11 +1,11 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
 import { isAuthenticated } from './auth-helper';
 
 // eslint-disable-next-line react/prop-types,@typescript-eslint/ban-ts-comment
 // @ts-ignore
 // eslint-disable-next-line react/prop-types
-function PrivateRoute({ children }) {
+function PrivateRoute() {
   if (!isAuthenticated())
     return (
       <Navigate
@@ -14,7 +14,7 @@ function PrivateRoute({ children }) {
         state={{ from: window.location.pathname }}
       />
     );
-  return children;
+  return <Outlet />;
 }
 
 export default PrivateRoute;

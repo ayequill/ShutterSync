@@ -43,9 +43,9 @@ const listAlbums = async (userId: string) => {
   }
 };
 
-const getAlbum = async (albumId: string) => {
+const getAlbum = async (albumId: string, userId: string) => {
   try {
-    const response = await axiosInstance.get(`/albums/${albumId}`);
+    const response = await axiosInstance.get(`${userId}/albums/${albumId}`);
     return response.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {

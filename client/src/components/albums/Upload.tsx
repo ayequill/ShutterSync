@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { useState } from 'react';
@@ -25,7 +26,6 @@ import { createAlbum } from './api-albums';
 function Upload() {
   const [albumName, setAlbumName] = useState('');
   const [selectedPhotos, setSelectedPhotos] = useState<File[]>([]);
-  const [addedPhotos, setAddedPhotos] = useState<any[]>([]);
   const [error, setError] = useState('');
   const [loader, setLoader] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +33,7 @@ function Upload() {
   const { user } = isAuthenticated();
 
   const hide = () => setLoader(false);
-  useTimeout(hide, 2000);
+  useTimeout(hide, 1000);
 
   const handleAlbumNameChange = (e: any) => {
     setAlbumName(e.target.value);
@@ -61,14 +61,13 @@ function Upload() {
       } else {
         // eslint-disable-next-line no-underscore-dangle
         addPhotos(data._id, selectedPhotos).then((photos) => {
-          setAddedPhotos(photos);
+          console.log(photos);
           setIsLoading(false);
-          navigate('/dashboard');
+          navigate(`/dashboard/album/${data._id}`);
         });
       }
     });
   };
-  console.log(addedPhotos);
   if (loader) {
     return <LoaderComponent />;
   }
@@ -127,6 +126,13 @@ function Upload() {
         isDisabled={isLoading}
       >
         {isLoading ? <Spinner /> : 'Upload Photos'}
+      </Button>
+      <Button
+        variant="outline"
+        colorScheme="blue"
+        onClick={() => navigate('/dashboard')}
+      >
+        Cancel
       </Button>
     </VStack>
   );
