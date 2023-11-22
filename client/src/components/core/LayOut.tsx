@@ -13,7 +13,7 @@ function MainLayout({ children }: MainLayoutProps) {
   return (
     <Box>
       <Navbar />
-      <Box as="main" minH="100vh">
+      <Box as="main" minH="100vh" px={1}>
         {children}
       </Box>
       <Footer />

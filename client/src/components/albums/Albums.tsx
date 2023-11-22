@@ -1,4 +1,4 @@
-import { SimpleGrid } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 
 import { Album } from '../../utils/interfaces';
 import { useAlbums } from '../contexts/albumContext';
@@ -12,13 +12,18 @@ export default function Collections() {
     <AlbumThumbnails key={album._id} album={album} />
   ));
   return (
-    <SimpleGrid
-      minChildWidth={{ base: '170px', md: '250px', lg: '260px' }}
-      spacing={{ base: 6, lg: 10 }}
+    <Flex
+      gap={6}
+      justifyContent="center"
+      alignContent="center"
+      flexWrap="wrap"
+      border={{ base: 'none', lg: '1px solid #e2e8f0' }}
+      _dark={{ border: '1px solid #222936' }}
+      borderRadius={10}
       px={{ base: 0, lg: 16 }}
       py={4}
     >
       {albumComponents}
-    </SimpleGrid>
+    </Flex>
   );
 }

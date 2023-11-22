@@ -47,116 +47,124 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
   const photos = album?.photos ? album.photos : [];
 
   return (
-    <motion.div
-      transition={{ duration: 0.5 }}
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
+    <Flex
+      justify="center"
+      align="center"
+      maxW={400}
+      flex={{ base: '1 0 100%', md: '1 0 50%', lg: '1 0 25.33%' }}
+      // w="100%"
     >
-      <Flex
-        boxShadow="sm"
-        minH={{ base: '200px', md: '500px' }}
-        h="100%"
-        borderRadius={10}
-        border="1.5px solid #e2e8f0"
-        _dark={{ border: '1.5px solid #1a202b' }}
+      <motion.div
+        transition={{ duration: 0.5 }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
       >
-        <VStack align="center" justify="space-around" width="100%">
-          <SimpleGrid
-            gridTemplateColumns={photos.length > 1 ? '1fr .5fr' : '1fr'}
-            gap={1}
-            h="100%"
-          >
-            <Box>
-              <Image
-                loading="lazy"
-                objectFit="cover"
-                w="100%"
-                h="100%"
-                alt={cover?.name}
-                src={
-                  cover?.imageUrl ||
-                  'https://placehold.co/400x400?text=No+Image'
-                }
-                borderRadius="10px 0 0 0px"
-                _hover={{ boxShadow: 'xl', transform: 'scale(1.03)' }}
-                cursor={photos.length > 0 ? 'pointer' : 'default'}
-                transition="transform 0.3s ease-in-out"
-                fallbackSrc="https://placehold.co/600x400?text=No+Image"
-              />
-            </Box>
-
-            {photos.length > 0 && (
-              <Flex flexDir="column" gap={1} key={album?._id}>
-                <Image
-                  loading="lazy"
-                  w="100%"
-                  h="100%"
-                  src={photos[0].imageUrl || cover?.imageUrl}
-                  alt={photos[0].name}
-                  objectFit="cover"
-                  boxShadow="md"
-                  flexBasis="50%"
-                  borderRadius="0 10px 0 0px"
-                  _hover={{ boxShadow: 'xl', transform: 'scale(1.03)' }}
-                  cursor={photos.length > 0 ? 'pointer' : 'default'}
-                  transition="transform 0.3s ease-in-out"
-                  fallbackSrc="https://placehold.co/600x400?text=No+Image"
-                />
-                <Image
-                  loading="lazy"
-                  w="100%"
-                  h="100%"
-                  src={photos[1]?.imageUrl || photos[0]?.imageUrl}
-                  alt={photos[1]?.name}
-                  // eslint-disable-next-line no-underscore-dangle
-                  objectFit="cover"
-                  flexBasis="50%"
-                  boxShadow="md"
-                  _hover={{ boxShadow: 'xl', transform: 'scale(1.03)' }}
-                  cursor={photos.length > 0 ? 'pointer' : 'default'}
-                  transition="transform 0.3s ease-in-out"
-                  fallbackSrc="https://placehold.co/600x400?text=No+Image"
-                />
-              </Flex>
-            )}
-          </SimpleGrid>
-          <Flex
-            justify="space-between"
-            width="100%"
-            align="center"
-            gap={3}
-            px={1.5}
-          >
-            <Text
-              overflow="hidden"
-              textOverflow="ellipsis"
-              whiteSpace="nowrap"
-              width="100%"
-              fontSize={{ base: '0.8rem', md: '1rem' }}
+        <Flex
+          boxShadow="sm"
+          minH={{ base: '200px', md: '500px' }}
+          h="100%"
+          borderRadius={10}
+          border="1.5px solid #e2e8f0"
+          _dark={{ border: '1.5px solid #1a202b' }}
+        >
+          <VStack align="center" justify="space-around" width="100%">
+            <SimpleGrid
+              gridTemplateColumns={photos.length > 0 ? '1fr .5fr' : '1fr'}
+              gap={1}
+              h="100%"
             >
-              {album.name}
-            </Text>
-            <AlbumOptions handleClick={handleAlbumClick} />
-          </Flex>
-          <Flex
-            fontSize="0.8rem"
-            justify="space-between"
-            width="100%"
-            align="center"
-            gap={2}
-            px={1.5}
-          >
-            <Text>{datePublished}</Text>
-            <Text>Published</Text>
-          </Flex>
-          <Flex width="100%" px={1.5}>
-            <Text fontSize="sm">{album.photos?.length} photos</Text>
-          </Flex>
-          <Divider color="white" />
-        </VStack>
-      </Flex>
-    </motion.div>
+              <Box>
+                <Image
+                  loading="lazy"
+                  objectFit="cover"
+                  w="100%"
+                  h="100%"
+                  alt={cover?.name}
+                  src={
+                    cover?.imageUrl ||
+                    'https://placehold.co/400x400?text=No+Image'
+                  }
+                  borderRadius="10px 0 0 0px"
+                  _hover={{ boxShadow: 'xl', transform: 'scale(1.03)' }}
+                  cursor={photos.length > 0 ? 'pointer' : 'default'}
+                  transition="transform 0.3s ease-in-out"
+                  fallbackSrc="https://placehold.co/600x400?text=No+Image"
+                />
+              </Box>
+
+              {photos.length > 0 && (
+                <Flex flexDir="column" gap={1} key={album?._id}>
+                  <Image
+                    loading="lazy"
+                    w="100%"
+                    h="100%"
+                    src={photos[0].imageUrl || cover?.imageUrl}
+                    alt={photos[0].name}
+                    objectFit="cover"
+                    boxShadow="md"
+                    flexBasis="50%"
+                    borderRadius="0 10px 0 0px"
+                    _hover={{ boxShadow: 'xl', transform: 'scale(1.03)' }}
+                    cursor={photos.length > 0 ? 'pointer' : 'default'}
+                    transition="transform 0.3s ease-in-out"
+                    fallbackSrc="https://placehold.co/600x400?text=No+Image"
+                  />
+                  <Image
+                    loading="lazy"
+                    w="100%"
+                    h="100%"
+                    src={photos[1]?.imageUrl || photos[0]?.imageUrl}
+                    alt={photos[1]?.name}
+                    // eslint-disable-next-line no-underscore-dangle
+                    objectFit="cover"
+                    flexBasis="50%"
+                    boxShadow="md"
+                    _hover={{ boxShadow: 'xl', transform: 'scale(1.03)' }}
+                    cursor={photos.length > 0 ? 'pointer' : 'default'}
+                    transition="transform 0.3s ease-in-out"
+                    fallbackSrc="https://placehold.co/600x400?text=No+Image"
+                  />
+                </Flex>
+              )}
+            </SimpleGrid>
+            <Flex
+              justify="space-between"
+              width="100%"
+              align="center"
+              gap={3}
+              px={1.5}
+            >
+              <Text
+                overflow="hidden"
+                textOverflow="ellipsis"
+                whiteSpace="nowrap"
+                width="100%"
+                fontSize={{ base: '0.8rem', md: '1rem' }}
+              >
+                {album.name}
+              </Text>
+              <AlbumOptions handleClick={handleAlbumClick} />
+            </Flex>
+            <Flex
+              fontSize="0.8rem"
+              justify="space-between"
+              width="100%"
+              align="center"
+              gap={2}
+              px={1.5}
+            >
+              <Text>{datePublished}</Text>
+              <Text>Published</Text>
+            </Flex>
+            <Flex width="100%" px={1.5}>
+              <Text fontSize="sm">{album.photos?.length} photos</Text>
+            </Flex>
+            <Divider color="white" />
+          </VStack>
+        </Flex>
+      </motion.div>
+    </Flex>
   );
 });
 
