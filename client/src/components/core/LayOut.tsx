@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 
 import { Box } from '@chakra-ui/react';
 
+import Footer from './Footer';
 import Navbar from './NavBar';
 
 interface MainLayoutProps {
@@ -12,7 +13,10 @@ function MainLayout({ children }: MainLayoutProps) {
   return (
     <Box>
       <Navbar />
-      {children}
+      <Box as="main" minH="100vh">
+        {children}
+      </Box>
+      <Footer />
     </Box>
   );
 }

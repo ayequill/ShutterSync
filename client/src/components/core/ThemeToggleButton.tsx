@@ -31,6 +31,10 @@ function ThemeToggleButton(props: ThemeToggleButtonProps): JSX.Element {
       icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
       aria-label={`Activate ${colorMode === 'light' ? 'dark' : 'light'} mode`}
       isRound
+      position="fixed"
+      bottom="30px"
+      right="25px"
+      size="lg"
       {...props}
     />
   );

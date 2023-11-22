@@ -14,6 +14,7 @@ const styles = {
     'html, body': {
       _dark: { bg: 'gray.900' },
       scrollBehavior: 'smooth',
+      position: 'relative',
     },
   },
 };

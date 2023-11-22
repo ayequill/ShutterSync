@@ -271,7 +271,6 @@ function MobileDrawerL({ logout }: ProfileMenuProps) {
             variant="outline"
             bg="white"
             _dark={{ bg: 'gray.900', color: 'white' }}
-
           >
             <Link
               w="100%"
@@ -300,7 +299,7 @@ function MobileDrawerL({ logout }: ProfileMenuProps) {
       ) : (
         <HamburgerIcon onClick={() => setIsOpen(!isOpen)} fontSize="30px" />
       )}
-      <ThemeToggleButton ml={3} display={isOpen ? 'none' : 'inline-flex'} />
+      <ThemeToggleButton />
     </Flex>
   );
 }
