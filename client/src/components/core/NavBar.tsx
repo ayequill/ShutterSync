@@ -212,15 +212,15 @@ function MobileDrawer({ logout }: ProfileMenuProps) {
 }
 
 function MobileDrawerL({ logout }: ProfileMenuProps) {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const variants = {
-    open: { opacity: 1, x: '-10px' },
-    closed: { opacity: 0, x: '10px' },
+    open: { opacity: 1, y: '-10px', type: 'spring' },
+    closed: { opacity: 0, y: '10px' },
   };
 
   const handleClick = (cb: () => void) => {
     cb();
-    setIsOpen(!isOpen);
+    onClose();
   };
   return (
     <Flex
@@ -233,11 +233,13 @@ function MobileDrawerL({ logout }: ProfileMenuProps) {
       <motion.div
         animate={isOpen ? 'open' : 'closed'}
         variants={variants}
+        transition={{ duration: 0.2 }}
         style={{
           position: 'absolute',
           top: '50px',
-          right: 0,
+          right: 10,
           zIndex: 99999999999000,
+          display: isOpen ? 'block' : 'none',
         }}
       >
         <Flex
@@ -254,6 +256,7 @@ function MobileDrawerL({ logout }: ProfileMenuProps) {
             variant="outline"
             bg="white"
             _dark={{ bg: 'gray.900', color: 'white' }}
+            onClick={onClose}
           >
             <Link
               as={ReactRouterLink}
@@ -271,6 +274,7 @@ function MobileDrawerL({ logout }: ProfileMenuProps) {
             variant="outline"
             bg="white"
             _dark={{ bg: 'gray.900', color: 'white' }}
+            onClick={onClose}
           >
             <Link
               w="100%"
@@ -295,9 +299,9 @@ function MobileDrawerL({ logout }: ProfileMenuProps) {
         </Flex>
       </motion.div>
       {isOpen ? (
-        <FaTimes onClick={() => setIsOpen(!isOpen)} fontSize="30px" />
+        <FaTimes onClick={onClose} fontSize="30px" />
       ) : (
-        <HamburgerIcon onClick={() => setIsOpen(!isOpen)} fontSize="30px" />
+        <HamburgerIcon onClick={onOpen} fontSize="30px" />
       )}
       <ThemeToggleButton />
     </Flex>
