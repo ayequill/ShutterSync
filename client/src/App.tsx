@@ -2,6 +2,9 @@ import React from 'react';
 
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 
+// eslint-disable-next-line import/no-extraneous-dependencies
+import '@fontsource/capriola';
+
 import MainRouter from './MainRouter';
 import theme from './theme';
 
