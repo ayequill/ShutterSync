@@ -35,6 +35,7 @@ const getAlbums = async (req, res) => {
     const userAlbums = await User.findById(req.profile._id.toString())
       .populate({
         path: 'albums',
+        options: { sort: { created_at: -1 } },
         populate: {
           path: 'photos',
         },
