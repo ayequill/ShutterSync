@@ -1,13 +1,12 @@
 import React from 'react';
 import { FaAnglesRight } from 'react-icons/fa6';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import {
   Box,
   Button,
   Flex,
   Image,
-  Link,
   SimpleGrid,
   Text,
   VStack,
@@ -61,15 +60,16 @@ function Home(): JSX.Element {
         flexDir={{ base: 'column', md: 'row' }}
       >
         <VStack flexBasis="50%" alignItems="start" p="20px">
-          <Text
-            textAlign="left"
-            fontSize={{ base: '2xl', lg: '4xl' }}
-            mb="10px"
-            className="animate__animated animate__bounceInLeft"
-            display="inline-flex"
-          >
-            Join Shutter<Text color="blue.500">Sync</Text>
-          </Text>
+          <Flex fontSize={{ base: '2xl', lg: '4xl' }}>
+            <Text
+              textAlign="left"
+              mb="10px"
+              className="animate__animated animate__bounceInLeft"
+            >
+              Join Shutter
+            </Text>
+            <Text color="blue.500">Sync</Text>
+          </Flex>
           <Text
             fontSize="sm"
             className="animate__animated animate__fadeInUp"
@@ -82,8 +82,6 @@ function Home(): JSX.Element {
           <Box color="white" rounded="xl" mt="40px">
             <Button
               rightIcon={<FaAnglesRight />}
-              // border="none"
-              // outline="none"
               _hover={{ boxShadow: 'xl', transform: 'scale(1.03)' }}
               _dark={{ bg: 'blue.500' }}
               color="white"

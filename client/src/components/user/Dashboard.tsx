@@ -1,44 +1,49 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 
 import { Box, Button, Container, Flex, Text } from '@chakra-ui/react';
 
-import { Album } from '../../utils/interfaces';
 import { listAlbums } from '../albums/api-albums';
 import { isAuthenticated } from '../auth/auth-helper';
+import { useAlbums } from '../contexts/albumContext';
 import LoaderComponent from '../core/Loader';
 
 const Collections = lazy(() => import('../albums/Albums'));
 function Dashboard() {
-  const [albums, setAlbums] = useState<Album[]>([]);
+  const { albums, setAlbums } = useAlbums();
   const [loader, setLoader] = useState<boolean>(true);
   const navigate = useNavigate();
   const { user } = isAuthenticated();
 
-  const fetchAlbums = async (id: string) => {
-    setLoader(true);
-    if (isAuthenticated()) {
-      await listAlbums(user._id)
-        .then((data) => {
-          if (data.error) {
-            // eslint-disable-next-line no-console
-            console.log(data.error);
-            setLoader(false);
-          } else {
-            setAlbums(data);
-          }
-        })
-        .then((_) => {
-          setLoader(false);
-        });
-    }
-  };
+  const fetchAlbums = useCallback(
+    async (id: string) => {
+      setLoader(true);
+      try {
+        if (isAuthenticated()) {
+          await listAlbums(user._id).then((data) => {
+            if (data.error) {
+              // eslint-disable-next-line no-console
+              console.log(data.error);
+              setLoader(false);
+            } else {
+              setAlbums(data);
+            }
+          });
+        }
+      } finally {
+        setLoader(false);
+      }
+    },
+    [user._id]
+  );
+
   useEffect(() => {
     fetchAlbums(user._id);
-  }, []);
+  }, [fetchAlbums, user._id]);
 
   if (loader) return <LoaderComponent />;
 
@@ -60,7 +65,7 @@ function Dashboard() {
             rightIcon={<FaPlus />}
             rounded={30}
             fontSize="0.8rem"
-            onClick={() => navigate('/upload')}
+            onClick={() => navigate('upload')}
             variant="outline"
           >
             Create New Collection
@@ -71,7 +76,7 @@ function Dashboard() {
         <EmptyCollections />
       ) : (
         <Suspense fallback={<LoaderComponent />}>
-          <Collections albums={albums} />
+          <Collections />
         </Suspense>
       )}
     </Container>
