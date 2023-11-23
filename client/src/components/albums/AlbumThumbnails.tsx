@@ -36,6 +36,7 @@ import {
 } from '@chakra-ui/react';
 
 import { Album, Photo } from '../../utils/interfaces';
+import { isAuthenticated } from '../auth/auth-helper';
 import { useAlbum } from '../contexts/albumContext';
 import { useUser } from '../contexts/userContext';
 
@@ -48,6 +49,7 @@ interface AlbumProps {
 const AlbumThumbnails = memo(({ album }: AlbumProps) => {
   const [cover, setCover] = useState<Photo>();
   const { setAlbum } = useAlbum();
+  const { setUser } = useUser();
   const navigate = useNavigate();
 
   /* Method to view an album */
@@ -61,7 +63,8 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
     if (album && album.photos && album?.photos?.length > 0) {
       setCover(album?.photos[0]);
     }
-  }, [album, album?.photos]);
+    if (isAuthenticated()) setUser(isAuthenticated()?.user);
+  }, [album, album.photos, setUser]);
 
   const datePublished = album?.created_at
     ? new Date(album.created_at).toLocaleDateString()

@@ -38,6 +38,5 @@ If applicable, add screenshots to help explain your problem.
 - Browser [e.g. stock browser, safari]
 - Version [e.g. 22]
 
-
 **Additional context**
 Add any other context about the problem here.
