@@ -31,9 +31,13 @@ function Home(): JSX.Element {
   const hide = () => setIsLoading(false);
   useTimeout(hide, 1500);
 
-  if (isAuthenticated()) {
-    navigate('/dashboard', { replace: true });
-  }
+  React.useEffect(() => {
+    if (isAuthenticated()) {
+      navigate('/dashboard', { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (isLoading) {
     return <LoaderComponent />;
   }

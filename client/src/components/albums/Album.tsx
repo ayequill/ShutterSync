@@ -79,7 +79,6 @@ export default function Album() {
             <Image
               // maxW={{ base: '100px', md: '200px', lg: '300px' }}
               boxSize={{ base: '100px', md: '200px', lg: '300px' }}
-              fallbackSrc="https://placehold.co/600x400?text=No+Image"
               objectFit="cover"
               borderRadius="md"
               src={photo.imageUrl}
