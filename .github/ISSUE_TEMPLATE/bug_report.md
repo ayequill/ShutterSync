@@ -13,6 +13,7 @@ A clear and concise description of what the bug is.
 **To Reproduce**
 Steps to reproduce the behavior:
 
+
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
@@ -36,6 +37,7 @@ If applicable, add screenshots to help explain your problem.
 - OS: [e.g. iOS8.1]
 - Browser [e.g. stock browser, safari]
 - Version [e.g. 22]
+
 
 **Additional context**
 Add any other context about the problem here.
