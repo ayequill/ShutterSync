@@ -18,6 +18,7 @@ import {
   AlbumProvider,
   AlbumsProvider,
 } from './components/contexts/albumContext';
+import { UserProvider } from './components/contexts/userContext';
 import Home from './components/core/Home';
 import MainLayout from './components/core/LayOut';
 import Dashboard from './components/user/Dashboard';
@@ -25,64 +26,66 @@ import Dashboard from './components/user/Dashboard';
 function MainRouter() {
   return (
     <BrowserRouter>
-      <AlbumsProvider>
-        <AlbumProvider>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <MainLayout>
-                  <Home />
-                </MainLayout>
-              }
-            />
-            <Route
-              path="signin"
-              element={
-                <MainLayout>
-                  <Login />
-                </MainLayout>
-              }
-            />
-            <Route
-              path="signup"
-              element={
-                <MainLayout>
-                  <SignUp />
-                </MainLayout>
-              }
-            />
-            <Route
-              path="dashboard"
-              element={
-                <MainLayout>
-                  <PrivateRoute />
-                </MainLayout>
-              }
-            >
-              <Route index element={<Dashboard />} />
-              <Route path="upload" element={<Upload />} />
-              <Route path="album/:albumId" element={<Album />} />
-            </Route>
-            <Route
-              path="reset"
-              element={
-                <MainLayout>
-                  <Reset />
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/verify/:token"
-              element={
-                <MainLayout>
-                  <EmailConfirm />
-                </MainLayout>
-              }
-            />
-          </Routes>
-        </AlbumProvider>
-      </AlbumsProvider>
+      <UserProvider>
+        <AlbumsProvider>
+          <AlbumProvider>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <MainLayout>
+                    <Home />
+                  </MainLayout>
+                }
+              />
+              <Route
+                path="signin"
+                element={
+                  <MainLayout>
+                    <Login />
+                  </MainLayout>
+                }
+              />
+              <Route
+                path="signup"
+                element={
+                  <MainLayout>
+                    <SignUp />
+                  </MainLayout>
+                }
+              />
+              <Route
+                path="dashboard"
+                element={
+                  <MainLayout>
+                    <PrivateRoute />
+                  </MainLayout>
+                }
+              >
+                <Route index element={<Dashboard />} />
+                <Route path="upload" element={<Upload />} />
+                <Route path="album/:albumId" element={<Album />} />
+              </Route>
+              <Route
+                path="reset"
+                element={
+                  <MainLayout>
+                    <Reset />
+                  </MainLayout>
+                }
+              />
+              <Route
+                path="/verify/:token"
+                element={
+                  <MainLayout>
+                    <EmailConfirm />
+                  </MainLayout>
+                }
+              />
+            </Routes>
+          </AlbumProvider>
+        </AlbumsProvider>
+      </UserProvider>
     </BrowserRouter>
   );
 }

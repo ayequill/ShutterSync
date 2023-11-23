@@ -50,7 +50,7 @@ app.use(
       'https://shuttersync.live',
       'https://shuttersync.vercel.app/',
     ],
-    methods: 'GET,POST',
+    methods: 'GET,POST,DELETE,PUT,OPTIONS',
     credentials: true,
   })
 );

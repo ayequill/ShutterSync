@@ -18,6 +18,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
+import { useUser } from '../contexts/userContext';
 import LoaderComponent from '../core/Loader';
 import useTimeout from '../hooks/useTimeOut';
 
@@ -35,6 +36,7 @@ function Login(): JSX.Element {
   const [isLoading, setIsLoading] = React.useState(false);
   const [loader, setLoader] = React.useState(true);
   const [showPassword, setShowPassword] = React.useState(false);
+  const { setUser } = useUser();
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -84,6 +86,7 @@ function Login(): JSX.Element {
               error: '',
               redirect: true,
             });
+            setUser(data.user);
           });
         }
       });

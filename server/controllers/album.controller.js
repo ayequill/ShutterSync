@@ -98,8 +98,10 @@ const deleteAlbum = async (req, res) => {
         });
     }
     await Photo.deleteMany({ album: album._id });
-    const delAlbum = await Album.deleteOne(album._id);
-    res.json(delAlbum);
+    await Album.deleteOne(album._id);
+    res.json({
+      message: 'Album successfully deleted',
+    });
   } catch (e) {
     return res.status(404).json({
       error: e,

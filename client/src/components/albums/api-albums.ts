@@ -30,7 +30,7 @@ const createAlbum = async (album: Album, userId: string) => {
   }
 };
 
-const listAlbums = async (userId: string) => {
+const listAlbums = async (userId: string | undefined) => {
   try {
     const response = await axiosInstance.get(`${userId}/albums`);
     return response.data;
@@ -56,9 +56,12 @@ const getAlbum = async (albumId: string, userId: string) => {
   }
 };
 
-const updateAlbum = async (albumId: string, album: Album) => {
+const updateAlbum = async (albumId: string, userId: string, album: Album) => {
   try {
-    const response = await axiosInstance.put(`/albums/${albumId}`, album);
+    const response = await axiosInstance.put(
+      `${userId}/albums/${albumId}`,
+      album
+    );
     return response.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
@@ -69,9 +72,12 @@ const updateAlbum = async (albumId: string, album: Album) => {
   }
 };
 
-const deleteAlbum = async (albumId: string) => {
+const deleteAlbum = async (
+  albumId: string | undefined,
+  userId: string | undefined
+) => {
   try {
-    const response = await axiosInstance.delete(`/albums/${albumId}`);
+    const response = await axiosInstance.delete(`${userId}/albums/${albumId}`);
     return response.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {

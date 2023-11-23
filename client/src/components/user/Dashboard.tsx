@@ -10,21 +10,25 @@ import { Box, Button, Container, Flex, Text } from '@chakra-ui/react';
 import { listAlbums } from '../albums/api-albums';
 import { isAuthenticated } from '../auth/auth-helper';
 import { useAlbums } from '../contexts/albumContext';
+import { useUser } from '../contexts/userContext';
 import LoaderComponent from '../core/Loader';
 
 const Collections = lazy(() => import('../albums/Albums'));
 function Dashboard() {
   const { albums, setAlbums } = useAlbums();
+  const { user, setUser } = useUser();
   const [loader, setLoader] = useState<boolean>(true);
   const navigate = useNavigate();
-  const { user } = isAuthenticated();
+
+  const userID = isAuthenticated()?.user._id;
 
   const fetchAlbums = useCallback(
-    async (id: string) => {
+    async (id: string | undefined) => {
       setLoader(true);
       try {
-        if (isAuthenticated()) {
-          await listAlbums(user._id).then((data) => {
+        if (user) {
+          const userId = userID || user._id;
+          await listAlbums(userId).then((data) => {
             if (data.error) {
               // eslint-disable-next-line no-console
               console.log(data.error);
