@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react';
 
 import { isAuthenticated } from '../auth/auth-helper';
+import { useUser } from '../contexts/userContext';
 import LoaderComponent from '../core/Loader';
 import useTimeout from '../hooks/useTimeOut';
 import { addPhotos } from '../user/api-photos';
@@ -30,7 +31,9 @@ function Upload() {
   const [loader, setLoader] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { user } = isAuthenticated();
+  const { user } = useUser();
+
+  const userID = isAuthenticated()?.user?._id || user._id;
 
   const hide = () => setLoader(false);
   useTimeout(hide, 1000);
@@ -55,7 +58,7 @@ function Upload() {
     }
     setIsLoading(true);
     // eslint-disable-next-line no-underscore-dangle
-    createAlbum({ name: albumName }, user._id).then((data) => {
+    createAlbum({ name: albumName }, userID).then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {
