@@ -67,7 +67,7 @@ function MainRouter() {
                 <Route path="album/:albumId" element={<Album />} />
               </Route>
               <Route
-                path="reset"
+                path="forgot-password"
                 element={
                   <MainLayout>
                     <Reset />

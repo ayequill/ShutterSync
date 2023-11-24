@@ -48,7 +48,11 @@ function Upload() {
   };
 
   const handleSubmit = () => {
-    if (albumName === '') {
+    if (
+      albumName === '' ||
+      albumName === undefined ||
+      albumName.startsWith(' ')
+    ) {
       setError('Please enter a valid album name');
       return;
     }

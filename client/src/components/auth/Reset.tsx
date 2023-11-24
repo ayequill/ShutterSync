@@ -1,5 +1,6 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from 'react-icons/fa6';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 import {
   Box,
@@ -15,22 +16,30 @@ import {
   //   Link,
   Spinner,
   Text,
+  useToast,
   VStack,
 } from '@chakra-ui/react';
 
-import { signin } from './api-auth';
-import { authenticate, isAuthenticated } from './auth-helper';
+import LoaderComponent from '../core/Loader';
+import useTimeout from '../hooks/useTimeOut';
+
+import { resetPassword } from './api-auth';
+import { isAuthenticated } from './auth-helper';
 
 function Reset(): JSX.Element {
   const [values, setValues] = React.useState({
     email: '',
     password: '',
+    newPassword: '',
     error: '',
     redirect: false,
   });
   const [isError, setIsError] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [loader, setLoader] = React.useState(true);
   const [showPassword, setShowPassword] = React.useState(false);
+  const toast = useToast();
+  const navigate = useNavigate();
   const handleInputChange =
     (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setValues({
@@ -39,10 +48,12 @@ function Reset(): JSX.Element {
       });
     };
   const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const hide = () => setLoader(false);
+  useTimeout(hide, 2000);
 
   const handleSubmit = () => {
-    const { email, password } = values;
-    const doThrowError = (email && password) === '';
+    const { email, password, newPassword } = values;
+    const doThrowError = (email && password && newPassword) === '';
     if (doThrowError) {
       setIsError(true);
     } else {
@@ -50,28 +61,38 @@ function Reset(): JSX.Element {
     }
     if (!doThrowError) {
       setIsLoading(true);
-      signin({
+      resetPassword({
         email,
         password,
+        newPassword,
       }).then((data) => {
-        setIsLoading(false);
         if (data.error) {
+          setIsLoading(false);
           setValues({
             ...values,
             error: data.error,
           });
         } else {
-          authenticate(data, () => {
-            setValues({
-              ...values,
-              error: '',
-              redirect: true,
-            });
+          toast({
+            title: 'Password Updated',
+            description: 'Please login with new password. Redirecting...',
+            status: 'success',
+            duration: 1500,
+            isClosable: true,
+            onCloseComplete() {
+              setIsLoading(false);
+              navigate('/signin');
+            },
           });
         }
       });
     }
   };
+
+  if (loader) {
+    return <LoaderComponent />;
+  }
+
   if (values.redirect || isAuthenticated()) {
     return <Navigate to="/signin" replace />;
   }
@@ -112,7 +133,7 @@ function Reset(): JSX.Element {
             {/* <Heading as="h2" size="lg" textAlign="center">
               Hello Again!
             </Heading> */}
-            <Text fontSize="0.8rem" textAlign="center">
+            <Text fontSize="lg" textAlign="center">
               Please fill the form to reset password
             </Text>
           </Box>
@@ -140,28 +161,28 @@ function Reset(): JSX.Element {
                   <InputRightElement width="4.5rem">
                     <Button
                       h="1.75rem"
-                      size="sm"
+                      size="md"
                       onClick={handleClickShowPassword}
                     >
-                      {showPassword ? 'Hide' : 'Show'}
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
                     </Button>
                   </InputRightElement>
                 </InputGroup>
                 <InputGroup mt={4}>
                   <Input
-                    id="password"
+                    id="newPassword"
                     type={showPassword ? 'text' : 'password'}
                     placeholder="New Password"
-                    value={values.password}
-                    onChange={handleInputChange('password')}
+                    value={values.newPassword}
+                    onChange={handleInputChange('newPassword')}
                   />
                   <InputRightElement width="4.5rem">
                     <Button
                       h="1.75rem"
-                      size="sm"
+                      size="md"
                       onClick={handleClickShowPassword}
                     >
-                      {showPassword ? 'Hide' : 'Show'}
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
                     </Button>
                   </InputRightElement>
                 </InputGroup>

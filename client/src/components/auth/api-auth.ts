@@ -52,4 +52,21 @@ const checkEmail = async (token: string) => {
   }
 };
 
-export { checkEmail, signin, signout };
+const resetPassword = async (user: {
+  email: string;
+  password: string;
+  newPassword: string;
+}) => {
+  try {
+    const response = await axiosInstance.put('/reset', user);
+    return response.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
+    if (e.response) {
+      return { error: e.response.data.error } as { error: string };
+    }
+    return { error: 'Please try again later' } as { error: string };
+  }
+};
+
+export { checkEmail, resetPassword, signin, signout };

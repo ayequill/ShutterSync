@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import { Link as ReactRouterLink, Navigate } from 'react-router-dom';
 
 import {
@@ -175,10 +176,10 @@ function SignUp(): JSX.Element {
                   <InputRightElement width="4.5rem">
                     <Button
                       h="1.75rem"
-                      size="sm"
+                      size="md"
                       onClick={handleClickShowPassword}
                     >
-                      {showPassword ? 'Hide' : 'Show'}
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
                     </Button>
                   </InputRightElement>
                 </InputGroup>
