@@ -63,7 +63,7 @@ function Upload() {
         console.log(data.error);
       } else {
         // eslint-disable-next-line no-underscore-dangle
-        addPhotos(data._id, selectedPhotos).then((photos) => {
+        addPhotos(data._id, userID, selectedPhotos).then((photos) => {
           console.log(photos);
           setIsLoading(false);
           navigate(`/dashboard/album/${data._id}`);
