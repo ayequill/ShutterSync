@@ -77,9 +77,7 @@ export default function Album() {
             viewport={{ once: true }}
           >
             <Image
-              // maxW={{ base: '100px', md: '200px', lg: '300px' }}
-              boxSize={{ base: '100px', md: '200px', lg: '300px' }}
-              objectFit="cover"
+              maxW={{ base: '150px', md: '200px', lg: '350px' }}
               borderRadius="md"
               src={photo.imageUrl}
               alt={photo.name}
