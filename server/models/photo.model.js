@@ -10,6 +10,10 @@ const PHOTOS_SCHEMA = new mongoose.Schema({
     type: String,
     required: true,
   },
+  storageUrl: {
+    type: String,
+    required: true,
+  },
   caption: String,
   size: String,
   public_id: String,

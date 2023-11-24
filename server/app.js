@@ -30,6 +30,7 @@ const fileFilter = (req, file, cb) => {
     cb({ error: 'File type not supported' }, false);
   }
 };
+app.use(morgan('dev'));
 const yamlSpec = yaml.load('./server/docs/swagger.yaml');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(yamlSpec));
 export const upload = multer({ storage, fileFilter });
@@ -58,7 +59,6 @@ app.use(API_CHECK);
 app.use('/', userRoutes);
 app.use('/', authRoutes);
 
-app.use(morgan('dev'));
 app.use((err, req, res, next) => {
   if (err.name === 'unauthorizedError') {
     res.status(401).json({
