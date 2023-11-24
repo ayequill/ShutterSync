@@ -4,13 +4,33 @@ import { upload } from '../app.js';
 import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 import dotenv from 'dotenv';
+import { Storage, TransferManager } from '@google-cloud/storage';
+import path from 'path';
 dotenv.config();
+
+const { GOOGLE_CLIENT_EMAIL, GOOGLE_PRIVATE_KEY, GOOGLE_PROJECT_ID } =
+  process.env;
+
+const GOOGLE_PRIVATE_KEY_NEWLINE = GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n');
 
 cloudinary.config({
   cloud_name: 'dzpjlfcrq',
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+const bucketName = 'shuttersync-storage';
+
+const googleStorage = new Storage({
+  projectId: GOOGLE_PROJECT_ID,
+  credentials: {
+    client_email: GOOGLE_CLIENT_EMAIL,
+    private_key: GOOGLE_PRIVATE_KEY_NEWLINE,
+  },
+});
+
+const bucket = googleStorage.bucket(bucketName);
+const transferManager = new TransferManager(bucket);
 
 const addPhoto = async (req, res) => {
   try {
@@ -32,11 +52,22 @@ const addPhoto = async (req, res) => {
 
         // Upload image to cloudinary
         const albumFolder = album._id.toString();
-        const uploadPromises = req.files.map(async (file) => {
+        const filePaths = req.files.map((file) => file.path);
+
+        await transferManager.uploadManyFiles(filePaths, albumFolder);
+
+        const publicUrls = req.files.map((file) => {
+          const photoFileName = path.basename(file.path);
+          return `https://storage.googleapis.com/${bucketName}/public/images/${photoFileName}`;
+        });
+        const uploadPromises = req.files.map(async (file, index) => {
           return new Promise((resolve, reject) => {
             cloudinary.uploader.upload(
               file.path,
-              { quality: 'auto:best', tags: albumFolder },
+              {
+                tags: albumFolder,
+                transformation: { width: 800, fetch_format: 'auto' },
+              },
               (error, result) => {
                 if (error) {
                   reject(error);
@@ -48,18 +79,18 @@ const addPhoto = async (req, res) => {
                     public_id: result.public_id,
                     name: result.original_filename,
                     created_at: result.created_at,
+                    storageUrl: publicUrls[index],
                   });
                 }
               }
             );
           });
         });
-
         const uploadedPhotos = await Promise.all(uploadPromises);
         const photos = await Photo.insertMany(uploadedPhotos);
         album.photos.push(...photos);
         await album.save();
-        res.json(photos);
+        return res.json(photos);
       } catch (e) {
         console.log(e);
         return res.status(500).json({

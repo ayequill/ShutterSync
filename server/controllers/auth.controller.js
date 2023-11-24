@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { expressjwt } from 'express-jwt';
-import dotenv, { config } from 'dotenv';
+import dotenv from 'dotenv';
 import User from '../models/user.model.js';
+import dbErrorHandler from '../helpers/dbErrorHandler.js';
 
 dotenv.config();
 
@@ -64,7 +65,6 @@ const confirmEmail = async (req, res) => {
   try {
     const token = req.query.token;
     const user = await User.findOne({ token });
-    console.log(user);
     if (!user) {
       return res.status(401).json({
         error: 'Invalid token',
@@ -82,10 +82,42 @@ const confirmEmail = async (req, res) => {
   }
 };
 
+const resetPassword = async (req, res) => {
+  try {
+    const { email, password, newPassword } = req.body;
+    if (!email || !password || !newPassword) {
+      return res.status(400).json({
+        error: 'Email, password and new password are required',
+      });
+    }
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({
+        error: 'You are not registered. Please sign up!',
+      });
+    }
+    if (!user.authenticate(password)) {
+      return res.status(400).json({
+        error: "Email or password don't match.",
+      });
+    }
+    user.password = newPassword;
+    await user.save();
+    return res.status(200).json({
+      message: 'Password updated!',
+    });
+  } catch (e) {
+    return res.status(400).json({
+      error: dbErrorHandler.getErrorMessage(e),
+    });
+  }
+};
+
 export default {
   signIn,
   signout,
   requireSignIn,
+  resetPassword,
   isAuthorized,
   confirmEmail,
 };

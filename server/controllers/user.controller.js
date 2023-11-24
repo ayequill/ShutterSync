@@ -39,7 +39,9 @@ const create = async (req, res, next) => {
 
 const list = async (req, res) => {
   try {
-    const users = await User.find().select('name email created_at albums');
+    const users = await User.find().select(
+      'name email created_at albums verified'
+    );
     res.json(users);
   } catch (e) {
     return res.status(400).json({
