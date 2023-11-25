@@ -137,6 +137,7 @@ function Upload() {
       <Button
         variant="outline"
         colorScheme="blue"
+        isDisabled={isLoading}
         onClick={() => navigate('/dashboard')}
       >
         Cancel

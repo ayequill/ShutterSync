@@ -17,5 +17,5 @@ export interface Album {
   _id?: string;
   name: string;
   photos?: Photo[];
-  created_at?: Date;
+  createdAt?: Date;
 }
