@@ -176,6 +176,7 @@ export default function Album() {
                     icon={<FaDownload />}
                     size="0.8rem"
                     variant="unstyled"
+                    mr={2}
                   />
                 </Flex>
                 {/* <Icon as={AiOutlineDownload} boxSize={6} ml={2} /> */}

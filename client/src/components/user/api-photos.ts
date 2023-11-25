@@ -42,7 +42,7 @@ const addPhotos = async (albumId: string, userId: string, photos: File[]) => {
 };
 
 const photoInstance = axios.create({
-  baseURL: `https://shuttersync.live/api/photos/`,
+  baseURL: `https://api.shuttersync.live/api/photos/`,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
