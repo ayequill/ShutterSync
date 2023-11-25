@@ -177,15 +177,6 @@ export default function Album() {
                     size="0.8rem"
                     variant="unstyled"
                   />
-                  <Icon
-                    backdropFilter="blur(10px)"
-                    cursor="pointer"
-                    as={FaDownload}
-                    boxSize={6}
-                    mx={2}
-                    p={1}
-                    borderRadius="50%"
-                  />
                 </Flex>
                 {/* <Icon as={AiOutlineDownload} boxSize={6} ml={2} /> */}
               </Flex>
