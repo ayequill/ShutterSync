@@ -46,6 +46,7 @@ export default function Album() {
   const { albumId } = useParams<string>();
   const { user } = isAuthenticated();
   const [showOverlay, setShowOverlay] = useState<boolean>(false);
+
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [hasDelete, setHasDelete] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -74,8 +75,6 @@ export default function Album() {
   const handleMobileTap = useCallback(() => {
     setShowOverlay(!showOverlay);
   }, [showOverlay]);
-
-  console.log(showOverlay);
 
   useEffect(() => {
     fetchAlbum(albumId);
@@ -177,6 +176,11 @@ export default function Album() {
                     icon={<FaDownload />}
                     size="0.8rem"
                     variant="unstyled"
+                  />
+                  <Icon
+                    backdropFilter="blur(10px)"
+                    cursor="pointer"
+                    as={FaDownload}
                     boxSize={6}
                     mx={2}
                     p={1}
