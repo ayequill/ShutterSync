@@ -11,6 +11,7 @@ export interface Photo {
   imageUrl: string;
   name: string;
   created_at: string;
+  storageUrl: string;
 }
 
 export interface Album {
