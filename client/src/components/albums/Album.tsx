@@ -10,7 +10,7 @@ import {
   useState,
 } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { FaDownload, FaHeart } from 'react-icons/fa6';
+import { FaDownload } from 'react-icons/fa6';
 import { IoIosArrowBack } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -18,7 +18,6 @@ import {
   Box,
   Button,
   Flex,
-  Icon,
   IconButton,
   Image,
   Modal,
@@ -46,6 +45,8 @@ export default function Album() {
   const { album, setAlbum } = useAlbum();
   const { albumId } = useParams<string>();
   const { user } = isAuthenticated();
+  const [showOverlay, setShowOverlay] = useState<boolean>(false);
+
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [hasDelete, setHasDelete] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -71,6 +72,10 @@ export default function Album() {
     [albumId, setAlbum, user._id]
   );
 
+  const handleMobileTap = useCallback(() => {
+    setShowOverlay(!showOverlay);
+  }, [showOverlay]);
+
   useEffect(() => {
     fetchAlbum(albumId);
   }, [hasDelete]);
@@ -78,7 +83,7 @@ export default function Album() {
   if (isLoading) return <LoaderComponent />;
 
   const photos: Photo[] = album?.photos ? album.photos : [];
-
+  console.log(photos);
   return (
     <Box px={5}>
       <Button
@@ -108,7 +113,12 @@ export default function Album() {
             transition={{ duration: 1 }}
             viewport={{ once: true }}
           >
-            <Box pos="relative" _hover={{ '.overlay': { opacity: 1 } }}>
+            <Box
+              pos="relative"
+              onClick={handleMobileTap}
+              _hover={{ '.overlay': { opacity: 1 } }}
+              // cursor="pointer"
+            >
               <Image
                 maxW={{ base: '150px', md: '200px', lg: '350px' }}
                 borderRadius="md"
@@ -120,12 +130,13 @@ export default function Album() {
                 justify="space-between"
                 flexDir="column"
                 position="absolute"
-                display={{ base: 'none', md: 'flex' }}
+                // display={{ base: 'none', md: 'flex' }}
                 top={0}
                 left={0}
                 right={0}
                 bottom={3}
                 className="overlay"
+                display={{ base: showOverlay ? 'flex' : 'none', md: 'flex' }}
                 // bg="rgba(0, 0, 0, 0.2)"
                 color="white"
                 opacity={0}
@@ -138,30 +149,35 @@ export default function Album() {
                     aria-label="Delete photo"
                     colorScheme="red"
                     size="0.8rem"
+                    mr={1}
+                    mt={2}
                     cursor={photos.length > 0 ? 'pointer' : 'default'}
                     backdropFilter="blur(10px)"
                     onClick={() => setOpenModal(true)}
                   />
                 </Box>
-                <Box>
-                  <Icon
+                <Flex>
+                  {/* <Icon
                     backdropFilter="blur(10px)"
                     cursor="pointer"
                     as={FaHeart}
                     boxSize={6}
                     mr={2}
                     borderRadius={10}
-                  />
-                  <Icon
+                  /> */}
+                  <IconButton
                     backdropFilter="blur(10px)"
-                    cursor="pointer"
-                    as={FaDownload}
-                    boxSize={6}
-                    mx={2}
-                    p={1}
-                    borderRadius="50%"
+                    // cursor="pointer"
+                    href={photo.storageUrl}
+                    download={photo.name}
+                    target="_blank"
+                    aria-label="Download photo"
+                    as="a"
+                    icon={<FaDownload />}
+                    size="0.8rem"
+                    variant="unstyled"
                   />
-                </Box>
+                </Flex>
                 {/* <Icon as={AiOutlineDownload} boxSize={6} ml={2} /> */}
               </Flex>
             </Box>
