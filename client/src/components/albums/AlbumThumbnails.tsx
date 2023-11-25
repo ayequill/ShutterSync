@@ -64,8 +64,8 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
     if (isAuthenticated()) setUser(isAuthenticated()?.user);
   }, [album, album.photos, setUser]);
 
-  const datePublished = album?.created_at
-    ? new Date(album.created_at).toLocaleDateString()
+  const datePublished = album?.createdAt
+    ? new Date(album.createdAt).toLocaleDateString()
     : '';
   const photos = album?.photos ? album.photos : [];
 
@@ -111,7 +111,11 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
                   'https://placehold.co/400x400?text=No+Image'
                 }
                 borderRadius="10px 10px 0 0px"
-                _hover={{ boxShadow: 'xl', transform: 'scale(1.03)' }}
+                _hover={{
+                  boxShadow: 'xl',
+                  transform: 'scale(1.03)',
+                  borderRadius: '10px',
+                }}
                 cursor={photos.length > 0 ? 'pointer' : 'default'}
                 transition="transform 0.3s ease-in-out"
                 fallbackSrc="https://placehold.co/600x400?text=No+Image"

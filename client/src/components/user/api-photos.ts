@@ -41,7 +41,27 @@ const addPhotos = async (albumId: string, userId: string, photos: File[]) => {
   }
 };
 
-// const deletePhotos = async (albumId: string, photos: string[]) => {
+const photoInstance = axios.create({
+  baseURL: `https://shuttersync.live/api/photos/`,
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    'x-api-key': KEY,
+  },
+});
+
+const deletePhoto = async (photoId: string | undefined) => {
+  try {
+    const response = await photoInstance.delete(`${photoId}`);
+    return response.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
+    if (e.response) {
+      return { error: e.response.data.error } as { error: string };
+    }
+    return { error: 'Please try again later' } as { error: string };
+  }
+};
 
 // eslint-disable-next-line import/prefer-default-export
-export { addPhotos };
+export { addPhotos, deletePhoto };

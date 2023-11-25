@@ -108,7 +108,6 @@ const addPhoto = async (req, res) => {
 
 const photoById = async (req, res, next, id) => {
   try {
-    console.log(req);
     const photo = await Photo.findById(id).populate('album').exec();
     if (!photo) {
       return res.status(404).json({
@@ -136,20 +135,22 @@ const getPhoto = (req, res) => {
 
 const deletePhoto = async (req, res) => {
   try {
-    const { photo, album } = req;
+    const { photo } = req;
     // const delPhoto = await photo.remove()
-    await Album.findByIdAndUpdate(
-      album._id,
+    const deletedAlbum = await Album.findByIdAndUpdate(
+      photo.album._id.toString(),
       { $pull: { photos: photo._id.toString() } },
       { new: true }
     );
     await Photo.deleteOne(photo);
-    cloudinary.api
-      .delete_resources([photo.public_id], {
-        type: 'upload',
-        resource_type: 'image',
-      })
-      .then((data) => res.status(201).json(data.deleted));
+    cloudinary.api.delete_resources([photo.public_id], {
+      type: 'upload',
+      resource_type: 'image',
+    });
+    // .then((data) => res.status(201).json({ data }));
+    return res
+      .status(201)
+      .json({ album: deletedAlbum, message: 'Photo deleted successfully' });
   } catch (e) {
     return res.status(400).json({
       error: e,
