@@ -30,7 +30,10 @@ const fileFilter = (req, file, cb) => {
     cb({ error: 'File type not supported' }, false);
   }
 };
-app.use(morgan('dev'));
+
+if (process.env.NODE_ENV !== 'test') {
+  app.use(morgan('combined'));
+}
 const yamlSpec = yaml.load('./server/docs/swagger.yaml');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(yamlSpec));
 export const upload = multer({ storage, fileFilter });

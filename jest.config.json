@@ -1,0 +1,12 @@
+{
+    "collectCoverageFrom": [
+      "server/**/*.js"
+    ],
+    "coverageReporters": ["lcov", "text", "html"],
+    "testEnvironment": "jest-environment-node",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/client/"
+    ]
+  }
+  
