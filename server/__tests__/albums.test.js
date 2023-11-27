@@ -48,7 +48,6 @@ describe('Test Albums', () => {
   });
 
   test('/GET Get a single album with api key attached', async () => {
-    console.log(albumID);
     const res = await req
       .get(`${baseURL}/${albumID}`)
       .set('x-api-key', API_KEY);
