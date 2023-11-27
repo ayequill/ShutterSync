@@ -48,14 +48,12 @@ function Upload() {
   };
 
   const handleSubmit = () => {
-    if (
-      albumName === '' ||
-      albumName === undefined ||
-      albumName.startsWith(' ')
-    ) {
+    if (albumName === '' || albumName === undefined) {
       setError('Please enter a valid album name');
       return;
     }
+    setAlbumName(albumName.trim());
+
     if (selectedPhotos.length === 0) {
       setError('Please select at least one photo');
       return;
