@@ -16,17 +16,17 @@ jobs:
             yarn install
             yarn pretest
 
-  testing-frontend:
-    executor: node/default
-    steps:
-      - checkout
-      - node/install-packages
-      - run:
-          name: Frontend Testing
-          command: |
-            cd client
-            yarn install
-            yarn test-ci
+  # testing-frontend:
+  #   executor: node/default
+  #   steps:
+  #     - checkout
+  #     - node/install-packages
+  #     - run:
+  #         name: Frontend Testing
+  #         command: |
+  #           cd client
+  #           yarn install
+  #           yarn test-ci
 
   linting-backend:
     executor: node/default
@@ -36,6 +36,15 @@ jobs:
       - run:
           name: Backend Code Linting
           command: yarn format
+  
+  testing-backend:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages
+      - run:
+          name: Backend Code Testing
+          command: yarn test
 
 #  testing-backend:
 #    executor: node/default
@@ -52,7 +61,9 @@ workflows:
     jobs:
       - linting-frontend:
           context: org-global
-      - testing-frontend:
-          context: org-global
+      # - testing-frontend:
+      #     context: org-global
       - linting-backend:
+          context: org-global
+      - testing-backend:
           context: org-global

@@ -6,6 +6,10 @@ dotenv.config();
 
 const { DB_URI, PORT } = process.env;
 
+if (process.env.NODE_ENV == 'test') {
+  DB_URI = process.env.TES_DB;
+}
+
 // Connecting to Mongo using mongoose
 mongoose
   .connect(DB_URI, {
