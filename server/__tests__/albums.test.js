@@ -53,6 +53,5 @@ describe('Test Albums', () => {
       .set('x-api-key', API_KEY);
 
     expect(res.status).toBe(200);
-    // expect(res.body.name).toBeInstanceOf(String)
   });
 });
