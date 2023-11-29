@@ -1,15 +1,19 @@
-import { Flex } from '@chakra-ui/react';
+/* eslint-disable no-underscore-dangle */
+import { lazy, Suspense } from 'react';
+
+import { Flex, Spinner } from '@chakra-ui/react';
 
 import { Album } from '../../utils/interfaces';
 import { useAlbums } from '../contexts/albumContext';
 
-import AlbumThumbnails from './AlbumThumbnails';
+const AlbumThumbnails = lazy(() => import('./AlbumThumbnails'));
 
 export default function Collections() {
   const { albums } = useAlbums();
   const albumComponents = albums.map((album: Album) => (
-    // eslint-disable-next-line no-underscore-dangle
-    <AlbumThumbnails key={album._id} album={album} />
+    <Suspense fallback={<Spinner />} key={album._id}>
+      <AlbumThumbnails key={album._id} album={album} />
+    </Suspense>
   ));
   return (
     <Flex
