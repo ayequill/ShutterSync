@@ -56,7 +56,11 @@ const getAlbum = async (albumId: string, userId: string) => {
   }
 };
 
-const updateAlbum = async (albumId: string, userId: string, album: Album) => {
+const updateAlbumName = async (
+  albumId: string | undefined,
+  userId: string | undefined,
+  album: Album
+) => {
   try {
     const response = await axiosInstance.put(
       `${userId}/albums/${albumId}`,
@@ -88,4 +92,4 @@ const deleteAlbum = async (
   }
 };
 
-export { createAlbum, deleteAlbum, getAlbum, listAlbums, updateAlbum };
+export { createAlbum, deleteAlbum, getAlbum, listAlbums, updateAlbumName };
