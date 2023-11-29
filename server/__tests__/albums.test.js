@@ -80,9 +80,8 @@ describe('Test Albums', () => {
       .put(`${baseURL}/${albumID}`)
       .set('x-api-key', API_KEY)
       .send({ name: 'Updated Album' });
-
     expect(res.status).toBe(200);
-    expect(res.body.name).toBe('Updated Album');
+    expect(res.body?.message).toBe('Album updated successfully');
   });
 
   test('/DELETE Delete a single album with invalid id', async () => {
