@@ -113,8 +113,8 @@ const updateAlbum = async (req, res) => {
   try {
     const { album } = req;
     album.name = req.body.name;
-    await album.save();
-    res.json(album);
+    const updatedAlbum = await album.save();
+    return res.json({ ...updatedAlbum, message: 'Album updated successfully' });
   } catch (e) {
     return res.status(400).json({
       error: 'error',

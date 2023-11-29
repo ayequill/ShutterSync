@@ -1,44 +1,16 @@
 /* eslint-disable no-underscore-dangle */
 import { motion } from 'framer-motion';
-import {
-  Dispatch,
-  memo,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
-import { FaEllipsis } from 'react-icons/fa6';
+import { lazy, memo, Suspense, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import {
-  Button,
-  Divider,
-  Flex,
-  Image,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Spinner,
-  Text,
-  useToast,
-  VStack,
-} from '@chakra-ui/react';
+import { Divider, Flex, Image, Spinner, Text, VStack } from '@chakra-ui/react';
 
 import { Album, Photo } from '../../utils/interfaces';
 import { isAuthenticated } from '../auth/auth-helper';
-import { useAlbum, useAlbums } from '../contexts/albumContext';
+import { useAlbum } from '../contexts/albumContext';
 import { useUser } from '../contexts/userContext';
 
-import { deleteAlbum, listAlbums } from './api-albums';
+const AlbumOptions = lazy(() => import('./AlbumOptions'));
 
 interface AlbumProps {
   album: Album;
@@ -53,7 +25,7 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
   /* Method to view an album */
   const handleAlbumClick = () => {
     setAlbum(album);
-    navigate(`/dashboard/album/${album._id}`);
+    navigate(`/dashboard/album/${album?._id}`);
   };
 
   /* Setting album cover by using the first pic. Will update later */
@@ -137,10 +109,13 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
               >
                 {album.name}
               </Text>
-              <AlbumOptions
-                handleClick={handleAlbumClick}
-                albumId={album._id}
-              />
+              <Suspense fallback={<Spinner />}>
+                <AlbumOptions
+                  handleClick={handleAlbumClick}
+                  albumId={album?._id}
+                  albumName={album?.name}
+                />
+              </Suspense>
             </Flex>
             <Flex
               fontSize="0.8rem"
@@ -163,140 +138,5 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
     </Flex>
   );
 });
-
-interface AlbumOptionsProps {
-  handleClick: () => void;
-  albumId: string | undefined;
-}
-
-function AlbumOptions({ handleClick, albumId }: AlbumOptionsProps) {
-  const [openModal, setOpenModal] = useState<boolean>(false);
-
-  return (
-    <>
-      <Menu>
-        <MenuButton as={Button} bg="none">
-          <FaEllipsis />
-        </MenuButton>
-        <MenuList>
-          <MenuItem onClick={handleClick}>View Album</MenuItem>
-          <MenuItem>Share Album</MenuItem>
-          <MenuItem>Edit Album</MenuItem>
-          <MenuItem onClick={() => setOpenModal(true)}>Delete Album</MenuItem>
-        </MenuList>
-      </Menu>
-      <DeleteModal
-        isOpen={openModal}
-        onClose={setOpenModal}
-        albumId={albumId}
-      />
-    </>
-  );
-}
-
-interface DeleteModalProps {
-  isOpen: boolean;
-  onClose: Dispatch<SetStateAction<boolean>>;
-  albumId: string | undefined;
-}
-
-function DeleteModal({ isOpen, onClose, albumId }: DeleteModalProps) {
-  const [loader, setLoader] = useState<boolean>(false);
-  const { setAlbums } = useAlbums();
-  const navigate = useNavigate();
-  const toast = useToast();
-
-  const { user } = useUser();
-
-  const fetchAlbums = useCallback(
-    async (id: string | undefined) => {
-      await listAlbums(id).then((albums) => {
-        if (albums.error) {
-          // eslint-disable-next-line no-console
-          console.log(albums.error);
-        } else {
-          setAlbums(albums);
-        }
-      });
-    },
-    [setAlbums]
-  );
-
-  const handleDeleteAlbum = useCallback(async () => {
-    setLoader(true);
-    try {
-      if (user) {
-        await deleteAlbum(albumId, user._id).then((data) => {
-          if (data.message) {
-            fetchAlbums(user._id);
-            setLoader(false);
-
-            onClose(false);
-            toast({
-              title: 'Album Deleted',
-              status: 'success',
-              duration: 1000,
-              isClosable: true,
-              onCloseComplete() {
-                navigate('/dashboard');
-              },
-            });
-          } else {
-            setLoader(false);
-            toast({
-              title: 'Error Occurred',
-              status: 'error',
-              duration: 1000,
-              isClosable: true,
-              onCloseComplete() {
-                onClose(false);
-                window.location.reload();
-              },
-            });
-          }
-        });
-      }
-    } catch (e) {
-      setLoader(false);
-    }
-  }, [albumId, fetchAlbums, navigate, onClose, toast, user]);
-
-  return (
-    <Modal
-      blockScrollOnMount={false}
-      isOpen={isOpen}
-      onClose={() => onClose(false)}
-    >
-      <ModalOverlay />
-      <ModalContent w="95%">
-        <ModalHeader>Delete Album</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          <Text fontWeight="bold" mb="1rem">
-            Are you sure you want to delete this album?
-          </Text>
-        </ModalBody>
-
-        <ModalFooter>
-          <Button
-            isDisabled={loader}
-            colorScheme="red"
-            mr={3}
-            onClick={handleDeleteAlbum}
-          >
-            {loader ? <Spinner /> : 'Delete'}
-          </Button>
-          <Button
-            isDisabled={loader}
-            variant="ghost"
-            onClick={() => onClose(false)}
-          >
-            Cancel
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
-  );
-}
 
 export default AlbumThumbnails;
