@@ -71,7 +71,7 @@ const albumByID = async (req, res, next, id) => {
 const getAlbum = (req, res) => {
   try {
     const album = req.album;
-    res.json(album);
+    return res.json(album);
   } catch (e) {
     return res.status(400).json({
       error: e,

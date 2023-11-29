@@ -1,4 +1,6 @@
 {
+    "verbose": true,
+    "collectCoverage": true,
     "collectCoverageFrom": [
       "server/**/*.js"
     ],
