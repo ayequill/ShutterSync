@@ -68,7 +68,8 @@ function Dashboard() {
             colorScheme="white"
             rightIcon={<FaPlus />}
             rounded={30}
-            fontSize="0.8rem"
+            fontSize="sm"
+            fontWeight="bold"
             onClick={() => navigate('upload')}
             variant="outline"
           >

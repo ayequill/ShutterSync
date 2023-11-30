@@ -3,7 +3,7 @@ import React from 'react';
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-import '@fontsource/capriola';
+import '@fontsource-variable/nunito';
 
 import MainRouter from './MainRouter';
 import theme from './theme';

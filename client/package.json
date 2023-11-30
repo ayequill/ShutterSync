@@ -26,7 +26,7 @@
     "@chakra-ui/react": "^2.4.9",
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
-    "@fontsource/capriola": "^5.0.17",
+    "@fontsource-variable/nunito": "^5.0.16",
     "axios": "^1.6.1",
     "framer-motion": "^8.5.2",
     "react": "^18.2.0",

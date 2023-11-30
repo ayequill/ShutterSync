@@ -135,7 +135,7 @@ function Login(): JSX.Element {
             <Heading as="h2" size="lg" textAlign="center">
               Hello Again!
             </Heading>
-            <Text fontSize="0.8rem" textAlign="center">
+            <Text fontSize="sm" textAlign="center">
               Welcome Back to ShutterSync.
               <br /> Please login to your account.
             </Text>

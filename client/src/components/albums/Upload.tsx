@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Button,
-  Container,
+  Flex,
   FormControl,
   FormLabel,
   Input,
@@ -65,8 +65,7 @@ function Upload() {
         console.log(data.error);
       } else {
         // eslint-disable-next-line no-underscore-dangle
-        addPhotos(data._id, userID, selectedPhotos).then((photos) => {
-          console.log(photos);
+        addPhotos(data._id, userID, selectedPhotos).then(() => {
           setIsLoading(false);
           navigate(`/dashboard/album/${data._id}`);
         });
@@ -78,8 +77,8 @@ function Upload() {
   }
 
   return (
-    <VStack py={10} align="center" px={30} spacing={5} justify="center">
-      <Text textAlign="center" fontSize="xl" color="blue.500">
+    <VStack py={10} align="center" px={2} spacing={10} justify="center">
+      <Text textAlign="center" fontSize="xl">
         Add new album
       </Text>
       <FormControl display="flex" justifyContent="center" alignItems="center">
@@ -96,16 +95,17 @@ function Upload() {
         />
       </FormControl>
 
-      <Text textAlign="center" fontSize="xl" color="blue.500">
+      <Text textAlign="center" fontSize="xl">
         Add new photos
       </Text>
 
-      <Container maxW="xl" centerContent>
+      <Flex w="100%" justify="center">
         <Box
           borderWidth="2px"
           borderRadius="lg"
           p="6"
-          borderColor="blue.500"
+          borderColor="gray.100"
+          _dark={{ borderColor: 'whiteAlpha.200' }}
           textAlign="center"
         >
           <FormControl>
@@ -122,7 +122,7 @@ function Upload() {
             {error && <Text color="red">{error}</Text>}
           </FormControl>
         </Box>
-      </Container>
+      </Flex>
 
       <Button
         colorScheme="blue"
