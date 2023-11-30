@@ -78,6 +78,9 @@ To run this project, you will need to add the following environment variables to
 `GOOGLE_PRIVATE_KEY`
 `GOOGLE_CLIENT_EMAIL`
 
+### CI Tests
+[![CircleCI](https://dl.circleci.com/insights-snapshot/gh/ayequill/ShutterSync/main/lint_test/badge.svg?window=30d&circle-token=f3acaa2ba41774698c4036d6c77791cbb4c5c2a1)](https://app.circleci.com/insights/github/ayequill/ShutterSync/workflows/lint_test/overview?branch=main&reporting-window=last-30-days&insights-snapshot=true)
+
 ## API References
 
 ### Include a 'x-api-key' header with your API_KEY in all requests
