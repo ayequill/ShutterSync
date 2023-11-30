@@ -106,6 +106,7 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
                 whiteSpace="nowrap"
                 width="100%"
                 fontSize={{ base: '0.8rem', md: '1rem' }}
+                fontWeight="bold"
               >
                 {album.name}
               </Text>

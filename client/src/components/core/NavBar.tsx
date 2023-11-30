@@ -66,7 +66,7 @@ function Navbar() {
           >
             {!isAuthenticated() ? (
               <Flex gap={4} align="center">
-                <Link as={ReactRouterLink} to="/signin">
+                <Link fontWeight="bold" as={ReactRouterLink} to="/signin">
                   SignIn
                 </Link>
                 <Box
@@ -78,7 +78,7 @@ function Navbar() {
                   fontSize="sm"
                   borderRadius={20}
                 >
-                  <Link as={ReactRouterLink} to="/signup">
+                  <Link fontWeight="bold" as={ReactRouterLink} to="/signup">
                     SignUp
                   </Link>
                 </Box>
@@ -91,6 +91,7 @@ function Navbar() {
                   size="sm"
                   rounded="30px"
                   // colorScheme="blue"
+                  fontWeight="bold"
                 >
                   <Link as={ReactRouterLink} to="/profile">
                     Profile
@@ -102,7 +103,7 @@ function Navbar() {
                   rounded="30px"
                   // colorScheme="blue"
                 >
-                  <Link as={ReactRouterLink} to="/account">
+                  <Link fontWeight="bold" as={ReactRouterLink} to="/account">
                     Account
                   </Link>
                 </Button>
@@ -112,6 +113,7 @@ function Navbar() {
                   rounded="30px"
                   colorScheme="red"
                   onClick={handleLogout}
+                  fontWeight="bold"
                 >
                   Logout
                 </Button>

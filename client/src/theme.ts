@@ -6,7 +6,7 @@ const config: ThemeConfig = {
 };
 
 const fonts = {
-  body: 'Capriola, sans-serif',
+  body: 'Nunito Variable, sans-serif',
 };
 
 const styles = {

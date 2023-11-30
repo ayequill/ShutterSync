@@ -140,7 +140,7 @@ function SignUp(): JSX.Element {
             <Heading as="h2" size="lg">
               Welcome!
             </Heading>
-            <Text fontSize="0.8rem">Join ShutterSync.</Text>
+            <Text fontSize="sm">Join ShutterSync.</Text>
           </Box>
           <VStack>
             <InputGroup flexDirection="column" gap="0.5rem">
