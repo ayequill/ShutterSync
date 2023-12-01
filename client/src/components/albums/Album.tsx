@@ -11,7 +11,7 @@ import {
 } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { FaDownload } from 'react-icons/fa6';
-import { IoIosArrowBack } from 'react-icons/io';
+import { IoIosArrowBack, IoMdAdd } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import {
@@ -83,19 +83,48 @@ export default function Album() {
   if (isLoading) return <LoaderComponent />;
 
   const photos: Photo[] = album?.photos ? album.photos : [];
-  console.log(photos);
   return (
     <Box px={5}>
-      <Button
-        aria-label="Back to dashboard"
-        leftIcon={<IoIosArrowBack />}
-        onClick={() => navigate('/dashboard')}
-        colorScheme="blue"
-        size="md"
-        my={5}
-      >
-        Dashboard
-      </Button>
+      <Flex justifyContent="space-between">
+        <Button
+          aria-label="Back to dashboard"
+          leftIcon={<IoIosArrowBack />}
+          onClick={() => navigate('/dashboard')}
+          // colorScheme="blue"
+          variant="outline"
+          size="md"
+          my={5}
+        >
+          Dashboard
+        </Button>
+        <Flex justifyContent="space-between" gap="10px">
+          <Button
+            aria-label="Back to dashboard"
+            leftIcon={<IoMdAdd />}
+            onClick={() => navigate('/dashboard')}
+            // colorScheme="blue"
+            size="md"
+            variant="outline"
+            rounded="30px"
+            my={5}
+          >
+            Add More Photos
+          </Button>
+          <Button
+            aria-label="Back to dashboard"
+            leftIcon={<IoMdAdd />}
+            onClick={() => navigate('/dashboard')}
+            // onFocus={}
+            // colorScheme="blue"
+            size="md"
+            variant="outline"
+            rounded="30px"
+            my={5}
+          >
+            Edit Name
+          </Button>
+        </Flex>
+      </Flex>
       <Flex gap={2} w="100%" flexWrap="wrap" justify="center" align="center">
         {photos.map((photo) => (
           <motion.div
