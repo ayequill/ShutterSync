@@ -3,6 +3,8 @@ import { expressjwt } from 'express-jwt';
 import dotenv from 'dotenv';
 import User from '../models/user.model.js';
 import dbErrorHandler from '../helpers/dbErrorHandler.js';
+import { sendMail, resetPasswordHTML } from '../helpers/sendMail.js';
+import { v4 } from 'uuid';
 
 dotenv.config();
 
@@ -74,10 +76,49 @@ const confirmEmail = async (req, res) => {
     await user.save();
     return res.status(200).json({
       message: 'Email confirmed',
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+      },
     });
   } catch (e) {
     return res.status(401).json({
       error: 'Invalid token',
+    });
+  }
+};
+
+const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({
+        error: 'Email is required',
+      });
+    }
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({
+        error: 'User not found',
+      });
+    }
+
+    const token = v4();
+    user.token = token;
+    await user.save();
+
+    const subject = 'Reset your password';
+    const link = `https://shuttersync.live/reset-password/${token}`;
+    await sendMail(email, subject, resetPasswordHTML(user.name, link));
+    return res.status(200).json({
+      message: 'Email sent',
+    });
+  } catch (e) {
+    return res.status(400).json({
+      error: dbErrorHandler.getErrorMessage(e),
     });
   }
 };
@@ -94,11 +135,6 @@ const resetPassword = async (req, res) => {
     if (!user) {
       return res.status(400).json({
         error: 'You are not registered. Please sign up!',
-      });
-    }
-    if (!user.authenticate(password)) {
-      return res.status(400).json({
-        error: "Email or password don't match.",
       });
     }
     user.password = newPassword;
@@ -120,4 +156,5 @@ export default {
   resetPassword,
   isAuthorized,
   confirmEmail,
+  forgotPassword,
 };

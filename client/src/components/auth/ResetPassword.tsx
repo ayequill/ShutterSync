@@ -1,6 +1,7 @@
+/* eslint-disable no-console */
 import React from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa6';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import {
   Box,
@@ -13,7 +14,6 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  //   Link,
   Spinner,
   Text,
   useToast,
@@ -23,10 +23,9 @@ import {
 import LoaderComponent from '../core/Loader';
 import useTimeout from '../hooks/useTimeOut';
 
-import { resetPassword } from './api-auth';
-import { isAuthenticated } from './auth-helper';
+import { checkEmail, resetPassword } from './api-auth';
 
-function Reset(): JSX.Element {
+function ResetPassword(): JSX.Element {
   const [values, setValues] = React.useState({
     email: '',
     password: '',
@@ -40,6 +39,8 @@ function Reset(): JSX.Element {
   const [showPassword, setShowPassword] = React.useState(false);
   const toast = useToast();
   const navigate = useNavigate();
+  const { token } = useParams();
+
   const handleInputChange =
     (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setValues({
@@ -47,24 +48,34 @@ function Reset(): JSX.Element {
         [name]: event.target.value,
       });
     };
+
   const handleClickShowPassword = () => setShowPassword(!showPassword);
+
   const hide = () => setLoader(false);
-  useTimeout(hide, 2000);
+  useTimeout(hide, 1500);
 
   const handleSubmit = () => {
-    const { email, password, newPassword } = values;
-    const doThrowError = (email && password && newPassword) === '';
+    const { password, newPassword } = values;
+    const doThrowError = (password && newPassword) === '';
     if (doThrowError) {
       setIsError(true);
     } else {
       setIsError(false);
     }
+    if (password !== newPassword) {
+      setIsError(true);
+      setValues({
+        ...values,
+        error: 'Passwords do not match',
+      });
+      return;
+    }
     if (!doThrowError) {
       setIsLoading(true);
       resetPassword({
-        email,
-        password,
-        newPassword,
+        email: values.email,
+        password: values.password,
+        newPassword: values.newPassword,
       }).then((data) => {
         if (data.error) {
           setIsLoading(false);
@@ -77,7 +88,7 @@ function Reset(): JSX.Element {
             title: 'Password Updated',
             description: 'Please login with new password. Redirecting...',
             status: 'success',
-            duration: 1500,
+            duration: 2000,
             isClosable: true,
             onCloseComplete() {
               setIsLoading(false);
@@ -89,12 +100,27 @@ function Reset(): JSX.Element {
     }
   };
 
+  const emailChecker = (t: string | undefined) => {
+    checkEmail(t).then((data) => {
+      if (data.error) {
+        console.log(data);
+      }
+      if (data.user) {
+        setValues({
+          ...values,
+          email: data.user.email,
+        });
+      }
+    });
+  };
+
+  React.useEffect(() => {
+    emailChecker(token);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (loader) {
     return <LoaderComponent />;
-  }
-
-  if (values.redirect || isAuthenticated()) {
-    return <Navigate to="/signin" replace />;
   }
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -130,9 +156,6 @@ function Reset(): JSX.Element {
         </VStack>
         <VStack align="center" justify="center" width="100%">
           <Box width="100%">
-            {/* <Heading as="h2" size="lg" textAlign="center">
-              Hello Again!
-            </Heading> */}
             <Text fontSize="lg" textAlign="center">
               Please fill the form to reset password
             </Text>
@@ -140,21 +163,11 @@ function Reset(): JSX.Element {
           <VStack>
             <InputGroup flexDirection="column" gap="0.5rem">
               <FormControl isInvalid={isError} isRequired>
-                {/* <FormLabel>Email</FormLabel> */}
-                <Input
-                  type="email"
-                  value={values.email}
-                  id="email"
-                  onChange={handleInputChange('email')}
-                  placeholder="Email"
-                  mb={4}
-                />
-                {/* <FormLabel mt={4}>Password</FormLabel> */}
                 <InputGroup>
                   <Input
                     id="password"
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="Old Password"
+                    placeholder="Password"
                     value={values.password}
                     onChange={handleInputChange('password')}
                   />
@@ -172,7 +185,7 @@ function Reset(): JSX.Element {
                   <Input
                     id="newPassword"
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="New Password"
+                    placeholder="Confirm Password"
                     value={values.newPassword}
                     onChange={handleInputChange('newPassword')}
                   />
@@ -207,4 +220,4 @@ function Reset(): JSX.Element {
   );
 }
 
-export default Reset;
+export default ResetPassword;
