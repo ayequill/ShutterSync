@@ -93,7 +93,7 @@ function Navbar() {
                   // colorScheme="blue"
                   fontWeight="bold"
                 >
-                  <Link as={ReactRouterLink} to="/profile">
+                  <Link as={ReactRouterLink} to="/dashboard/profile">
                     Profile
                   </Link>
                 </Button>

@@ -42,14 +42,14 @@ const list = async (signal: AbortSignal) => {
 };
 
 const read = async (
-  params: { userId: string },
+  userId: string,
   credentials: {
     t: AxiosHeaders | string;
   },
   signal: AbortSignal
 ) => {
   try {
-    const response = await axiosInstance.get(`/users/${params.userId}`, {
+    const response = await axiosInstance.get(`/users/${userId}`, {
       headers: {
         Authorization: `Bearer ${credentials.t}`,
       },
@@ -64,14 +64,14 @@ const read = async (
 };
 
 const update = async (
-  params: { userId: string },
-  credentials: { t: string },
-  user: User
+  userId: string | undefined,
+  token: string,
+  user: unknown
 ) => {
   try {
-    const response = await axiosInstance.put(`/users/${params.userId}`, user, {
+    const response = await axiosInstance.put(`/users/${userId}`, user, {
       headers: {
-        Authorization: `Bearer ${credentials.t}`,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },

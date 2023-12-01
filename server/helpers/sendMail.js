@@ -65,6 +65,65 @@ const html = (name, link) => {
     `;
 };
 
+const resetPasswordHTML = (name, link) => {
+  return `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Reset Password</title>
+      <style>
+        body {
+          font-family: 'Arial', sans-serif;
+          background-color: #f4f4f4;
+          margin: 0;
+          padding: 0;
+        }
+    
+        .container {
+          max-width: 600px;
+          margin: 20px auto;
+          background-color: #ffffff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    
+        h2 {
+          color: #333333;
+        }
+    
+        p {
+          color: #666666;
+        }
+    
+        #cta-button {
+          display: inline-block;
+          padding: 10px 20px;
+          background-color: #007bff;
+          color: #ffffff;
+          text-decoration: none;
+          border-radius: 5px;
+        }
+    
+        .footer {
+          margin-top: 20px;
+          color: #888888;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h2>Hi, ${name}!</h2>
+        <p>We received a request to reset your password. If you didn't make the request, please ignore this email.</p>
+        <p>To reset your password, please click the button below:</p>
+        <a href="${link}" style="background-color: #007bff; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block; font-weight: bold;">Reset Password</a>
+        <p class="footer">If you didn't request a password reset, please ignore this email.</p>
+      </div>
+    </body>
+    </html>
+    `;
+};
+
 const sendMail = async (to, subject, html) => {
   try {
     const transporter = nodemailer.createTransport({
@@ -90,4 +149,4 @@ const sendMail = async (to, subject, html) => {
   }
 };
 
-export { sendMail, html };
+export { sendMail, html, resetPasswordHTML };

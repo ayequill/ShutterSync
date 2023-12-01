@@ -39,7 +39,7 @@ const signout = async () => {
   }
 };
 
-const checkEmail = async (token: string) => {
+const checkEmail = async (token: string | undefined) => {
   try {
     const res = await axiosInstance.get('/verify', { params: { token } });
     return res.data;
@@ -69,4 +69,17 @@ const resetPassword = async (user: {
   }
 };
 
-export { checkEmail, resetPassword, signin, signout };
+const resetPasswordRequest = async (email: string) => {
+  try {
+    const response = await axiosInstance.post('/reset', { email });
+    return response.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
+    if (e.response) {
+      return { error: e.response.data.error } as { error: string };
+    }
+    return { error: 'Please try again later' } as { error: string };
+  }
+};
+
+export { checkEmail, resetPassword, resetPasswordRequest, signin, signout };

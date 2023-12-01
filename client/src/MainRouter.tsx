@@ -1,18 +1,12 @@
-import {
-  BrowserRouter,
-  Route,
-  // createBrowserRouter,
-  // RouteObject,
-  // RouterProvider,
-  Routes,
-} from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Album from './components/albums/Album';
 import Upload from './components/albums/Upload';
 import EmailConfirm from './components/auth/EmailConfirm';
 import Login from './components/auth/Login';
 import PrivateRoute from './components/auth/PrivateRoute';
-import Reset from './components/auth/Reset';
+import ResetPassword from './components/auth/ResetPassword';
+import ResetPasswordRequest from './components/auth/ResetPasswordRequest';
 import SignUp from './components/auth/SignUp';
 import {
   AlbumProvider,
@@ -22,6 +16,7 @@ import { UserProvider } from './components/contexts/userContext';
 import Home from './components/core/Home';
 import MainLayout from './components/core/LayOut';
 import Dashboard from './components/user/Dashboard';
+import Profile from './components/user/Profile';
 
 function MainRouter() {
   return (
@@ -65,12 +60,13 @@ function MainRouter() {
                 <Route index element={<Dashboard />} />
                 <Route path="upload" element={<Upload />} />
                 <Route path="album/:albumId" element={<Album />} />
+                <Route path="profile" element={<Profile />} />
               </Route>
               <Route
                 path="forgot-password"
                 element={
                   <MainLayout>
-                    <Reset />
+                    <ResetPasswordRequest />
                   </MainLayout>
                 }
               />
@@ -79,6 +75,14 @@ function MainRouter() {
                 element={
                   <MainLayout>
                     <EmailConfirm />
+                  </MainLayout>
+                }
+              />
+              <Route
+                path="/forgot-password/:token"
+                element={
+                  <MainLayout>
+                    <ResetPassword />
                   </MainLayout>
                 }
               />
