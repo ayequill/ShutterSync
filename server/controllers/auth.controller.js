@@ -111,7 +111,7 @@ const forgotPassword = async (req, res) => {
     await user.save();
 
     const subject = 'Reset your password';
-    const link = `https://shuttersync.live/reset-password/${token}`;
+    const link = `https://shuttersync.live/forgot-password/${token}`;
     await sendMail(email, subject, resetPasswordHTML(user.name, link));
     return res.status(200).json({
       message: 'Email sent',
