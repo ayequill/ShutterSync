@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import { Link as ReactRouterLink, Navigate } from 'react-router-dom';
@@ -9,12 +10,14 @@ import {
   AlertTitle,
   Box,
   Button,
+  Center,
   Flex,
   FormControl,
   FormHelperText,
   FormLabel,
   Grid,
   Heading,
+  Image,
   Input,
   InputGroup,
   InputRightElement,
@@ -24,6 +27,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
+import SignUpImage from '../../assets/signup.webp';
 import LoaderComponent from '../core/Loader';
 import useTimeout from '../hooks/useTimeOut';
 import { create } from '../user/api-user';
@@ -115,21 +119,30 @@ function SignUp(): JSX.Element {
         height={{ base: 'auto', md: '100vh' }}
         width="100%"
       >
-        <VStack
-          bgGradient="linear(to-l, #0575E6 0%, #02298A 84.79%, #021B79 100%)"
+        <Center
+          // bgGradient="linear(to-l, #0575E6 0%, #02298A 84.79%, #021B79 100%)"
           width="100%"
-          bgPos="center"
-          bgRepeat="no-repeat"
+          // bgPos="center"
+          // bgRepeat="no-repeat"
           color="white"
-          placeContent="center"
+          // placeContent="center"
           gap={0}
           display={{ base: 'none', md: 'flex' }}
+          justifyContent="center"
         >
-          <Heading as="h1" size="xl">
-            ShutterSync
-          </Heading>
-          <Text>Your digital photos companion</Text>
-        </VStack>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: 1,
+              type: 'spring',
+              bounce: 0.5,
+              ease: 'easeInOut',
+            }}
+          >
+            <Image maxW="400px" src={SignUpImage} alt="sign up illustration" />
+          </motion.div>
+        </Center>
         <VStack
           align="center"
           justify="center"

@@ -79,7 +79,7 @@ function Home(): JSX.Element {
             <Text color="blue.500">Sync</Text>
           </Flex>
           <Text
-            fontSize="sm"
+            fontSize={{ base: 'sm', lg: 'md' }}
             className="animate__animated animate__fadeInUp"
             textShadow="lg"
             lineHeight="6"
@@ -147,7 +147,7 @@ function Home(): JSX.Element {
           >
             <Text
               textAlign="center"
-              fontSize={{ base: 'sm', lg: 'md' }}
+              fontSize={{ base: 'sm', lg: 'lg' }}
               width={{ base: '100%', md: '100%' }}
               lineHeight="6"
             >
@@ -208,7 +208,7 @@ function Home(): JSX.Element {
           >
             <Text
               textAlign="center"
-              fontSize={{ base: 'sm', lg: 'md' }}
+              fontSize={{ base: 'sm', lg: 'lg' }}
               width={{ base: '100%', md: '100%' }}
               lineHeight="6"
             >
@@ -264,7 +264,7 @@ function Home(): JSX.Element {
           >
             <Text
               textAlign="center"
-              fontSize={{ base: 'sm', lg: 'md' }}
+              fontSize={{ base: 'sm', lg: 'lg' }}
               width={{ base: '100%', md: '100%' }}
               lineHeight="6"
             >
