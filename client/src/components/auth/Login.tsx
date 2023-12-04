@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
@@ -5,11 +6,13 @@ import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 import {
   Box,
   Button,
+  Center,
   Flex,
   FormControl,
   FormHelperText,
   Grid,
   Heading,
+  Image,
   Input,
   InputGroup,
   InputRightElement,
@@ -19,6 +22,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
+import Lock from '../../assets/lock.webp';
 import { useUser } from '../contexts/userContext';
 import LoaderComponent from '../core/Loader';
 import useTimeout from '../hooks/useTimeOut';
@@ -110,21 +114,33 @@ function Login(): JSX.Element {
         height={{ base: 'auto', md: '100vh' }}
         width="100%"
       >
-        <VStack
-          bgGradient="linear(to-l, #0575E6 0%, #02298A 84.79%, #021B79 100%)"
-          width="100%"
-          bgPos="center"
-          bgRepeat="no-repeat"
+        <Center
+          // bgGradient="linear(to-l, #0575E6 0%, #02298A 84.79%, #021B79 100%)"
+          // bgImage={Lock}
+          // width="100%"
+          // bgPos="contain"
+          // bgRepeat="no-repeat"
           color="white"
-          placeContent="center"
-          gap={0}
+          // placeContent="center"
+          // gap={0}
           display={{ base: 'none', md: 'flex' }}
+          // justifyContent="center"
         >
-          <Heading as="h1" size="xl">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: 1,
+              ease: 'easeInOut',
+            }}
+          >
+            <Image maxW="400px" src={Lock} alt="lock" />
+          </motion.div>
+          {/* <Heading as="h1" size="xl">
             ShutterSync
           </Heading>
-          <Text>Your digital photos companion</Text>
-        </VStack>
+          <Text>Your digital photos companion</Text> */}
+        </Center>
         <VStack
           align="center"
           justify={{ base: 'start', md: 'center' }}
@@ -135,7 +151,7 @@ function Login(): JSX.Element {
             <Heading as="h2" size="lg" textAlign="center">
               Hello Again!
             </Heading>
-            <Text fontSize="sm" textAlign="center">
+            <Text fontSize={{ base: 'sm', lg: 'md' }} textAlign="center">
               Welcome Back to ShutterSync.
               <br /> Please login to your account.
             </Text>

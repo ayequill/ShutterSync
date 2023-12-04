@@ -1,28 +1,17 @@
-import React from 'react';
+import { motion } from 'framer-motion';
+import React, { lazy, Suspense } from 'react';
 import { FaAnglesRight } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 
-import {
-  Box,
-  Button,
-  Flex,
-  Image,
-  SimpleGrid,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, Image, Text, VStack } from '@chakra-ui/react';
 
-import Customer from '../../assets/customer.svg';
-import Flow from '../../assets/flow.svg';
-import Gallery from '../../assets/gallery.svg';
 import HomeBG from '../../assets/home.webp';
 import { isAuthenticated } from '../auth/auth-helper';
 import useTimeout from '../hooks/useTimeOut';
 
 import LoaderComponent from './Loader';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-// import 'animate.css';
+const Features = lazy(() => import('./Features'));
 
 function Home(): JSX.Element {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -48,6 +37,7 @@ function Home(): JSX.Element {
       m="20px auto"
       maxW="1400px"
       px={{ base: '10px', md: '20px', lg: '40px' }}
+      mb={{ base: '20px', md: '80px' }}
     >
       <Flex
         justifyContent="space-between"
@@ -65,19 +55,22 @@ function Home(): JSX.Element {
       >
         <VStack flexBasis="50%" alignItems="start" p="20px">
           <Flex fontSize={{ base: '2xl', lg: '4xl' }}>
-            <Text
-              textAlign="left"
-              mb="10px"
+            <motion.p
+              style={{ textAlign: 'left', marginBottom: '10px' }}
               className="animate__animated animate__bounceInLeft"
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              transition={{ duration: 1, type: 'spring', bounce: 0.5 }}
             >
               Join Shutter
-            </Text>
+            </motion.p>{' '}
             <Text color="blue.500">Sync</Text>
           </Flex>
           <Text
-            fontSize="sm"
+            fontSize={{ base: 'sm', lg: 'md' }}
             className="animate__animated animate__fadeInUp"
             textShadow="lg"
+            lineHeight="6"
           >
             ShutterSync aims to address the need for professional photographers
             to efficiently share and collaborate on their work with clients,
@@ -109,38 +102,9 @@ function Home(): JSX.Element {
         </Flex>
       </Flex>
       <Flex />
-      <SimpleGrid columns={{ base: 1, lg: 3 }} mt="50px" p={10}>
-        <VStack spacing={8}>
-          <Image src={Gallery} alt="Customer" width="100px" />
-          <Text textAlign="center" fontSize="sm">
-            Effortlessly organize and showcase your stunning portfolio with
-            ShutterSync intuitive gallery management. Seamlessly upload,
-            arrange, and update your work to create a visual narrative that
-            captivates clients and enhances your professional image.
-          </Text>
-        </VStack>
-
-        <VStack spacing={8}>
-          <Image src={Customer} alt="Customer" width="100px" />
-          <Text textAlign="center" fontSize="sm">
-            Foster meaningful interactions with clients through
-            ShutterSync&apos;s collaborative features. Invite feedback, share
-            drafts, and streamline communication to ensure that every project
-            unfolds with precision.
-          </Text>
-        </VStack>
-
-        <VStack spacing={8}>
-          <Image src={Flow} alt="Customer" width="100px" />
-          <Text textAlign="center" fontSize="sm">
-            From initial concept to final delivery, ShutterSync optimizes your
-            project workflow. Enjoy a centralized hub for all project assets,
-            streamline file sharing, and track project progress effortlessly.
-            Enhance your project management capabilities, allowing you to focus
-            more on what you love – capturing extraordinary moments.
-          </Text>
-        </VStack>
-      </SimpleGrid>
+      <Suspense fallback={<LoaderComponent />}>
+        <Features />
+      </Suspense>
     </Box>
   );
 }
