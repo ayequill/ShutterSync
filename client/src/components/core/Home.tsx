@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 import { FaAnglesRight } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
@@ -12,10 +13,10 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
-import Customer from '../../assets/customer.svg';
-import Flow from '../../assets/flow.svg';
-import Gallery from '../../assets/gallery.svg';
+import Customer from '../../assets/customer1.webp';
+import Flow from '../../assets/flow.webp';
 import HomeBG from '../../assets/home.webp';
+import MobileInHand from '../../assets/mobile-in-hand.webp';
 import { isAuthenticated } from '../auth/auth-helper';
 import useTimeout from '../hooks/useTimeOut';
 
@@ -48,6 +49,7 @@ function Home(): JSX.Element {
       m="20px auto"
       maxW="1400px"
       px={{ base: '10px', md: '20px', lg: '40px' }}
+      mb={{ base: '20px', md: '80px' }}
     >
       <Flex
         justifyContent="space-between"
@@ -65,19 +67,22 @@ function Home(): JSX.Element {
       >
         <VStack flexBasis="50%" alignItems="start" p="20px">
           <Flex fontSize={{ base: '2xl', lg: '4xl' }}>
-            <Text
-              textAlign="left"
-              mb="10px"
+            <motion.p
+              style={{ textAlign: 'left', marginBottom: '10px' }}
               className="animate__animated animate__bounceInLeft"
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              transition={{ duration: 1, type: 'spring', bounce: 0.5 }}
             >
               Join Shutter
-            </Text>
+            </motion.p>{' '}
             <Text color="blue.500">Sync</Text>
           </Flex>
           <Text
             fontSize="sm"
             className="animate__animated animate__fadeInUp"
             textShadow="lg"
+            lineHeight="6"
           >
             ShutterSync aims to address the need for professional photographers
             to efficiently share and collaborate on their work with clients,
@@ -109,37 +114,168 @@ function Home(): JSX.Element {
         </Flex>
       </Flex>
       <Flex />
-      <SimpleGrid columns={{ base: 1, lg: 3 }} mt="50px" p={10}>
-        <VStack spacing={8}>
-          <Image src={Gallery} alt="Customer" width="100px" />
-          <Text textAlign="center" fontSize="sm">
-            Effortlessly organize and showcase your stunning portfolio with
-            ShutterSync intuitive gallery management. Seamlessly upload,
-            arrange, and update your work to create a visual narrative that
-            captivates clients and enhances your professional image.
-          </Text>
-        </VStack>
+      <SimpleGrid columns={{ base: 1, lg: 1 }} mt="50px" p={4} spacing="20">
+        <Flex
+          flexDir={{ base: 'column', md: 'row' }}
+          justify="space-between"
+          align="center"
+          gap={{ base: 2, lg: 10 }}
+          py={20}
+        >
+          <motion.div
+            initial={{ x: '-100%' }}
+            animate={{ x: 0 }}
+            transition={{ duration: 1, type: 'spring', bounce: 0.5 }}
+          >
+            <Image
+              src={MobileInHand}
+              alt="Customer"
+              width={{ base: '200px', md: '300px', lg: '400px' }}
+              backdropBlur="2xl"
+            />
+          </motion.div>
+          <motion.div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              flexBasis: '50%',
+            }}
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            transition={{ duration: 1, type: 'spring', bounce: 0.5 }}
+          >
+            <Text
+              textAlign="center"
+              fontSize={{ base: 'sm', lg: 'md' }}
+              width={{ base: '100%', md: '100%' }}
+              lineHeight="6"
+            >
+              Effortlessly organize and showcase your stunning portfolio with
+              ShutterSync intuitive gallery management. Seamlessly upload,
+              arrange, and update your work to create a visual narrative that
+              captivates clients and enhances your professional image.
+            </Text>
+          </motion.div>
+        </Flex>
 
-        <VStack spacing={8}>
-          <Image src={Customer} alt="Customer" width="100px" />
-          <Text textAlign="center" fontSize="sm">
-            Foster meaningful interactions with clients through
-            ShutterSync&apos;s collaborative features. Invite feedback, share
-            drafts, and streamline communication to ensure that every project
-            unfolds with precision.
-          </Text>
-        </VStack>
+        <Flex
+          flexDir={{ base: 'column', md: 'row-reverse' }}
+          justify="space-between"
+          align="center"
+          gap={{ base: 10, lg: 10 }}
+          py={20}
+        >
+          <motion.div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              flexBasis: '50%',
+            }}
+            initial={{ x: '100%' }}
+            whileInView={{ x: 0 }}
+            transition={{
+              duration: 1,
+              type: 'spring',
+              bounce: 0.5,
+            }}
+            viewport={{ once: true }}
+          >
+            <Image
+              src={Customer}
+              alt="Customer"
+              width={{ base: '200px', md: '300px', lg: '400px' }}
+              backdropBlur="2xl"
+              ml={10}
+            />
+          </motion.div>
+          <motion.div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              flexBasis: '50%',
+            }}
+            initial={{ x: '-100%' }}
+            whileInView={{ x: 0 }}
+            transition={{
+              duration: 1,
+              type: 'spring',
+              bounce: 0.5,
+            }}
+            viewport={{ once: true }}
+          >
+            <Text
+              textAlign="center"
+              fontSize={{ base: 'sm', lg: 'md' }}
+              width={{ base: '100%', md: '100%' }}
+              lineHeight="6"
+            >
+              Foster meaningful interactions with clients through
+              ShutterSync&apos;s collaborative features. Invite feedback, share
+              drafts, and streamline communication to ensure that every project
+              unfolds with precision.
+            </Text>
+          </motion.div>
+        </Flex>
 
-        <VStack spacing={8}>
-          <Image src={Flow} alt="Customer" width="100px" />
-          <Text textAlign="center" fontSize="sm">
-            From initial concept to final delivery, ShutterSync optimizes your
-            project workflow. Enjoy a centralized hub for all project assets,
-            streamline file sharing, and track project progress effortlessly.
-            Enhance your project management capabilities, allowing you to focus
-            more on what you love – capturing extraordinary moments.
-          </Text>
-        </VStack>
+        <Flex
+          flexDir={{ base: 'column', md: 'row' }}
+          justify="space-between"
+          align="center"
+          gap={{ base: 10, lg: 10 }}
+          py={20}
+        >
+          <motion.div
+            initial={{ x: '-100%' }}
+            whileInView={{ x: 0 }}
+            transition={{
+              duration: 1,
+              type: 'spring',
+              bounce: 0.5,
+            }}
+            viewport={{ once: true }}
+          >
+            <Image
+              src={Flow}
+              alt="Customer"
+              width={{ base: '200px', md: '300px', lg: '400px' }}
+              backdropBlur="2xl"
+              ml={10}
+            />
+          </motion.div>
+
+          <motion.div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              flexBasis: '50%',
+            }}
+            initial={{ x: '100%' }}
+            whileInView={{ x: 0 }}
+            transition={{
+              duration: 1,
+              type: 'spring',
+              bounce: 0.5,
+            }}
+            viewport={{ once: true }}
+          >
+            <Text
+              textAlign="center"
+              fontSize={{ base: 'sm', lg: 'md' }}
+              width={{ base: '100%', md: '100%' }}
+              lineHeight="6"
+            >
+              From initial concept to final delivery, ShutterSync optimizes your
+              project workflow. Enjoy a centralized hub for all project assets,
+              streamline file sharing, and track project progress effortlessly.
+              Enhance your project management capabilities, allowing you to
+              focus more on what you love – capturing extraordinary moments.
+            </Text>
+          </motion.div>
+        </Flex>
       </SimpleGrid>
     </Box>
   );
