@@ -13,6 +13,7 @@ import {
   AlbumsProvider,
 } from './components/contexts/albumContext';
 import { UserProvider } from './components/contexts/userContext';
+import ErrorPage from './components/core/ErrorPage';
 import Home from './components/core/Home';
 import MainLayout from './components/core/LayOut';
 import Dashboard from './components/user/Dashboard';
@@ -83,6 +84,14 @@ function MainRouter() {
                 element={
                   <MainLayout>
                     <ResetPassword />
+                  </MainLayout>
+                }
+              />
+              <Route
+                path="*"
+                element={
+                  <MainLayout>
+                    <ErrorPage />
                   </MainLayout>
                 }
               />
