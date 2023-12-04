@@ -66,7 +66,16 @@ function Navbar() {
           >
             {!isAuthenticated() ? (
               <Flex gap={4} align="center">
-                <Link fontWeight="bold" as={ReactRouterLink} to="/signin">
+                <Link
+                  fontWeight="bold"
+                  as={ReactRouterLink}
+                  to="/signin"
+                  _hover={{
+                    textDecoration: 'none',
+                    boxShadow: 'xl',
+                    transform: 'scale(1.03)',
+                  }}
+                >
                   SignIn
                 </Link>
                 <Box
@@ -77,9 +86,16 @@ function Navbar() {
                   py="0.3rem"
                   fontSize="sm"
                   borderRadius={20}
+                  _hover={{ boxShadow: 'xl', transform: 'scale(1.03)' }}
+                  cursor="pointer"
                 >
-                  <Link fontWeight="bold" as={ReactRouterLink} to="/signup">
-                    SignUp
+                  <Link
+                    _hover={{ textDecoration: 'none' }}
+                    fontWeight="bold"
+                    as={ReactRouterLink}
+                    to="/signup"
+                  >
+                    Get Started
                   </Link>
                 </Box>
                 <ThemeToggleButton />
@@ -101,9 +117,10 @@ function Navbar() {
                   variant="outline"
                   size="sm"
                   rounded="30px"
+                  isDisabled
                   // colorScheme="blue"
                 >
-                  <Link fontWeight="bold" as={ReactRouterLink} to="/account">
+                  <Link fontWeight="bold" as={ReactRouterLink} to="/dashboard">
                     Account
                   </Link>
                 </Button>
