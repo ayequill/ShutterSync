@@ -1,0 +1,21 @@
+language: node_js
+
+node_js:
+  - "20"
+
+jobs:
+  include:
+    - stage: lint_test
+      name: "Linting Frontend"
+      script:
+        - cd client
+        - yarn install
+        - yarn pretest
+
+    - name: "Linting Backend"
+      script:
+        - yarn format
+
+    - name: "Testing Backend"
+      script:
+        - yarn test
