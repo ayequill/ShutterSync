@@ -131,8 +131,6 @@ function Login(): JSX.Element {
             animate={{ opacity: 1 }}
             transition={{
               duration: 1,
-              type: 'spring',
-              bounce: 0.5,
               ease: 'easeInOut',
             }}
           >
