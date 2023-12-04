@@ -115,6 +115,7 @@ function Upload() {
               accept=".jpg, .jpeg, .png, .webp"
               multiple
               onChange={handlePhotoChange}
+              isDisabled={isLoading}
             />
             <Text fontSize="sm" mt={2} color="gray.500">
               Select one or more photos (JPEG, JPG, PNG)
