@@ -3,6 +3,9 @@ language: node_js
 node_js:
   - "20"
 
+before_install:
+  - npm config set progress false
+
 jobs:
   include:
     - stage: lint_test
@@ -12,7 +15,7 @@ jobs:
         - yarn install
         - yarn pretest
 
-    - name: "Linting Backend"
+    - name: "Linting & Formatting Backend"
       script:
         - yarn format
 
