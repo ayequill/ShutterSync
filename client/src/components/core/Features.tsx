@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-import { color, Flex, Image, SimpleGrid, Text } from '@chakra-ui/react';
+import { Flex, Image, SimpleGrid, Text } from '@chakra-ui/react';
 
 import Customer from '../../assets/customer1.webp';
 import Flow from '../../assets/flow.webp';
