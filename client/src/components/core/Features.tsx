@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-import { Flex, Image, SimpleGrid, Text } from '@chakra-ui/react';
+import { color, Flex, Image, SimpleGrid, Text } from '@chakra-ui/react';
 
 import Customer from '../../assets/customer1.webp';
 import Flow from '../../assets/flow.webp';
@@ -8,13 +8,30 @@ import MobileInHand from '../../assets/mobile-in-hand.webp';
 
 function Features() {
   return (
-    <SimpleGrid columns={{ base: 1, lg: 1 }} mt="50px" p={4} spacing="20">
+    <SimpleGrid
+      columns={{ base: 1, lg: 1 }}
+      mt="50px"
+      p={4}
+      spacing={{ base: 10, lg: 20 }}
+    >
       <Flex
         flexDir={{ base: 'column', md: 'row' }}
         justify="space-between"
         align="center"
-        gap={{ base: 2, lg: 10 }}
-        py={20}
+        gap={{ base: 10, lg: 10 }}
+        py={10}
+        px={6}
+        // boxShadow="0px 4px 6px rgba(65, 65, 204, 0.25),
+        // 0 1px 3px rgba(226, 211, 211, 0.1)"
+        boxShadow="md"
+        bg="white"
+        transition="box-shadow 0.9s ease-in-out"
+        borderRadius={10}
+        bgGradient="linear(to-bl, blue.50, blackAlpha.50)"
+        _dark={{
+          bgGradient: 'linear(to-bl, blue.500, blackAlpha.50)',
+          color: 'black',
+        }}
       >
         <motion.div
           initial={{ x: '-100%' }}
@@ -58,7 +75,19 @@ function Features() {
         justify="space-between"
         align="center"
         gap={{ base: 10, lg: 10 }}
-        py={20}
+        py={10}
+        px={6}
+        // boxShadow="0px 4px 6px rgba(65, 65, 204, 0.25),
+        // 0 1px 3px rgba(226, 211, 211, 0.1)"
+        boxShadow="md"
+        bg="white"
+        transition="box-shadow 0.9s ease-in-out"
+        borderRadius={10}
+        bgGradient="linear(to-l, blue.50, blackAlpha.50)"
+        _dark={{
+          bgGradient: 'linear(to-bl, blue.500, blackAlpha.50)',
+          color: 'black',
+        }}
       >
         <motion.div
           style={{
@@ -119,7 +148,19 @@ function Features() {
         justify="space-between"
         align="center"
         gap={{ base: 10, lg: 10 }}
-        py={20}
+        py={10}
+        px={6}
+        // boxShadow="0px 4px 6px rgba(65, 65, 204, 0.25),
+        // 0 1px 3px rgba(226, 211, 211, 0.1)"
+        boxShadow="md"
+        bg="white"
+        transition="box-shadow 0.9s ease-in-out"
+        borderRadius={10}
+        bgGradient="linear(to-bl, blue.50, blackAlpha.50)"
+        _dark={{
+          bgGradient: 'linear(to-bl, blue.500, blackAlpha.50)',
+          color: 'black',
+        }}
       >
         <motion.div
           initial={{ x: '-100%' }}
