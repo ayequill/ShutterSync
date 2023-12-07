@@ -57,7 +57,7 @@ function Features() {
           transition={{ duration: 1, type: 'spring', bounce: 0.5 }}
         >
           <Text
-            textAlign="center"
+            textAlign={{ base: 'center', md: 'left' }}
             fontSize={{ base: 'sm', lg: 'lg' }}
             width={{ base: '100%', md: '100%' }}
             lineHeight="6"
@@ -130,7 +130,7 @@ function Features() {
           viewport={{ once: true }}
         >
           <Text
-            textAlign="center"
+            textAlign={{ base: 'center', md: 'left' }}
             fontSize={{ base: 'sm', lg: 'lg' }}
             width={{ base: '100%', md: '100%' }}
             lineHeight="6"
@@ -198,7 +198,7 @@ function Features() {
           viewport={{ once: true }}
         >
           <Text
-            textAlign="center"
+            textAlign={{ base: 'center', md: 'left' }}
             fontSize={{ base: 'sm', lg: 'lg' }}
             width={{ base: '100%', md: '100%' }}
             lineHeight="6"
