@@ -11,7 +11,7 @@ cloudinary.config({
 });
 
 // Create an album
-const createAlbum = async (req, res) => {
+const createUserAlbum = async (req, res) => {
   try {
     const user = req.profile;
     const newAlbum = new Album({
@@ -30,7 +30,7 @@ const createAlbum = async (req, res) => {
 };
 
 // Get all albums a user has
-const getAlbums = async (req, res) => {
+const getUserAlbums = async (req, res) => {
   try {
     const userAlbums = await User.findById(req.profile._id.toString())
       .populate({
@@ -68,7 +68,7 @@ const albumByID = async (req, res, next, id) => {
 };
 
 // Get a particular album
-const getAlbum = (req, res) => {
+const getUserAlbum = (req, res) => {
   try {
     const album = req.album;
     return res.json(album);
@@ -79,7 +79,7 @@ const getAlbum = (req, res) => {
   }
 };
 
-const deleteAlbum = async (req, res) => {
+const deleteUserAlbum = async (req, res) => {
   try {
     const { profile, album } = req;
     await User.findByIdAndUpdate(
@@ -109,7 +109,7 @@ const deleteAlbum = async (req, res) => {
   }
 };
 
-const updateAlbum = async (req, res) => {
+const updateUserAlbum = async (req, res) => {
   try {
     const { album } = req;
     album.name = req.body.name;
@@ -122,11 +122,31 @@ const updateAlbum = async (req, res) => {
   }
 };
 
+const getAlbum = async (req, res) => {
+  try {
+    const albumId = req.query.id;
+
+    const album = await Album.findById(albumId).populate('photos');
+
+    if (!album)
+      return res.status(404).json({
+        error: 'Album not found',
+      });
+
+    return res.status(200).json(album);
+  } catch (e) {
+    return res.status(400).json({
+      error: e.message,
+    });
+  }
+};
+
 export default {
-  createAlbum,
-  getAlbums,
+  createUserAlbum,
+  getUserAlbum,
   albumByID,
+  getUserAlbums,
+  deleteUserAlbum,
+  updateUserAlbum,
   getAlbum,
-  deleteAlbum,
-  updateAlbum,
 };

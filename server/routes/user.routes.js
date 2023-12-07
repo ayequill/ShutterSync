@@ -17,14 +17,14 @@ router
 
 router
   .route('/api/users/:userId/albums')
-  .post(albumCtrl.createAlbum)
-  .get(albumCtrl.getAlbums);
+  .post(albumCtrl.createUserAlbum)
+  .get(albumCtrl.getUserAlbums);
 
 router
   .route('/api/users/:userId/albums/:albumId')
-  .get(albumCtrl.getAlbum)
-  .delete(albumCtrl.deleteAlbum)
-  .put(albumCtrl.updateAlbum);
+  .get(albumCtrl.getUserAlbum)
+  .delete(albumCtrl.deleteUserAlbum)
+  .put(albumCtrl.updateUserAlbum);
 
 router
   .route('/api/users/:userId/albums/:albumId/photo')
@@ -39,6 +39,8 @@ router
   .get(photoCtrl.getPhoto)
   .put(photoCtrl.updatePhoto)
   .delete(photoCtrl.deletePhoto);
+
+router.route('/api/albums').get(albumCtrl.getAlbum);
 
 router.param('userId', userCtrl.userByID);
 router.param('albumId', albumCtrl.albumByID);
