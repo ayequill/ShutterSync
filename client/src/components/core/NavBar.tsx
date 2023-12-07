@@ -228,9 +228,9 @@ function MobileDrawerL({ logout }: ProfileMenuProps) {
         </Flex>
       </motion.div>
       {isOpen ? (
-        <FaTimes onClick={onClose} fontSize="30px" />
+        <FaTimes cursor="pointer" onClick={onClose} fontSize="30px" />
       ) : (
-        <HamburgerIcon onClick={onOpen} fontSize="30px" />
+        <HamburgerIcon cursor="pointer" onClick={onOpen} fontSize="30px" />
       )}
       <ThemeToggleButton />
     </Flex>
