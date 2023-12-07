@@ -35,6 +35,10 @@ function ThemeToggleButton(props: ThemeToggleButtonProps): JSX.Element {
       bottom="30px"
       right="25px"
       size="lg"
+      _hover={{
+        transition: 'transform 0.3s ease-in-out',
+        transform: 'scale(1.3)',
+      }}
       {...props}
     />
   );
