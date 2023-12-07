@@ -5,17 +5,8 @@ import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 
 import { HamburgerIcon } from '@chakra-ui/icons';
 import {
-  Avatar,
-  Badge,
   Box,
   Button,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
   Flex,
   HStack,
   Link,
@@ -42,7 +33,6 @@ function Navbar() {
       w="100%"
       top={0}
       as="header"
-      className="animate__animated animate__fadeInDown"
       position="relative"
     >
       <Flex
@@ -150,86 +140,6 @@ interface ProfileMenuProps {
   logout: () => void;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function MobileDrawer({ logout }: ProfileMenuProps) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const handleClick = (cb: () => void) => {
-    cb();
-    onClose();
-  };
-
-  return (
-    <Box display={{ base: 'flex', lg: 'none' }} gap={3}>
-      <Button
-        fontSize="1.5rem"
-        colorScheme="white"
-        onClick={onOpen}
-        variant="unstyled"
-      >
-        <HamburgerIcon />
-      </Button>
-      <Drawer placement="top" onClose={onClose} isOpen={isOpen}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader borderBottomWidth="1px">
-            <Flex>
-              {isAuthenticated() && (
-                <Avatar
-                  src={isAuthenticated() ? isAuthenticated().user?.name : null}
-                />
-              )}
-              <Flex ml="3" align="center">
-                {isAuthenticated() && (
-                  <Text fontWeight="bold">
-                    {isAuthenticated() ? isAuthenticated().user?.name : null}
-                    <Badge ml="1" colorScheme="blue">
-                      Pro
-                    </Badge>
-                  </Text>
-                )}
-              </Flex>
-            </Flex>
-          </DrawerHeader>
-          <DrawerBody display="flex" flexDir="column" gap={3}>
-            <Button colorScheme="blue" rounded={30} onClick={onClose}>
-              <Link
-                as={ReactRouterLink}
-                w="100%"
-                to={!isAuthenticated() ? '/signin' : '/dashboard'}
-              >
-                {isAuthenticated() ? 'Dashboard' : 'Login'}
-              </Link>
-            </Button>
-
-            <Button colorScheme="blue" rounded={30} onClick={onClose}>
-              <Link
-                w="100%"
-                as={ReactRouterLink}
-                to={!isAuthenticated() ? '/signup' : '/account'}
-              >
-                {isAuthenticated() ? 'Account' : 'Signup'}
-              </Link>
-            </Button>
-            {isAuthenticated() && (
-              <Button
-                colorScheme="red"
-                rounded={30}
-                onClick={() => handleClick(logout)}
-              >
-                Logout
-              </Button>
-            )}
-          </DrawerBody>
-          <DrawerFooter />
-        </DrawerContent>
-      </Drawer>
-      <ThemeToggleButton />
-    </Box>
-  );
-}
-
 function MobileDrawerL({ logout }: ProfileMenuProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const variants = {
@@ -318,9 +228,9 @@ function MobileDrawerL({ logout }: ProfileMenuProps) {
         </Flex>
       </motion.div>
       {isOpen ? (
-        <FaTimes onClick={onClose} fontSize="30px" />
+        <FaTimes cursor="pointer" onClick={onClose} fontSize="30px" />
       ) : (
-        <HamburgerIcon onClick={onOpen} fontSize="30px" />
+        <HamburgerIcon cursor="pointer" onClick={onOpen} fontSize="30px" />
       )}
       <ThemeToggleButton />
     </Flex>
