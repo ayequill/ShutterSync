@@ -99,7 +99,7 @@ function QuickEditModal({
   }, [albumID, fetchAlbums, newAlbumName, onClose, toast, user]);
 
   return (
-    <Modal isOpen={isOpen} onClose={() => onClose(false)}>
+    <Modal isOpen={isOpen} onClose={() => onClose(false)} isCentered>
       <ModalOverlay />
       <ModalContent width="95%">
         <ModalHeader>Quick Edit</ModalHeader>

@@ -93,6 +93,7 @@ function DeleteModal({ isOpen, onClose, albumId }: DeleteModalProps) {
       blockScrollOnMount={false}
       isOpen={isOpen}
       onClose={() => onClose(false)}
+      isCentered
     >
       <ModalOverlay />
       <ModalContent w="95%">
