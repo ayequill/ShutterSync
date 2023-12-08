@@ -98,7 +98,7 @@ function Home(): JSX.Element {
           // right='-15%'
           // top='8%'
         >
-          <Image src={HomeBG} alt="ShutterSync Logo" loading="lazy" p={2} />
+          <Image src={HomeBG} alt="ShutterSync Logo" p={2} />
         </Flex>
       </Flex>
       <Flex />
