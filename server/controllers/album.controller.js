@@ -1,5 +1,4 @@
 import Album from '../models/album.model.js';
-import dbErrorHandler from '../helpers/dbErrorHandler.js';
 import User from '../models/user.model.js';
 import Photo from '../models/photo.model.js';
 import { v2 as cloudinary } from 'cloudinary';
@@ -111,13 +110,16 @@ const deleteUserAlbum = async (req, res) => {
 
 const updateUserAlbum = async (req, res) => {
   try {
-    const { album } = req;
-    album.name = req.body.name;
+    let { album } = req;
+    Object.assign(album, req.body);
     const updatedAlbum = await album.save();
-    return res.json({ ...updatedAlbum, message: 'Album updated successfully' });
+    return res.json({
+      ...updatedAlbum._doc,
+      message: 'Album updated successfully',
+    });
   } catch (e) {
     return res.status(400).json({
-      error: 'error',
+      error: e.message,
     });
   }
 };
