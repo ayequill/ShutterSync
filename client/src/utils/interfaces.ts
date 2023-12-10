@@ -19,4 +19,6 @@ export interface Album {
   name: string;
   photos?: Photo[];
   createdAt?: Date;
+  locked?: boolean;
+  password?: string;
 }

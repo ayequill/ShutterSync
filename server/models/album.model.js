@@ -14,6 +14,19 @@ const ALBUM_SCHEMA = new mongoose.Schema(
         ref: 'Photo',
       },
     ],
+    published: {
+      type: Boolean,
+      default: false,
+    },
+    locked: {
+      type: Boolean,
+      default: false,
+    },
+    password: {
+      type: String,
+      trim: true,
+      default: '',
+    },
   },
   { timestamps: true }
 );

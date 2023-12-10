@@ -39,7 +39,7 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
   const datePublished = album?.createdAt
     ? new Date(album.createdAt).toLocaleDateString()
     : '';
-  const photos = album?.photos ? album.photos : [];
+  const photos = album?.photos || [];
 
   return (
     <Flex
@@ -55,21 +55,40 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
+        style={{ borderRadius: '16px' }}
       >
         <Flex
           boxShadow="sm"
           // minH={{ base: '200px', md: '500px' }}
-          borderRadius={10}
-          border="1.5px solid #e2e8f0"
+          // borderRadius={10}
+          border="2px solid #f9f2f2cb"
           _dark={{ border: '1.5px solid #1a202b' }}
+          // borderRadius="16px"
         >
-          <VStack align="center" justify="space-around" width="100%">
+          <VStack
+            align="center"
+            justify="space-around"
+            width="100%"
+            _hover={
+              {
+                // boxShadow: 'xl',
+              }
+            }
+          >
             <Flex
               boxSize={{ base: '310px', md: '350px' }}
-              borderRadius="10px 0 0 0px"
+              borderRadius="10px 10px 0 0px"
               cursor="pointer"
-              transition="transform 0.3s ease-in-out"
-              _hover={{ boxShadow: 'xl', transform: 'scale(1.03)' }}
+              // transition="transform 0.3s ease-in-out"
+              _hover={{
+                boxShadow: 'xl',
+                transition: 'transform 0.3s ease-in-out',
+                // transform: 'scale(1.03)',
+                // height: '70%',
+                // borderRadius: '10px 0 0 10px',
+                bg: 'blackAlpha.700',
+                blur: '20px',
+              }}
               onClick={handleAlbumClick}
             >
               <Image
@@ -85,8 +104,9 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
                 borderRadius="10px 10px 0 0px"
                 _hover={{
                   boxShadow: 'xl',
-                  transform: 'scale(1.03)',
-                  borderRadius: '10px',
+                  // transform: 'scale(1.03)',
+                  // borderRadius: '10px',
+                  objectFit: 'contain',
                 }}
                 cursor={photos.length > 0 ? 'pointer' : 'default'}
                 transition="transform 0.3s ease-in-out"
@@ -105,7 +125,7 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
                 textOverflow="ellipsis"
                 whiteSpace="nowrap"
                 width="100%"
-                fontSize={{ base: '0.8rem', md: '1rem' }}
+                fontSize={{ base: 'sm', md: 'lg' }}
                 fontWeight="bold"
               >
                 {album.name}
@@ -115,6 +135,7 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
                   handleClick={handleAlbumClick}
                   albumId={album?._id}
                   albumName={album?.name}
+                  albumData={album}
                 />
               </Suspense>
             </Flex>
@@ -127,7 +148,7 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
               px={1.5}
             >
               <Text>{datePublished}</Text>
-              <Text>Published</Text>
+              <Text>{album.locked ? 'Published' : 'Not Shared'}</Text>
             </Flex>
             <Flex width="100%" px={1.5}>
               <Text fontSize="sm">{album.photos?.length} photos</Text>

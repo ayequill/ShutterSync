@@ -3,6 +3,8 @@ import { FaEllipsis } from 'react-icons/fa6';
 
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 
+import { Album } from '../../utils/interfaces';
+
 import DeleteModal from './AlbumDeleteModal';
 import QuickEditModal from './AlbumQuickEditModal';
 import ShareModal from './AlbumShareModal';
@@ -11,9 +13,15 @@ interface AlbumOptionsProps {
   handleClick: () => void;
   albumId: string | undefined;
   albumName: string;
+  albumData: Album;
 }
 
-function AlbumOptions({ handleClick, albumId, albumName }: AlbumOptionsProps) {
+function AlbumOptions({
+  handleClick,
+  albumId,
+  albumName,
+  albumData,
+}: AlbumOptionsProps) {
   const [showDelete, setShowDelete] = useState<boolean>(false);
   const [showQuickEdit, setShowQuickEdit] = useState<boolean>(false);
   const [showShare, setShowShare] = useState<boolean>(false);
@@ -47,6 +55,7 @@ function AlbumOptions({ handleClick, albumId, albumName }: AlbumOptionsProps) {
         onClose={setShowShare}
         albumId={albumId}
         albumName={albumName}
+        albumData={albumData}
       />
     </>
   );

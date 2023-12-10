@@ -208,7 +208,7 @@ function MobileDrawerL({ logout }: ProfileMenuProps) {
             <Link
               w="100%"
               as={ReactRouterLink}
-              to={!isAuthenticated() ? '/signup' : '/account'}
+              to={!isAuthenticated() ? '/signup' : '/dashboard/profile'}
             >
               {isAuthenticated() ? 'Account' : 'Signup'}
             </Link>

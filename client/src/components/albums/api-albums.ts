@@ -92,4 +92,27 @@ const deleteAlbum = async (
   }
 };
 
-export { createAlbum, deleteAlbum, getAlbum, listAlbums, updateAlbumName };
+const updateAlbum = async (album: Album, albumId: string, userId: string) => {
+  try {
+    const response = await axiosInstance.put(
+      `${userId}/albums/${albumId}`,
+      album
+    );
+    return response.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
+    if (e.response) {
+      return { error: e.response.data.error } as { error: string };
+    }
+    return { error: 'Please try again later' } as { error: string };
+  }
+};
+
+export {
+  createAlbum,
+  deleteAlbum,
+  getAlbum,
+  listAlbums,
+  updateAlbum,
+  updateAlbumName,
+};
