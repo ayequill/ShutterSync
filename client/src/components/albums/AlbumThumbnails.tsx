@@ -135,6 +135,7 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
                   handleClick={handleAlbumClick}
                   albumId={album?._id}
                   albumName={album?.name}
+                  albumData={album}
                 />
               </Suspense>
             </Flex>
@@ -147,7 +148,7 @@ const AlbumThumbnails = memo(({ album }: AlbumProps) => {
               px={1.5}
             >
               <Text>{datePublished}</Text>
-              <Text>Published</Text>
+              <Text>{album.locked ? 'Published' : 'Not Shared'}</Text>
             </Flex>
             <Flex width="100%" px={1.5}>
               <Text fontSize="sm">{album.photos?.length} photos</Text>
