@@ -97,7 +97,7 @@ export default function Album() {
         >
           Dashboard
         </Button>
-        <Flex justifyContent="space-between" gap="10px">
+        {/* <Flex justifyContent="space-between" gap="10px">
           <Button
             aria-label="Back to dashboard"
             leftIcon={<IoMdAdd />}
@@ -123,7 +123,7 @@ export default function Album() {
           >
             Edit Name
           </Button>
-        </Flex>
+        </Flex> */}
       </Flex>
       <Flex gap={2} w="100%" flexWrap="wrap" justify="center" align="center">
         {photos.map((photo) => (
