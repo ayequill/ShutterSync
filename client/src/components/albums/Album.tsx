@@ -9,9 +9,8 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { FaTimes } from 'react-icons/fa';
-import { FaDownload } from 'react-icons/fa6';
-import { IoIosArrowBack, IoMdAdd } from 'react-icons/io';
+import { FaDownload, FaTimes } from 'react-icons/fa';
+import { IoIosArrowBack } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import {
