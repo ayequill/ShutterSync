@@ -145,7 +145,6 @@ const getAlbum = async (req, res) => {
 };
 
 const checkAlbumLock = async (req, res) => {
-  console.log(req);
   try {
     const { password } = req.body;
     const { id } = req.query;
