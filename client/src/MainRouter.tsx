@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Album from './components/albums/Album';
+import ClientView from './components/albums/ClientSideView';
 import Upload from './components/albums/Upload';
 import EmailConfirm from './components/auth/EmailConfirm';
 import Login from './components/auth/Login';
@@ -87,6 +88,7 @@ function MainRouter() {
                   </MainLayout>
                 }
               />
+              <Route path="/albums" element={<ClientView />} />
               <Route
                 path="*"
                 element={

@@ -40,7 +40,10 @@ router
   .put(photoCtrl.updatePhoto)
   .delete(photoCtrl.deletePhoto);
 
-router.route('/api/albums').get(albumCtrl.getAlbum);
+router
+  .route('/api/albums')
+  .get(albumCtrl.getAlbum)
+  .post(albumCtrl.checkAlbumLock);
 
 router.param('userId', userCtrl.userByID);
 router.param('albumId', albumCtrl.albumByID);

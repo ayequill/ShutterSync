@@ -139,11 +139,32 @@ const getAlbum = async (req, res) => {
   } catch (e) {
     return res.status(400).json({
       error: e.message,
+      message: 'Failed to fetch album',
     });
   }
 };
 
+const checkAlbumLock = async (req, res) => {
+  try {
+    const { password } = req.body;
+    const { id } = req.query;
+    console.log(password);
+    console.log(id, password);
+
+    const album = await Album.findById(id);
+
+    if (password !== album?.password) {
+      return res.status(401).json({ error: 'User not authorized' });
+    }
+    return res.status(200).json({ success: 'Allowed' });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).json({ error: e });
+  }
+};
+
 export default {
+  checkAlbumLock,
   createUserAlbum,
   getUserAlbum,
   albumByID,

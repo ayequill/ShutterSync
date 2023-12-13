@@ -108,10 +108,48 @@ const updateAlbum = async (album: Album, albumId: string, userId: string) => {
   }
 };
 
+const clientInstance = axios.create({
+  // eslint-disable-next-line no-underscore-dangle
+  baseURL: `https://api.shuttersync.live/api/albums`,
+  // timeout: 30000,
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    'x-api-key': KEY,
+  },
+});
+const getSingleAlbum = async (albumId: string) => {
+  try {
+    const response = await clientInstance.get(`?id=${albumId}`);
+    return response.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
+    if (e.response) {
+      return { error: e.response.data.message } as { error: string };
+    }
+    return { error: 'Please try again later' } as { error: string };
+  }
+};
+
+const checkAlbumPassword = async (albumId: string, password: string) => {
+  try {
+    const response = await clientInstance.post(`?id=${albumId}`, { password });
+    return response.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
+    if (e.response) {
+      return { error: e.response.data } as { error: string };
+    }
+    return { error: 'Please try again later' } as { error: string };
+  }
+};
+
 export {
+  checkAlbumPassword,
   createAlbum,
   deleteAlbum,
   getAlbum,
+  getSingleAlbum,
   listAlbums,
   updateAlbum,
   updateAlbumName,
