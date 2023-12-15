@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -40,6 +40,10 @@ function ResetPassword(): JSX.Element {
   const toast = useToast();
   const navigate = useNavigate();
   const { token } = useParams();
+
+  useEffect(() => {
+    document.title = 'Reset Password | ShutterSync';
+  }, []);
 
   const handleInputChange =
     (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {

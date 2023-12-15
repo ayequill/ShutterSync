@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -33,6 +33,10 @@ function ResetPasswordRequest(): JSX.Element {
   const [loader, setLoader] = React.useState(true);
   const toast = useToast();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = 'Reset Password | ShutterSync';
+  }, []);
 
   const handleInputChange =
     (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {

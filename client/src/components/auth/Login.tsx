@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 
@@ -44,11 +44,16 @@ function Login(): JSX.Element {
   const { setUser } = useUser();
   const navigate = useNavigate();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (values.redirect) {
       navigate('/dashboard');
     }
   }, [values.redirect, navigate]);
+
+  useEffect(() => {
+    document.title = 'Sign In | ShutterSync';
+  }, []);
+
   const hide = () => setLoader(false);
   useTimeout(hide, 2000);
 

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import { Link as ReactRouterLink, Navigate } from 'react-router-dom';
 
@@ -28,6 +28,7 @@ import {
 } from '@chakra-ui/react';
 
 import SignUpImage from '../../assets/signup.webp';
+import isStrongPassword from '../../utils/misc';
 import LoaderComponent from '../core/Loader';
 import useTimeout from '../hooks/useTimeOut';
 import { create } from '../user/api-user';
@@ -46,6 +47,27 @@ function SignUp(): JSX.Element {
   const [loader, setLoader] = React.useState(true);
   const [showPassword, setShowPassword] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+
+  useEffect(() => {
+    document.title = 'Sign Up | ShutterSync';
+  }, []);
+
+  useEffect(() => {
+    if (values.password) {
+      if (!isStrongPassword(values.password)) {
+        setValues({
+          ...values,
+          error: `Password is not strong`,
+        });
+      } else {
+        setValues({
+          ...values,
+          error: '',
+        });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [values.password]);
 
   const hide = () => setLoader(false);
   useTimeout(hide, 2000);
@@ -72,6 +94,7 @@ function SignUp(): JSX.Element {
     } else {
       setIsError(false);
     }
+
     if (!doThrowError) {
       setIsLoading(true);
       create({
@@ -199,7 +222,12 @@ function SignUp(): JSX.Element {
                     We&apos;ll never share your email.
                   </FormHelperText>
                 ) : (
-                  <Text color="red" fontSize="1rem" mt={4}>
+                  <Text
+                    wordBreak="break-all"
+                    color="red"
+                    fontSize="1rem"
+                    mt={4}
+                  >
                     {values.error}
                   </Text>
                 )}
