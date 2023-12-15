@@ -20,6 +20,10 @@ function Dashboard() {
   const [loader, setLoader] = useState<boolean>(true);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    document.title = 'Dashboard | ShutterSync';
+  }, []);
+
   const userID = isAuthenticated()?.user._id;
 
   const fetchAlbums = useCallback(

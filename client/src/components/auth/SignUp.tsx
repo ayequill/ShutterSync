@@ -66,6 +66,7 @@ function SignUp(): JSX.Element {
         });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.password]);
 
   const hide = () => setLoader(false);
