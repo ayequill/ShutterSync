@@ -106,6 +106,78 @@ const addPhoto = async (req, res) => {
   }
 };
 
+const addSinglePhoto = async (req, res) => {
+  try {
+    // const { album } = req;
+    // let photoObjs = { album: album._id };
+
+    // Use multer middleware for handling file upload
+    upload.single('photo')(req, res, async (err) => {
+      try {
+        if (err instanceof multer.MulterError) {
+          return res.status(400).json({
+            error: err.message,
+          });
+        } else if (err) {
+          return res.status(400).json({
+            error: err.message,
+          });
+        }
+
+        // Upload image to cloudinary
+        // const albumFolder = album._id.toString();
+        const filePath = req.file.path;
+        console.log(req.file);
+
+        // await transferManager.uploadFile(filePath, albumFolder);
+
+        // const publicUrl = `https://storage.googleapis.com/${bucketName}/public/images/${path.basename(
+        //   filePath
+        // )}`;
+
+        const uploadPromise = new Promise((resolve, reject) => {
+          cloudinary.uploader.upload(
+            filePath,
+            {
+              transformation: { width: 800, fetch_format: 'auto' },
+            },
+            (error, result) => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve({
+                  imageUrl: result.secure_url,
+                  size: result.bytes,
+                  public_id: result.public_id,
+                  name: result.original_filename,
+                  created_at: result.created_at,
+                  storageUrl: result.secure_url,
+                });
+              }
+            }
+          );
+        });
+        const uploadedPhoto = await uploadPromise;
+        const album = await Album.create({ name: 'New Album' });
+        const photo = await Photo.create(uploadedPhoto);
+        album.photos.push(photo);
+        await album.save();
+        return res.json(photo);
+      } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+          error: e.message,
+        });
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({
+      error: e.message,
+    });
+  }
+};
+
 const photoById = async (req, res, next, id) => {
   try {
     const photo = await Photo.findById(id).populate('album').exec();
@@ -173,4 +245,11 @@ const updatePhoto = async (req, res) => {
   }
 };
 
-export default { addPhoto, photoById, getPhoto, deletePhoto, updatePhoto };
+export default {
+  addPhoto,
+  photoById,
+  getPhoto,
+  deletePhoto,
+  updatePhoto,
+  addSinglePhoto,
+};

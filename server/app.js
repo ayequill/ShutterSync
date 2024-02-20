@@ -50,6 +50,7 @@ app.use(
   cors({
     origin: [
       'http://localhost:5173',
+      'http://localhost:3000',
       'https://www.shuttersync.live',
       'https://shuttersync.live',
       'https://shuttersync.vercel.app/',

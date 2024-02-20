@@ -5,7 +5,6 @@ const PHOTOS_SCHEMA = new mongoose.Schema(
     album: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Album',
-      required: true,
     },
     imageUrl: {
       type: String,

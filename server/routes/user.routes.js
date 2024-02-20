@@ -45,6 +45,8 @@ router
   .get(albumCtrl.getAlbum)
   .post(albumCtrl.checkAlbumLock);
 
+router.route('/api/photo').post(photoCtrl.addSinglePhoto);
+
 router.param('userId', userCtrl.userByID);
 router.param('albumId', albumCtrl.albumByID);
 router.param('photoId', photoCtrl.photoById);
