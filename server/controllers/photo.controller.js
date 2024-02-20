@@ -52,14 +52,14 @@ const addPhoto = async (req, res) => {
 
         // Upload image to cloudinary
         const albumFolder = album._id.toString();
-        const filePaths = req.files.map((file) => file.path);
+        // const filePaths = req.files.map((file) => file.path);
 
-        await transferManager.uploadManyFiles(filePaths, albumFolder);
+        // await transferManager.uploadManyFiles(filePaths, albumFolder);
 
-        const publicUrls = req.files.map((file) => {
-          const photoFileName = path.basename(file.path);
-          return `https://storage.googleapis.com/${bucketName}/public/images/${photoFileName}`;
-        });
+        // const publicUrls = req.files.map((file) => {
+        //   const photoFileName = path.basename(file.path);
+        //   return `https://storage.googleapis.com/${bucketName}/public/images/${photoFileName}`;
+        // });
         const uploadPromises = req.files.map(async (file, index) => {
           return new Promise((resolve, reject) => {
             cloudinary.uploader.upload(
@@ -79,7 +79,7 @@ const addPhoto = async (req, res) => {
                     public_id: result.public_id,
                     name: result.original_filename,
                     created_at: result.created_at,
-                    storageUrl: publicUrls[index],
+                    storageUrl: result.secure_url,
                   });
                 }
               }
