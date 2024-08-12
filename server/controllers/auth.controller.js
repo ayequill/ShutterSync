@@ -13,17 +13,22 @@ const signIn = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({
+      return res.status(404).json({
         error: 'User not found. Please sign up!',
+        status: 404,
       });
     }
     if (!user.authenticate(password)) {
-      return res.status(401).json({
+      return res.status(400).json({
         error: "Email or password don't match.",
+        status: 400,
       });
     }
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
-    res.cookie('t', token, { httpOnly: true, maxAge: 9999 });
+    res.cookie('__shuttersync_session', token, {
+      httpOnly: true,
+      maxAge: 9999,
+    });
 
     return res.status(201).json({
       token,

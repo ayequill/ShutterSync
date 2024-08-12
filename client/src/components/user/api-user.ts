@@ -5,7 +5,7 @@ import { User } from '../../utils/interfaces';
 
 const KEY = import.meta.env.VITE_KEY as string;
 const axiosInstance = axios.create({
-  baseURL: 'https://api.shuttersync.live/api',
+  baseURL: `${import.meta.env.VITE_API_URL}/api`,
 
   timeout: 10000,
   headers: {

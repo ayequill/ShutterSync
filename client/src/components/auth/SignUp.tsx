@@ -72,9 +72,9 @@ function SignUp(): JSX.Element {
   const hide = () => setLoader(false);
   useTimeout(hide, 2000);
 
-  if (loader) {
-    return <LoaderComponent />;
-  }
+  // if (loader) {
+  //   return <LoaderComponent />;
+  // }
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
 
@@ -108,7 +108,8 @@ function SignUp(): JSX.Element {
             ...values,
             error: data.error,
           });
-        } else {
+        }
+        if (!data.error) {
           setValues({
             ...values,
             error: '',

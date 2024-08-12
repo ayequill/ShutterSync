@@ -57,9 +57,9 @@ function Login(): JSX.Element {
   const hide = () => setLoader(false);
   useTimeout(hide, 2000);
 
-  if (loader) {
-    return <LoaderComponent />;
-  }
+  // if (loader) {
+  //   return <LoaderComponent />;
+  // }
   const handleInputChange =
     (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setValues({

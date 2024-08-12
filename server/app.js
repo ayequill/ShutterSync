@@ -59,7 +59,7 @@ app.use(
     credentials: true,
   })
 );
-app.use(API_CHECK);
+// app.use(API_CHECK);
 app.use('/', userRoutes);
 app.use('/', authRoutes);
 

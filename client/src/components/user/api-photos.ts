@@ -5,7 +5,7 @@ const KEY = import.meta.env.VITE_KEY as string;
 
 const axiosInstance = axios.create({
   // eslint-disable-next-line no-underscore-dangle
-  baseURL: `https://api.shuttersync.live/api/users`,
+  baseURL: `${import.meta.env.VITE_API_URL}/api/users`,
   // timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ const addPhotos = async (albumId: string, userId: string, photos: File[]) => {
 };
 
 const photoInstance = axios.create({
-  baseURL: `https://api.shuttersync.live/api/photos/`,
+  baseURL: `${import.meta.env.VITE_API_URL}/api/photos`,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
